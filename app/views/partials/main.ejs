@@ -1,0 +1,22 @@
+<% if (state === 'authentication') { %>
+
+  <%- include('signup') %>
+  <%- include('signin') %>
+
+<% } else if (state === 'profile') { %>
+
+  <%- include('profile') %>
+
+<% } else if (state === 'createExercise') { %>
+
+  <%- include('createExercise') %>
+
+<% } else if (state === 'createWorkout') { %>
+
+  <%- include('createWorkout') %>
+
+<% } else { %>
+
+  <p>A state error has occured.</p>
+
+<% } %>

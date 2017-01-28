@@ -1,8 +1,14 @@
 <% include partials/header %>
 
-<% include components/signup %>
-<% include components/signin %>
-<% include components/createExercise %>
-<% include components/createWorkout %>
+<!--
+replace this with a script that calls 'ejs.update(partials/main)'
+with an object denoting state '{state: createExercise}'
+
+The script would need to fire every time an action is taken that
+would dictate the page needing to be reloaded.
+
+THIS IS TEMPORARY
+-->
+<%- include('partials/main', {state: state}) %>
 
 <% include partials/footer %>
