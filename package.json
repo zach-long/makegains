@@ -4,7 +4,8 @@
   "description": "A Node.js, React, MongoDB web app with a fast, minimalist UI for easy workout tracking and long-term progress aggregation.",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch-app": "nodemon server.js",
+    "watch-scss": "node-sass -w public/stylesheets/scss/main.scss public/stylesheets/main.css"
   },
   "repository": {
     "type": "git",
