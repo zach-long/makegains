@@ -1,7 +1,6 @@
-<% if (state === 'authentication') { %>
+<% if (state === 'authenticate') { %>
 
-  <%- include('signup') %>
-  <%- include('signin') %>
+  <%- include('authenticate') %>
 
 <% } else if (state === 'profile') { %>
 
@@ -11,9 +10,17 @@
 
   <%- include('createExercise') %>
 
+<% } else if (state === 'exerciseDetail') { %>
+
+  <%- include('detail.ejs') %>
+
 <% } else if (state === 'createWorkout') { %>
 
   <%- include('createWorkout') %>
+
+<% } else if (state === 'logWorkout') { %>
+
+  <%- include('log') %>
 
 <% } else { %>
 

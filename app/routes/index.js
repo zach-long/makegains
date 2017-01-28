@@ -9,7 +9,7 @@ const router = express.Router();
 // set root response
 router.get('/', (req, res) => {
   if (!req.user) {
-    res.render('index', {state: 'authentication'});
+    res.render('index', {state: 'authenticate'});
 
   } else {
     console.log(req.user);
