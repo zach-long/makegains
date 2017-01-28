@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workout Tracker</title>
+  <script src="https://use.fontawesome.com/069ba3895a.js"></script>
+  <link href="/main.css" rel="stylesheet" type="text/css">
+  <link href="/resources/favicon.ico" rel="icon" size="16x16" type="image/jpeg">
+  <link href="https://fonts.googleapis.com/css?family=Lato|Open+Sans" rel="stylesheet">
+</head>
+<body>
+  <h1>index.html</h1>
+
+  <div>
+    <h3>Sign up</h3>
+  </div>
+  <form method="post" action="/user/signup">
+    <div>
+      <label>Name</label>
+      <input type="text" placeholder="Name" name="name">
+    </div>
+    <div>
+      <label>Username</label>
+      <input type="text" placeholder="Username" name="username">
+    </div>
+    <div>
+      <label>Email</label>
+      <input type="text" placeholder="Email" name="email">
+    </div>
+    <div>
+      <label>Password</label>
+      <input type="password" placeholder="Password" name="password">
+    </div>
+    <div>
+      <label>Confirm Password</label>
+      <input type="password" placeholder="Password" name="password2">
+    </div>
+    <div>
+      <input type="submit" value="Create your account!"/>
+    </div>
+  </form>
+
+  <div>
+    <h3>Log in</h3>
+  </div>
+  <form method="post" action="/user/signin">
+    <div>
+      <label>Username</label>
+      <input type="text" placeholder="Username" name="username">
+    </div>
+    <div>
+      <label>Password</label>
+      <input type="password" placeholder="Password" name="password">
+    </div>
+    <div>
+      <input type="submit" value="Log in"/>
+    </div>
+  </form>
+
+  <div>
+    <h3>Create workout</h3>
+  </div>
+  <form method="post" action="/workout/new">
+    <div>
+      <label>Name</label>
+      <input type="text" placeholder="Name" name="name">
+    </div>
+    <div>
+      <label>Description</label>
+      <input type="text" placeholder="Description" name="description">
+    </div>
+    <div>
+      <label>Exercise</label>
+      <input type="text" placeholder="Bench Press" name="exercise">
+    </div>
+    <div>
+      <input type="submit" value="Create a workout!"/>
+    </div>
+  </form>
+
+  <div>
+    <h3>Create exercise</h3>
+  </div>
+  <form method="post" action="/exercise/new">
+    <div>
+      <label>Name</label>
+      <input type="text" placeholder="Name" name="name">
+    </div>
+    <div>
+      <label>Description</label>
+      <input type="text" placeholder="Description" name="description">
+    </div>
+    <div>
+      <input type="submit" value="Create an exercise!"/>
+    </div>
+  </form>
+
+</body>
+</html>

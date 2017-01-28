@@ -1,0 +1,35 @@
+{
+  "name": "workout-tracker",
+  "version": "1.0.0",
+  "description": "A Node.js, React, MongoDB web app with a fast, minimalist UI for easy workout tracking and long-term progress aggregation.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zach-long/workout-tracker.git"
+  },
+  "author": "Zachary Long",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zach-long/workout-tracker/issues"
+  },
+  "homepage": "https://github.com/zach-long/workout-tracker#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.0",
+    "body-parser": "^1.16.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.5",
+    "express": "^4.14.0",
+    "express-messages": "^1.0.1",
+    "express-session": "^1.15.0",
+    "express-validator": "^3.1.2",
+    "mongodb": "^2.2.22",
+    "mongoose": "^4.7.8",
+    "passport": "^0.3.2",
+    "passport-http": "^0.3.0",
+    "passport-local": "^1.0.0"
+  }
+}
