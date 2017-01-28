@@ -14,7 +14,7 @@ const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 
 // set constants
-const mongoPath = 'mongodb://localhost/workout-tracker_db';
+const mongoPath = 'mongodb://localhost/workout_tracker-full';
 const localPort = 3000;
 const LocalStrategy = require('passport-local').Strategy;
 const app = express();

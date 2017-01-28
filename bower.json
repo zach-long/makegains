@@ -1,0 +1,22 @@
+{
+  "name": "workout-tracker",
+  "description": "A Node.js, React, MongoDB web app with a fast, minimalist UI for easy workout tracking and long-term progress aggregation.",
+  "main": "server.js",
+  "authors": [
+    "Zachary Long"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/zach-long/workout_tracker-full",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.1",
+    "bootstrap": "^3.3.7"
+  }
+}
