@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "watch-app": "nodemon server.js",
-    "watch-scss": "node-sass -w public/stylesheets/scss/main.scss public/stylesheets/main.css"
+    "watch-scss": "node-sass -w public/stylesheets/scss/main.scss public/stylesheets/main.css",
+    "install-dev-tools": "npm install -g node-sass nodemon "
   },
   "repository": {
     "type": "git",
