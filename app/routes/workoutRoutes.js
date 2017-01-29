@@ -23,7 +23,9 @@ router.get('/myworkouts', (req, res) => {
 router.get('/new', (req, res) => {
   if (req.user) {
     Workout.getOwnWorkouts(req.user, (err, workouts) => {
-      res.render('createWorkout', {workouts: workouts});
+      Exercise.getOwnExercises(req.user, (err, exercises) => {
+        res.render('createWorkout', {workouts: workouts, exercises: exercises});
+      });
     });
 
   } else {
@@ -35,7 +37,6 @@ router.get('/new', (req, res) => {
 router.post('/new', (req, res) => {
   // validate
   req.checkBody('name', 'Please enter a name').notEmpty();
-  req.checkBody('exercise', 'Workouts need exercises').notEmpty();
 
   // handle errors or proceed
   if (req.validationErrors()) {
@@ -49,41 +50,34 @@ router.post('/new', (req, res) => {
     let newWorkout = new Workout({
       name: req.body.name,
       description: req.body.description,
-      creator: req.user
-    });
-    console.log('Setup new workout');
-    console.log(newWorkout);
-    //temp
-    // find ObjectId of every exercise by name
-    // push return exercises to newWorkout
-    // THEN createWorkout
-    //    In production this will be easier because I can
-    //    display actual OIDs of Own exercises and have those be
-    //    selected by User, no need for requery.
-    newWorkout.exercises.push(req.body.exercise);
-
-    Workout.createWorkout(newWorkout, (err, theWorkout) => {
-      if (err) throw err
-
-      // Update User with this workout
-      User.addWorkout(req.user, theWorkout, (err, updatedUser) => {
-        if (err) throw err;
-
-        Exercise.updateAddedExercises(theWorkout, (err) => {
-          if (err) throw err;
-
-          res.redirect('/user');
-        });
-      });
+      creator: req.user._id,
     });
 
+    let exercisePlaceholders = req.body.exercise;
+    exercisePlaceholders.forEach(exerciseIdString => {
+      for (let i = 0; i < req.user.exercises.length; i++) {
+        if (String(req.user.exercises[i]) === exerciseIdString) {
+          newWorkout.exercises.push(req.user.exercises[i]);
 
+          Exercise.addWorkout(req.user.exercises[i], newWorkout)
+        }
+      }
+    });
 
+    User.addWorkout(req.user, newWorkout, (err, result) => {
+      if (err) throw err;
+      console.log(result);
+    });
 
+    Workout.createWorkout(newWorkout, (err, result) => {
+      if (err) throw err;
+      console.log(result);
+    })
 
-    req.flash('success', 'Workout created successfully!');
     console.log(newWorkout);
-    res.redirect('/');
+    console.log(req.user);
+
+    res.redirect('/user');
   }
 });
 

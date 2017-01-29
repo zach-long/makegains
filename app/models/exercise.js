@@ -60,19 +60,20 @@ module.exports.updateExercise = function(exercise, cb) {
 }
 
 // Exercise method - assign all exercises of a workout the object reference of workout
-module.exports.updateAddedExercises = function(workout, cb) {
-  workout.exercises.forEach(function(exercise) {
+module.exports.addWorkout = function(theExercise, workout) {
+  console.log(theExercise)
+  Exercise.findOne({ _id: theExercise }, (err, exercise) => {
+    console.log(exercise)
     exercise.workouts.push(workout);
     Exercise.update({
-      id: exercise._id
+      _id: exercise._id
     },
     {
       $set: {
         workouts: exercise.workouts
       }
     });
-  });
-  cb(null);
+  })
 }
 
 // Exercise method - deletes a exercise
@@ -95,10 +96,8 @@ module.exports.getOwnExercises = function(user, cb) {
 }
 
 // Exercise method - returns a single exercise, by ID
-module.exports.getExerciseByExerciseId = function(exercise, cb) {
-  Exercise.find({
-    id: exercise._id
-  }, cb);
+module.exports.getExerciseByExerciseId = function(exerciseId, cb) {
+  Exercise.findById(Number(exerciseId), cb)
 }
 
 // Exercise method - returns a single exercise, by name
@@ -106,4 +105,18 @@ module.exports.getExerciseByExerciseName = function(exerciseName, cb) {
   Exercise.find({
     name: exerciseName
   }, cb);
+}
+
+// Exercise method - returns a single exercise, by name and ID
+module.exports.sortExercises = function(exercisesNameArray, usersExercises, workout, cb) {
+  for (let i = 0; i < exercisesNameArray.length; i++) {
+    for (let j = 0; j < usersExercises.length; j++) {
+      console.log("comparing " + exercisesNameArray[i] + " to " + usersExercises[j].name);
+      if (exercisesNameArray[i] === usersExercises[j].name) {
+        console.log(exercisesNameArray[i] + " matched " + usersExercises[j].name)
+        workout.exercises.push(usersExercises[j]._id);
+      }
+    }
+  }
+  cb(null, workout);
 }

@@ -14,11 +14,41 @@
   </div>
   <div>
     <label>Exercise</label>
-    <input type="text" placeholder="Bench Press" name="exercise">
+    <select name="exercise">
+      <% exercises.forEach(function(exercise) { %>
+        <option value="<%= exercise._id %>"><%= exercise.name %></option>
+      <% }); %>
+    </select>
+  </div>
+  <div>
+    <label>Exercise</label>
+    <select name="exercise">
+      <% exercises.forEach(function(exercise) { %>
+        <option value="<%= exercise._id %>"><%= exercise.name %></option>
+      <% }); %>
+    </select>
   </div>
   <div>
     <input type="submit" value="Create a workout!"/>
   </div>
 </form>
+
+<h3>Your Exercises</h3>
+<% if (!exercises.length < 1) { %>
+  <ul>
+  <% exercises.forEach(function(exercise) { %>
+    <%- include('components/exercise-list-view', {exercise: exercise}); %>
+  <% }); %>
+  </ul>
+<% } %>
+
+<h3>Your Workouts</h3>
+<% if (!workouts.length < 1) { %>
+  <ul>
+  <% workouts.forEach(function(workout) { %>
+    <%- include('components/workout-list-view', {workout: workout}); %>
+  <% }); %>
+  </ul>
+<% } %>
 
 <% include partials/footer %>
