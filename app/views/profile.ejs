@@ -3,8 +3,25 @@
 <h2>Profile page for <%= user.name %></h2>
 
 <h3>Your Exercises</h3>
-
+<% if (!exercises.length < 1) { %>
+  <ul>
+  <% exercises.forEach(function(exercise) { %>
+    <%- include('components/exercise-list-view', {exercise: exercise}); %>
+  <% }); %>
+  </ul>
+<% } else { %>
+  <p>You have no exercises, create one now!</p>
+<% } %>
 
 <h3>Your Workouts</h3>
+<% if (!workouts.length < 1) { %>
+  <ul>
+  <% workouts.forEach(function(workout) { %>
+    <%- include('components/workout-list-view', {workout: workout}); %>
+  <% }); %>
+  </ul>
+<% } else { %>
+  <p>You have no workouts, create one now!</p>
+<% } %>
 
 <% include partials/footer %>
