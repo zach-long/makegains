@@ -19,6 +19,18 @@ router.get('/myexercises', (req, res) => {
   });
 });
 
+// GET request to display page where User can create an exercise
+router.get('/new', (req, res) => {
+  if (req.user) {
+    Exercise.getOwnExercises(req.user, (err, exercises) => {
+      res.render('createExercise', {exercises: exercises});
+    });
+
+  } else {
+    res.redirect('/');
+  }
+});
+
 // POST request to creating a new exercise
 router.post('/new', (req, res) => {
   if (req.user) {
@@ -64,7 +76,7 @@ router.post('/new', (req, res) => {
           console.log(theExercise.creator);
           console.log('Below: the User - ');
           console.log(updatedUser);
-          res.json(theExercise);
+          res.redirect('/user');
         });
       });
     }

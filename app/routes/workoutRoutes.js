@@ -19,6 +19,18 @@ router.get('/myworkouts', (req, res) => {
   });
 });
 
+// GET request to display page where User can create a workout
+router.get('/new', (req, res) => {
+  if (req.user) {
+    Workout.getOwnWorkouts(req.user, (err, workouts) => {
+      res.render('createWorkout', {workouts: workouts});
+    });
+
+  } else {
+    res.redirect('/');
+  }
+});
+
 // POST request to creating a new workout
 router.post('/new', (req, res) => {
   // validate
@@ -60,7 +72,7 @@ router.post('/new', (req, res) => {
         Exercise.updateAddedExercises(theWorkout, (err) => {
           if (err) throw err;
 
-          res.json(theWorkout);
+          res.redirect('/user');
         });
       });
     });

@@ -13,6 +13,25 @@ const User = require('../models/user.js');
 const Workout = require('../models/workout.js');
 const Exercise = require('../models/exercise.js');
 
+// get request for user profile page
+router.get('/', (req, res) => {
+  if (req.user) {
+    Workout.getOwnWorkouts(req.user, (err, workouts) => {
+      if (err) throw err;
+
+      Exercise.getOwnExercises(req.user, (err, exercises) => {
+        if (err) throw err;
+
+        res.render('profile', {workouts: workouts, exercises: exercises});
+      });
+    });
+
+  } else {
+    // user is not authenticated
+    res.redirect('/');
+  }
+});
+
 // post request for user to create an account
 router.post('/signup', (req, res) => {
   // validate
@@ -52,7 +71,7 @@ router.post('/signup', (req, res) => {
 
 // post request to log in a registered user
 router.post('/signin', passport.authenticate('local', {
-  successRedirect: '/',
+  successRedirect: '/user',
   failureRedirect: '/',
   failureFlash: true
 }));
