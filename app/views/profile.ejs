@@ -10,7 +10,7 @@
   <% }); %>
   </ul>
 <% } else { %>
-  <p>You have no exercises, create one now!</p>
+  <p>You have no exercises, <a href="/exercise/new">create one now!</a></p>
 <% } %>
 
 <h3>Your Workouts</h3>
@@ -21,7 +21,10 @@
   <% }); %>
   </ul>
 <% } else { %>
-  <p>You have no workouts, create one now!</p>
+  <p>You have no workouts, <a href="/workout/new">create one now!</a></p>
 <% } %>
+
+<a href="/exercise/new">Create an exercise</a>
+<a href="/workout/new">Create a workout</a>
 
 <% include partials/footer %>

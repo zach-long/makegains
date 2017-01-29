@@ -17,4 +17,13 @@
   </div>
 </form>
 
+<h3>Your Exercises</h3>
+<% if (!exercises.length < 1) { %>
+  <ul>
+  <% exercises.forEach(function(exercise) { %>
+    <%- include('components/exercise-list-view', {exercise: exercise}); %>
+  <% }); %>
+  </ul>
+<% } %>
+
 <% include partials/footer %>
