@@ -96,7 +96,7 @@ module.exports.getOwnExercises = function(user, cb) {
 
 // Exercise method - returns a single exercise, by ID
 module.exports.getExerciseByExerciseId = function(exerciseId, cb) {
-  Exercise.findById(Number(exerciseId), cb)
+  Exercise.findById(exerciseId, cb)
 }
 
 // Exercise method - returns a single exercise, by name

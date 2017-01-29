@@ -33,6 +33,20 @@ router.get('/new', (req, res) => {
   }
 });
 
+// GET request to display specific information about a workout
+router.get('/detail/:id', (req, res) => {
+  if (req.user) {
+    let workoutId = req.params.id;
+    Workout.getWorkoutByWorkoutId(workoutId, (err, workout) => {
+      if (err) throw err;
+      res.render('workoutDetail', {workout: workout});
+    });
+
+  } else {
+    res.redirect('/');
+  }
+});
+
 // POST request to creating a new workout
 router.post('/new', (req, res) => {
   // validate
@@ -73,7 +87,7 @@ router.post('/new', (req, res) => {
     });
 
     // add workout to exercises
-    
+
 
     // save workout
     Workout.createWorkout(newWorkout, (err, result) => {

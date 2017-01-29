@@ -61,10 +61,8 @@ module.exports.getOwnWorkouts = function(user, cb) {
 }
 
 // Workout method - returns a single workout, by ID
-module.exports.getWorkoutByWorkoutId = function(workout, cb) {
-  Workout.find({
-    id: workout._id
-  }, cb);
+module.exports.getWorkoutByWorkoutId = function(workoutId, cb) {
+  Workout.findById(workoutId, cb);
 }
 
 // Workout method - returns a single workout, by name

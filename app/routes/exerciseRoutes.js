@@ -31,6 +31,20 @@ router.get('/new', (req, res) => {
   }
 });
 
+// GET request to display specific information about an exercise
+router.get('/detail/:id', (req, res) => {
+  if (req.user) {
+    let exerciseId = req.params.id;
+    Exercise.getExerciseByExerciseId(exerciseId, (err, exercise) => {
+      if (err) throw err;
+      res.render('exerciseDetail', {exercise: exercise});
+    });
+
+  } else {
+    res.redirect('/');
+  }
+});
+
 // POST request to creating a new exercise
 router.post('/new', (req, res) => {
   if (req.user) {
