@@ -53,22 +53,29 @@ router.post('/new', (req, res) => {
       creator: req.user._id,
     });
 
+    // add exercises to workout
     let exercisePlaceholders = req.body.exercise;
     exercisePlaceholders.forEach(exerciseIdString => {
       for (let i = 0; i < req.user.exercises.length; i++) {
         if (String(req.user.exercises[i]) === exerciseIdString) {
           newWorkout.exercises.push(req.user.exercises[i]);
-
-          Exercise.addWorkout(req.user.exercises[i], newWorkout)
         }
       }
     });
 
+    // add workout to user
+    console.log('Adding workout to user, components: ')
+    console.log(req.user)
+    console.log(newWorkout)
     User.addWorkout(req.user, newWorkout, (err, result) => {
       if (err) throw err;
       console.log(result);
     });
 
+    // add workout to exercises
+    
+
+    // save workout
     Workout.createWorkout(newWorkout, (err, result) => {
       if (err) throw err;
       console.log(result);

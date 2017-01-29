@@ -60,20 +60,19 @@ module.exports.updateExercise = function(exercise, cb) {
 }
 
 // Exercise method - assign all exercises of a workout the object reference of workout
-module.exports.addWorkout = function(theExercise, workout) {
-  console.log(theExercise)
-  Exercise.findOne({ _id: theExercise }, (err, exercise) => {
-    console.log(exercise)
-    exercise.workouts.push(workout);
-    Exercise.update({
-      _id: exercise._id
-    },
-    {
-      $set: {
-        workouts: exercise.workouts
-      }
-    });
-  })
+module.exports.addWorkout = function(exercise, workout, cb) {
+  console.log("Inside middleware, the exercise is: ")
+  console.log(exercise)
+  console.log(typeof exercise)
+  console.log(exercise.name);
+  Exercise.update({
+    _id: exercise._id
+  },
+  {
+    $set: {
+      workouts: exercise.workouts
+    }
+  }, cb);
 }
 
 // Exercise method - deletes a exercise
