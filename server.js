@@ -17,6 +17,7 @@ const mongoose = require('mongoose');
 const mongoPath = 'mongodb://localhost/workout_tracker-full';
 const localPort = 3000;
 const LocalStrategy = require('passport-local').Strategy;
+const localStrategy = require('./app/config/passportLocalStrategy.js');
 const app = express();
 
 // connect database
@@ -30,6 +31,9 @@ const routes = require('./app/routes/index.js');
 const userRoutes = require('./app/routes/userRoutes.js');
 const workoutRoutes = require('./app/routes/workoutRoutes.js');
 const exerciseRoutes = require('./app/routes/exerciseRoutes.js');
+
+// import User model for passport config
+const User = require('./app/models/user.js');
 
 // set EJS as view engine
 app.set('views', path.join(__dirname, 'app/views'));
@@ -53,6 +57,17 @@ app.use(session({
 // set passport
 app.use(passport.initialize());
 app.use(passport.session());
+
+// set passport config
+passport.use('local', localStrategy);
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+passport.deserializeUser((id, done) => {
+  User.getUserById(id, (err, user) => {
+    done(err, user);
+  });
+});
 
 // set validator
 app.use(expressValidator({

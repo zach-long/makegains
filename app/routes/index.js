@@ -9,11 +9,11 @@ const router = express.Router();
 // set root response
 router.get('/', (req, res) => {
   if (!req.user) {
-    res.render('index', {state: 'authenticate'});
+    res.render('index');
 
   } else {
     console.log(req.user);
-    res.render('index', {state: 'profile'});
+    res.render('index');
   }
 });
 

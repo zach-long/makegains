@@ -13,43 +13,6 @@ const User = require('../models/user.js');
 const Workout = require('../models/workout.js');
 const Exercise = require('../models/exercise.js');
 
-// local authentication strategy
-const localStrat = new LocalStrategy((username, password, done) => {
-  // check database for user
-  User.getUserByUsername(username, (err, user) => {
-    if (err) throw err
-
-    if (!user) {
-      return done(null, false, {message: 'Unknown username'});
-    }
-
-    // see if 'found user' password matches provided password
-    User.comparePassword(password, user.password, (err, match) => {
-      if (err) throw err
-
-      if (!match) {
-        return done(null, false, {message: 'Incorrect password'});
-
-      } else {
-        return done(null, user);
-      }
-    });
-  });
-});
-
-// set 'local' authentication to use the LocalStrategy
-passport.use('local', localStrat);
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser((id, done) => {
-  User.getUserById(id, (err, user) => {
-    done(err, user);
-  });
-});
-
 // post request for user to create an account
 router.post('/signup', (req, res) => {
   // validate

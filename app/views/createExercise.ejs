@@ -1,7 +1,9 @@
+<% include partials/header %>
+
 <div>
-  <h3>Create workout</h3>
+  <h3>Create exercise</h3>
 </div>
-<form method="post" action="/workout/new">
+<form method="post" action="/exercise/new">
   <div>
     <label>Name</label>
     <input type="text" placeholder="Name" name="name">
@@ -11,10 +13,8 @@
     <input type="text" placeholder="Description" name="description">
   </div>
   <div>
-    <label>Exercise</label>
-    <input type="text" placeholder="Bench Press" name="exercise">
-  </div>
-  <div>
-    <input type="submit" value="Create a workout!"/>
+    <input type="submit" value="Create an exercise!"/>
   </div>
 </form>
+
+<% include partials/footer %>
