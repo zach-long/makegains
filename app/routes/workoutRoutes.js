@@ -50,6 +50,7 @@ router.get('/detail/:id', (req, res) => {
 // GET request to display interface for logging a freeform workout
 router.get('/log', (req, res) => {
   if (req.user) {
+    console.log(res.locals)
     Exercise.getOwnExercises(req.user, (err, exercises) => {
       res.render('log', {exercises: exercises});
     });
@@ -72,38 +73,32 @@ router.get('/log/:id', (req, res) => {
 // POST request upon workout completion
 router.post('/complete', (req, res) => {
   if (req.user) {
-    Exercise.getOwnExercises(req.user, (err, exercises) => {
-
-      exercises.forEach(function(exercise) {
-
-        if (exercise.sets.length > 0) {
-          let newHistory = {
-            date: new Date()
-          }
-          let placeholderArray = [];
-
-          exercise.sets.forEach(entry => {
-            placeholderArray.push(entry)
-          });
-          exercise.sets.length = 0;
-
-          Exercise.archiveExerciseSetInfo(exercise, (err, result) => {
-            if (err) throw err;
-            console.log(result);
-            newHistory.dataHistory = placeholderArray;
-
-            exercise.exerciseHistory.push(newHistory);
-
-            Exercise.saveUpdated(exercise, (err, result) => {
-              if (err) throw err;
-              console.log(result)
-            });
-          });
+    req.user.exercises.forEach(exercise => {
+      Exercise.getExerciseByExerciseId(exercise, (err, exercise) => {
+        let newHistory = {
+          date: new Date(),
+          dataHistory: []
         }
+        exercise.sets.forEach(entry => {
+          let placeholder = {
+            weight: entry.weight,
+            repetitions: entry.repetitions
+          }
+          newHistory.dataHistory.push(placeholder);
+        });
+        exercise.exerciseHistory.push(newHistory);
+        Exercise.updateHistory(exercise, (err, result) => {
+          if (err) throw err;
+          console.log(result);
+        });
+        exercise.sets.length = 0;
+        Exercise.resetSets(exercise, (err, result) => {
+          if (err) throw err;
+          console.log(result);
+        });
       });
-      console.log('Workout completion finished')
-      res.redirect('/workout/log');
     });
+    res.redirect('/workout/log');
 
   } else {
     res.redirect('/');

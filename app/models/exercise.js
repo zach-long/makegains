@@ -132,7 +132,7 @@ module.exports.addSet = function(exercise, cb) {
 }
 
 // Exercise method - moves all data from Exercise.sets into Exercise.history
-module.exports.archiveExerciseSetInfo = function(exercise, cb) {
+module.exports.resetSets = function(exercise, cb) {
   Exercise.update({
     _id: exercise._id
   },
@@ -143,13 +143,13 @@ module.exports.archiveExerciseSetInfo = function(exercise, cb) {
   }, cb);
 }
 
-module.exports.saveUpdated = function(exercise, cb) {
+module.exports.updateHistory = function(exercise, cb) {
   Exercise.update({
     _id: exercise._id
   },
   {
-    $push: {
-      dataHistory: exercise.exerciseHistory
+    $set: {
+      exerciseHistory: exercise.exerciseHistory
     }
   }, cb);
 }
