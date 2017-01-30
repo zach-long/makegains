@@ -45,6 +45,33 @@ router.get('/detail/:id', (req, res) => {
   }
 });
 
+// POST request to add set info to an exercise
+router.post('/set/add', (req, res) => {
+  // get the exercise
+  Exercise.getExerciseByExerciseId(req.body.exercise, (err, exercise) => {
+    // define the new set
+    let newSet = {
+      weight: req.body.weight,
+      repetitions: req.body.reps,
+    }
+
+    // add set to exercise.sets array
+    exercise.sets.push(newSet);
+
+    // update exercise
+    Exercise.addSet(exercise, (err, result) => {
+      if (err) throw err;
+      console.log(result);
+
+      res.json(exercise);
+    });
+  });
+});
+
+router.post('/set/complete', (req, res) => {
+  // archive local information in Exercise.sets to Exercise.history based on ExerciseHistorySetModel schema
+});
+
 // POST request to creating a new exercise
 router.post('/new', (req, res) => {
   if (req.user) {

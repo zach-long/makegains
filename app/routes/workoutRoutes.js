@@ -47,6 +47,33 @@ router.get('/detail/:id', (req, res) => {
   }
 });
 
+// GET request to display interface for logging a freeform workout
+router.get('/log', (req, res) => {
+  if (req.user) {
+    Exercise.getOwnExercises(req.user, (err, exercises) => {
+      res.render('log', {exercises: exercises});
+    });
+
+  } else {
+    res.redirect('/');
+  }
+});
+
+// GET request to display interface for logging a specific workout
+router.get('/log/:id', (req, res) => {
+  if (req.user) {
+    res.render('log');
+
+  } else {
+    res.redirect('/');
+  }
+});
+
+// POST request upon workout completion
+router.post('/complete', (req, res) => {
+  
+});
+
 // POST request to creating a new workout
 router.post('/new', (req, res) => {
   // validate

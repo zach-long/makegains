@@ -2,4 +2,26 @@
 
 <h2>Log a workout page</h2>
 
+<form method="post" action="/exercise/set/add">
+  <div>
+    <label>Exercise name</label>
+    <select name="exercise">
+      <% exercises.forEach(function(exercise) { %>
+        <option value="<%= exercise._id %>"><%= exercise.name %></option>
+      <% }); %>
+    </select>
+  </div>
+  <div>
+    <label>Reps completed</label>
+    <input type="text" placeholder="10" name="reps">
+  </div>
+  <div>
+    <label>Weight used</label>
+    <input type="text" placeholders="135" name="weight">
+  </div>
+  <div>
+    <input type="submit" value="Submit completed set"/>
+  </div>
+</form>
+
 <% include partials/footer %>

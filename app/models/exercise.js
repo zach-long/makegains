@@ -8,10 +8,15 @@ const User = require('./user.js');
 const Workout = require('./workout.js');
 
 // define Set sub-schema
-var ExerciseSet = mongoose.Schema({
+var ExerciseSetModel = mongoose.Schema({
   weight: Number,
   repetitions: Number,
   oneRepMax: Number
+});
+
+var ExerciseHistorySetModel = mongoose.Schema({
+  date: Date,
+  data: []
 });
 
 // define Exercise model
@@ -22,14 +27,8 @@ var ExerciseModel = mongoose.Schema({
   description: {
     type: String
   },
-  sets: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'ExerciseSet'
-  }],
-  history: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'ExerciseSet'
-  }],
+  sets: [ExerciseSetModel],
+  history: [ExerciseHistorySetModel],
   creator: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
@@ -118,4 +117,16 @@ module.exports.sortExercises = function(exercisesNameArray, usersExercises, work
     }
   }
   cb(null, workout);
+}
+
+// Exercise method - gets specified exercise and updates the set information
+module.exports.addSet = function(exercise, cb) {
+  Exercise.update({
+    _id: exercise._id
+  },
+  {
+    $set: {
+      sets: exercise.sets
+    }
+  }, cb);
 }
