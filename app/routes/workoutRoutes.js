@@ -98,7 +98,8 @@ router.post('/complete', (req, res) => {
         });
       });
     });
-    res.redirect('/workout/log');
+    req.flash('success', 'Workout completed!');
+    res.redirect('/user');
 
   } else {
     res.redirect('/');
@@ -114,7 +115,9 @@ router.post('/new', (req, res) => {
   if (req.validationErrors()) {
     // send validation errors
     req.getValidationResult().then((validationResult) => {
-      res.json(validationResult.array());
+      let err = validationResult.array()[0].msg;
+      req.flash('fail', err);
+      res.redirect('/user');
     });
 
   } else {
@@ -155,7 +158,7 @@ router.post('/new', (req, res) => {
 
     console.log(newWorkout);
     console.log(req.user);
-
+    req.flash('success', 'Workout created successfully!');
     res.redirect('/user');
   }
 });

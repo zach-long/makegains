@@ -1,0 +1,28 @@
+<% if (typeof authError != 'undefined') { %>
+  <h3>Sign up error!</h3>
+  <% authError.forEach(function(err) { %>
+    <p><%= err.msg %></p>
+  <% }); %>
+<% } %>
+
+<% if (typeof passportError != 'undefined' &&
+       passportError.length > 0) { %>
+  <h3>Sign in error!</h3>
+  <p><%= passportError %></p>
+<% } %>
+
+<% if (typeof flashFail != 'undefined' &&
+       flashFail.length > 0) { %>
+  <h3>Oops!</h3>
+  <% flashFail.forEach(function(errorMessage) { %>
+    <p><%= errorMessage %></p>
+  <% }); %>
+<% } %>
+
+<% if (typeof flashSuccess != 'undefined' &&
+       flashSuccess.length > 0) { %>
+  <h3>Good news!</h3>
+  <% flashSuccess.forEach(function(successMessage) { %>
+    <p><%= successMessage %></p>
+  <% }); %>
+<% } %>

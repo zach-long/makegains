@@ -46,7 +46,8 @@ router.post('/signup', (req, res) => {
   if (req.validationErrors()) {
     // send validation errors
     req.getValidationResult().then((validationResult) => {
-      res.json(validationResult.array());
+      let errors = validationResult.array();
+      res.render('index', {authError: errors});
     });
 
   } else {
@@ -62,9 +63,8 @@ router.post('/signup', (req, res) => {
       if (err) throw err
     });
 
-    req.flash('success', 'Account created successfully!');
-    console.log(newUser);
-    res.json(newUser);
+    req.flash('success', 'Account created! You can now sign in.');
+    res.redirect('/');
   }
 
 });
