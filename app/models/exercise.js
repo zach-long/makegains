@@ -16,7 +16,7 @@ var ExerciseSetModel = mongoose.Schema({
 
 var ExerciseHistorySetModel = mongoose.Schema({
   date: Date,
-  data: []
+  dataHistory: [ExerciseSetModel]
 });
 
 // define Exercise model
@@ -28,7 +28,7 @@ var ExerciseModel = mongoose.Schema({
     type: String
   },
   sets: [ExerciseSetModel],
-  history: [ExerciseHistorySetModel],
+  exerciseHistory: [ExerciseHistorySetModel],
   creator: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
@@ -127,6 +127,29 @@ module.exports.addSet = function(exercise, cb) {
   {
     $set: {
       sets: exercise.sets
+    }
+  }, cb);
+}
+
+// Exercise method - moves all data from Exercise.sets into Exercise.history
+module.exports.archiveExerciseSetInfo = function(exercise, cb) {
+  Exercise.update({
+    _id: exercise._id
+  },
+  {
+    $set: {
+      sets: exercise.sets,
+    }
+  }, cb);
+}
+
+module.exports.saveUpdated = function(exercise, cb) {
+  Exercise.update({
+    _id: exercise._id
+  },
+  {
+    $push: {
+      dataHistory: exercise.exerciseHistory
     }
   }, cb);
 }

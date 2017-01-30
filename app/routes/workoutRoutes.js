@@ -71,7 +71,43 @@ router.get('/log/:id', (req, res) => {
 
 // POST request upon workout completion
 router.post('/complete', (req, res) => {
-  
+  if (req.user) {
+    Exercise.getOwnExercises(req.user, (err, exercises) => {
+
+      exercises.forEach(function(exercise) {
+
+        if (exercise.sets.length > 0) {
+          let newHistory = {
+            date: new Date()
+          }
+          let placeholderArray = [];
+
+          exercise.sets.forEach(entry => {
+            placeholderArray.push(entry)
+          });
+          exercise.sets.length = 0;
+
+          Exercise.archiveExerciseSetInfo(exercise, (err, result) => {
+            if (err) throw err;
+            console.log(result);
+            newHistory.dataHistory = placeholderArray;
+
+            exercise.exerciseHistory.push(newHistory);
+
+            Exercise.saveUpdated(exercise, (err, result) => {
+              if (err) throw err;
+              console.log(result)
+            });
+          });
+        }
+      });
+      console.log('Workout completion finished')
+      res.redirect('/workout/log');
+    });
+
+  } else {
+    res.redirect('/');
+  }
 });
 
 // POST request to creating a new workout

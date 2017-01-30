@@ -63,13 +63,9 @@ router.post('/set/add', (req, res) => {
       if (err) throw err;
       console.log(result);
 
-      res.json(exercise);
+      res.redirect('/workout/log');
     });
   });
-});
-
-router.post('/set/complete', (req, res) => {
-  // archive local information in Exercise.sets to Exercise.history based on ExerciseHistorySetModel schema
 });
 
 // POST request to creating a new exercise

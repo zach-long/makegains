@@ -24,4 +24,15 @@
   </div>
 </form>
 
+<% if (typeof exercises != 'undefined') { %>
+  <% exercises.forEach(function(exercise) { %>
+    <%- include('components/exerciseDisplay', {exercise: exercise}); %>
+  <% }); %>
+<% } %>
+
+<form method="post" action="/workout/complete">
+  <input type="submit" value="Complete workout">
+</form>
+
+<script src="/log.js"></script>
 <% include partials/footer %>
