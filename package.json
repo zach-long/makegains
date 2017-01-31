@@ -6,7 +6,9 @@
   "scripts": {
     "watch-app": "nodemon server.js",
     "watch-scss": "node-sass -w public/stylesheets/scss/main.scss public/stylesheets/main.css",
-    "install-dev-tools": "npm install -g node-sass nodemon "
+    "watch-js": "babel public/javascript/babel --watch --out-file public/javascript/compiled.js",
+    "build-js": "babel public/javascript/babel --out-file public/javascript/compiled.js",
+    "install-dev-tools": "npm install -g node-sass nodemon"
   },
   "repository": {
     "type": "git",
@@ -33,5 +35,9 @@
     "passport": "^0.3.2",
     "passport-http": "^0.3.0",
     "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-preset-env": "^1.1.8"
   }
 }
