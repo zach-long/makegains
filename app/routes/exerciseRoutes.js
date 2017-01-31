@@ -6,6 +6,9 @@ const express = require('express');
 // constants
 const router = express.Router();
 
+// import one rep max calcuator
+const calculateEstimatedOneRepMax = require('../resources/oneRepMax.js');
+
 // import models
 const User = require('../models/user.js');
 const Exercise = require('../models/exercise.js');
@@ -46,7 +49,7 @@ router.get('/detail/:id', (req, res) => {
 });
 
 // GET request for specific data used by AJAX
-router.get('/api/detail/:id', (req, res) => {
+router.get('/detail/api/:id', (req, res) => {
   if (req.user) {
     let exerciseId = req.params.id;
     Exercise.getExerciseByExerciseId(exerciseId, (err, exercise) => {
@@ -63,10 +66,14 @@ router.get('/api/detail/:id', (req, res) => {
 router.post('/set/add', (req, res) => {
   // get the exercise
   Exercise.getExerciseByExerciseId(req.body.exercise, (err, exercise) => {
+    // calculate estimated one rep max
+    let estMax = calculateEstimatedOneRepMax(req.body.weight, req.body.reps);
+    console.log(estMax);
     // define the new set
     let newSet = {
       weight: req.body.weight,
       repetitions: req.body.reps,
+      oneRepMax: estMax
     }
 
     // add set to exercise.sets array

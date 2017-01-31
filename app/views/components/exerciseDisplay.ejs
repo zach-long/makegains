@@ -3,7 +3,7 @@
   <h3><%= exercise.name %></h3>
   <h4>Performance:</h4>
   <% exercise.sets.forEach(function(set) { %>
-    <p><%= set.repetitions %> x <%= set.weight %></p>
+    <p><%= set.repetitions %> x <%= set.weight %> : <%= set.oneRepMax %></p>
   <% }); %>
 
 <% } %>

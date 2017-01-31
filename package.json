@@ -6,7 +6,7 @@
   "scripts": {
     "watch-app": "nodemon server.js",
     "watch-scss": "node-sass -w public/stylesheets/scss/main.scss public/stylesheets/main.css",
-    "watch-js": "babel public/javascript/babel --watch --out-file public/javascript/compiled.js",
+    "watch-js": "babel public/javascript/babel/B_httpRequest.js --watch --out-file public/javascript/httpRequest.js & babel public/javascript/babel/B_log.js --watch --out-file public/javascript/log.js & babel public/javascript/babel/B_main.js --watch --out-file public/javascript/main.js & babel public/javascript/babel/B_exerciseData.js --watch --out-file public/javascript/exerciseData.js & babel public/javascript/babel/B_displayWorkoutHistory.js --watch --out-file public/javascript/displayWorkoutHistory.js",
     "build-js": "babel public/javascript/babel --out-file public/javascript/compiled.js",
     "install-dev-tools": "npm install -g node-sass nodemon"
   },

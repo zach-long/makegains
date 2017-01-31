@@ -80,9 +80,11 @@ router.post('/complete', (req, res) => {
           dataHistory: []
         }
         exercise.sets.forEach(entry => {
+          console.log(entry)
           let placeholder = {
             weight: entry.weight,
-            repetitions: entry.repetitions
+            repetitions: entry.repetitions,
+            oneRepMax: entry.oneRepMax
           }
           newHistory.dataHistory.push(placeholder);
         });
