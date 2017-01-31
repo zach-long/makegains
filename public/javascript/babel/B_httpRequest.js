@@ -4,7 +4,7 @@ function get(url) {
   return new Promise(function(resolve, reject) {
 
     // data for the request
-    var request = new XMLHttpRequest();
+    let request = new XMLHttpRequest();
     request.open('GET', url);
 
     // promise is fulfilled with either the data or an error

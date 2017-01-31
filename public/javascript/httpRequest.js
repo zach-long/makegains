@@ -27,5 +27,3 @@ function get(url) {
     request.send();
   });
 }
-"use strict";
-"use strict";
