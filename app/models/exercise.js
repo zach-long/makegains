@@ -72,9 +72,9 @@ module.exports.addWorkout = function(exercise, workout, cb) {
 }
 
 // Exercise method - deletes a exercise
-module.exports.deleteExercise = function(exercise, cb) {
+module.exports.deleteExercise = function(exerciseId, cb) {
   Exercise.findOneAndRemove({
-    id: exercise._id
+    _id: exerciseId
   }, cb);
 }
 

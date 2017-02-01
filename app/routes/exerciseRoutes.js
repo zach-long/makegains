@@ -167,8 +167,12 @@ router.post('/edit/:id', (req, res) => {
 });
 
 // DELETE request to delete an exercise
-router.delete('/delete/:id', (req, res) => {
-
+router.post('/delete/:id', (req, res) => {
+  Exercise.deleteExercise(req.params.id, (err, result) => {
+    if (err) throw err;
+    req.flash('success', 'Exercise deleted');
+    res.redirect('/user');
+  });
 });
 
 module.exports = router;
