@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 
   } else {
     console.log(req.user);
-    res.render('index');
+    res.redirect('/user');
   }
 });
 

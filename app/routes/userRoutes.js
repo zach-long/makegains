@@ -32,6 +32,16 @@ router.get('/', (req, res) => {
   }
 });
 
+// get request to authenticate
+router.get('/authenticate', (req, res) => {
+  if (!req.user) {
+    res.render('auth');
+
+  } else {
+    res.redirect('/user');
+  }
+});
+
 // post request for user to create an account
 router.post('/signup', (req, res) => {
   // validate
