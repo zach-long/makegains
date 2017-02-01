@@ -144,6 +144,20 @@ router.post('/new', (req, res) => {
   };
 });
 
+router.post('/set/delete/:exerciseId/:setId', (req, res) => {
+  Exercise.getExerciseByExerciseId(req.params.exerciseId, (err, exercise) => {
+    exercise.sets.forEach(set => {
+      if (set._id == req.params.setId) {
+        exercise.sets.splice(exercise.sets.indexOf(set), 1);
+      }
+    });
+    Exercise.updateSet(exercise, (err, result) => {
+      req.flash('success', 'Set deleted');
+      res.redirect('/workout/log');
+    });
+  });
+});
+
 // GET request to update an exercise
 router.get('/edit/:id', (req, res) => {
   Exercise.getExerciseByExerciseId(req.params.id, (err, exercise) => {

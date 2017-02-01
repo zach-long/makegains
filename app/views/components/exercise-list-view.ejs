@@ -1,7 +1,4 @@
 <li><a href="/exercise/detail/<%= exercise._id %>"><%= exercise.name %></a></li>
 <li>
-  <a href="/exercise/edit/<%= exercise._id %>">Edit</a>
-  <form method="post" action="/exercise/delete/<%= exercise._id %>">
-    <button type="submit">Delete</button>
-  </form>
+  <%- include('exerciseUD', {exercise: exercise}); %>
 </li>

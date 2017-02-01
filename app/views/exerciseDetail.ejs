@@ -4,6 +4,9 @@
 
 <h2>Exercise Detail page for <%= exercise.name %></h2>
 
+<h4>Control:</h4>
+<%- include('components/exerciseUD', {exercise: exercise}); %>
+
 <canvas id="results"></canvas>
 
 <script src="/bower_components/chart.js/dist/Chart.min.js"></script>

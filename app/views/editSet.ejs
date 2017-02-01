@@ -1,0 +1,23 @@
+<% include partials/header %>
+
+<div>
+  <h3>Edit <%= exercise.name %></h3>
+</div>
+<% exercise.sets.forEach(function(set) { %>
+  <form method="post" action="/exercise/set/edit/<%= set._id %>">
+  <div>
+    <label>Repetitions</label>
+    <input type="text" value="<%= set.repetitions %>" name="repetitions">
+  </div>
+  <div>
+    <label>Weight</label>
+    <input type="text" value="<%= set.weight %>" name="weight">
+  </div>
+  <div>
+    <input type="submit" value="Apply update"/>
+  </div>
+  </form>
+<% }); %>
+
+
+<% include partials/footer %>

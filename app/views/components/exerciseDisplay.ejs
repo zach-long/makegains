@@ -1,9 +1,11 @@
 <% if (exercise.sets.length > 0) { %>
 
   <h3><%= exercise.name %></h3>
+
   <h4>Performance:</h4>
   <% exercise.sets.forEach(function(set) { %>
     <p><%= set.repetitions %> x <%= set.weight %> : <%= set.oneRepMax %></p>
+    <%- include('setUD', {exercise: exercise, set: set}) %>
   <% }); %>
 
 <% } %>

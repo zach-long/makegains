@@ -59,6 +59,17 @@ module.exports.updateExercise = function(exercise, newParams, cb) {
   newParams, cb);
 }
 
+module.exports.updateSet = function(exercise, cb) {
+  Exercise.update({
+    _id: exercise._id
+  },
+  {
+    $set: {
+      sets: exercise.sets
+    }
+  }, cb);
+}
+
 // Exercise method - assign all exercises of a workout the object reference of workout
 module.exports.addWorkout = function(exercise, workout, cb) {
   Exercise.update({
@@ -76,6 +87,10 @@ module.exports.deleteExercise = function(exerciseId, cb) {
   Exercise.findOneAndRemove({
     _id: exerciseId
   }, cb);
+}
+
+module.exports.deleteSet = function(exercise, setId) {
+  
 }
 
 // Exercise method - returns all exercises
