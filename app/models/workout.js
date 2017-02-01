@@ -64,10 +64,3 @@ module.exports.getOwnWorkouts = function(user, cb) {
 module.exports.getWorkoutByWorkoutId = function(workoutId, cb) {
   Workout.findById(workoutId, cb);
 }
-
-// Workout method - returns a single workout, by name
-module.exports.getWorkoutByWorkoutName = function(workoutName, cb) {
-  Workout.find({
-    name: workoutName
-  }, cb);
-}

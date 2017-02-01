@@ -45,13 +45,11 @@ var Exercise = module.exports = mongoose.model('Exercise', ExerciseModel);
 
 // Exercise method - saves a exercise to the database
 module.exports.createExercise = function(newExercise, cb) {
-  console.log('Inside ExerciseModel middleware...');
-  console.log('MW - saved exercise:');
-  console.log(newExercise);
   newExercise.save(cb);
 }
 
 // Exercise method - updates a exercise
+// - used in generic Exercise edit request
 module.exports.updateExercise = function(exercise, newParams, cb) {
   Exercise.update({
     _id: exercise._id
@@ -59,6 +57,8 @@ module.exports.updateExercise = function(exercise, newParams, cb) {
   newParams, cb);
 }
 
+// Exercise method - updates the 'sets' of an exercise
+// - used when deleting a set from an exercise
 module.exports.updateSet = function(exercise, cb) {
   Exercise.update({
     _id: exercise._id
@@ -89,10 +89,6 @@ module.exports.deleteExercise = function(exerciseId, cb) {
   }, cb);
 }
 
-module.exports.deleteSet = function(exercise, setId) {
-  
-}
-
 // Exercise method - returns all exercises
 module.exports.getExercises = function(cb) {
   Exercise.find({}, cb);
@@ -108,27 +104,6 @@ module.exports.getOwnExercises = function(user, cb) {
 // Exercise method - returns a single exercise, by ID
 module.exports.getExerciseByExerciseId = function(exerciseId, cb) {
   Exercise.findById(exerciseId, cb);
-}
-
-// Exercise method - returns a single exercise, by name
-module.exports.getExerciseByExerciseName = function(exerciseName, cb) {
-  Exercise.find({
-    name: exerciseName
-  }, cb);
-}
-
-// Exercise method - returns a single exercise, by name and ID
-module.exports.sortExercises = function(exercisesNameArray, usersExercises, workout, cb) {
-  for (let i = 0; i < exercisesNameArray.length; i++) {
-    for (let j = 0; j < usersExercises.length; j++) {
-      console.log("comparing " + exercisesNameArray[i] + " to " + usersExercises[j].name);
-      if (exercisesNameArray[i] === usersExercises[j].name) {
-        console.log(exercisesNameArray[i] + " matched " + usersExercises[j].name)
-        workout.exercises.push(usersExercises[j]._id);
-      }
-    }
-  }
-  cb(null, workout);
 }
 
 // Exercise method - gets specified exercise and updates the set information

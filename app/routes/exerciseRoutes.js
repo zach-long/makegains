@@ -144,13 +144,17 @@ router.post('/new', (req, res) => {
   };
 });
 
+// POST request to delete a set from exercise.sets
 router.post('/set/delete/:exerciseId/:setId', (req, res) => {
+  // get the exercise to remove a set from
   Exercise.getExerciseByExerciseId(req.params.exerciseId, (err, exercise) => {
+    // find the set requested for removal
     exercise.sets.forEach(set => {
       if (set._id == req.params.setId) {
         exercise.sets.splice(exercise.sets.indexOf(set), 1);
       }
     });
+    // save the updated exercise
     Exercise.updateSet(exercise, (err, result) => {
       req.flash('success', 'Set deleted');
       res.redirect('/workout/log');
@@ -168,10 +172,12 @@ router.get('/edit/:id', (req, res) => {
 
 // POST request to update an exercise
 router.post('/edit/:id', (req, res) => {
+  // define new exercise information
   let newParams = {
     name: req.body.name,
     description: req.body.description
   }
+  // update the exercise with requested information
   Exercise.getExerciseByExerciseId(req.params.id, (err, exercise) => {
     Exercise.updateExercise(exercise, newParams, (err, result) => {
       req.flash('success', 'Exercise "' + exercise.name + '" updated!');
