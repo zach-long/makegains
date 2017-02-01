@@ -52,18 +52,15 @@ module.exports.createExercise = function(newExercise, cb) {
 }
 
 // Exercise method - updates a exercise
-module.exports.updateExercise = function(exercise, cb) {
+module.exports.updateExercise = function(exercise, newParams, cb) {
   Exercise.update({
-    id: exercise._id
-  }, exercise, cb);
+    _id: exercise._id
+  },
+  newParams, cb);
 }
 
 // Exercise method - assign all exercises of a workout the object reference of workout
 module.exports.addWorkout = function(exercise, workout, cb) {
-  console.log("Inside middleware, the exercise is: ")
-  console.log(exercise)
-  console.log(typeof exercise)
-  console.log(exercise.name);
   Exercise.update({
     _id: exercise._id
   },
@@ -95,7 +92,7 @@ module.exports.getOwnExercises = function(user, cb) {
 
 // Exercise method - returns a single exercise, by ID
 module.exports.getExerciseByExerciseId = function(exerciseId, cb) {
-  Exercise.findById(exerciseId, cb)
+  Exercise.findById(exerciseId, cb);
 }
 
 // Exercise method - returns a single exercise, by name

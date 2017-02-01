@@ -144,13 +144,30 @@ router.post('/new', (req, res) => {
   };
 });
 
-// PUT request to update a exercise
-router.put('/edit', (req, res) => {
-
+// GET request to update an exercise
+router.get('/edit/:id', (req, res) => {
+  Exercise.getExerciseByExerciseId(req.params.id, (err, exercise) => {
+    if (err) throw err;
+    res.render('editExercise', {exercise: exercise});
+  });
 });
 
-// DELETE request to delete a exercise
-router.delete('/delete', (req, res) => {
+// POST request to update an exercise
+router.post('/edit/:id', (req, res) => {
+  let newParams = {
+    name: req.body.name,
+    description: req.body.description
+  }
+  Exercise.getExerciseByExerciseId(req.params.id, (err, exercise) => {
+    Exercise.updateExercise(exercise, newParams, (err, result) => {
+      req.flash('success', 'Exercise "' + exercise.name + '" updated!');
+      res.redirect('/user');
+    });
+  });
+});
+
+// DELETE request to delete an exercise
+router.delete('/delete/:id', (req, res) => {
 
 });
 
