@@ -5813,3 +5813,28 @@ button.close {
 @media print {
   .hidden-print {
     display: none !important; } }
+
+.bg-light {
+  background-color: #eeeeee;
+  color: #333; }
+
+.bg-flair {
+  background-color: #a6211d;
+  color: #ffffff; }
+
+html, body {
+  min-height: 100vh;
+  height: 100vh;
+  display: flex;
+  flex-direction: column; }
+
+header {
+  height: 3rem;
+  min-height: 3rem; }
+
+main {
+  flex: 1 1 auto; }
+
+footer {
+  height: 3rem;
+  min-height: 3rem; }
