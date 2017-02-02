@@ -1,28 +1,40 @@
 <% if (typeof authError != 'undefined') { %>
-  <h3>Sign up error!</h3>
-  <% authError.forEach(function(err) { %>
-    <p><%= err.msg %></p>
-  <% }); %>
+  <div class="alert alert-danger">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <h3 class="">Sign up error!</h3>
+    <% authError.forEach(function(err) { %>
+      <p class=""><%= err.msg %></p>
+    <% }); %>
+  </div>
 <% } %>
 
 <% if (typeof passportError != 'undefined' &&
        passportError.length > 0) { %>
-  <h3>Sign in error!</h3>
-  <p><%= passportError %></p>
+  <div class="alert alert-danger">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <h3 class="">Sign in error!</h3>
+    <p class=""><%= passportError %></p>
+  </div>
 <% } %>
 
 <% if (typeof flashFail != 'undefined' &&
        flashFail.length > 0) { %>
-  <h3>Oops!</h3>
-  <% flashFail.forEach(function(errorMessage) { %>
-    <p><%= errorMessage %></p>
-  <% }); %>
+  <div class="alert alert-danger">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <h3 class="">Oops!</h3>
+    <% flashFail.forEach(function(errorMessage) { %>
+      <p class=""><%= errorMessage %></p>
+    <% }); %>
+  </div>
 <% } %>
 
 <% if (typeof flashSuccess != 'undefined' &&
        flashSuccess.length > 0) { %>
-  <h3>Good news!</h3>
-  <% flashSuccess.forEach(function(successMessage) { %>
-    <p><%= successMessage %></p>
-  <% }); %>
+  <div class="alert alert-success">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <h3 class="">Good news!</h3>
+    <% flashSuccess.forEach(function(successMessage) { %>
+      <p class=""><%= successMessage %></p>
+    <% }); %>
+  </div>
 <% } %>
