@@ -73,12 +73,18 @@ router.get('/log/:id', (req, res) => {
 // POST request upon workout completion
 router.post('/complete', (req, res) => {
   if (req.user) {
+    console.log("Completing workout")
+    console.log('looking at every exercise for ' + req.user.name)
     req.user.exercises.forEach(exercise => {
+      console.log(exercise)
       Exercise.getExerciseByExerciseId(exercise, (err, exercise) => {
+        console.log('found exercise:')
+        console.log(exercise)
         let newHistory = {
           date: new Date(),
           dataHistory: []
         }
+        console.log('looking at sets of ' + exercise.name)
         exercise.sets.forEach(entry => {
           console.log(entry)
           let placeholder = {

@@ -190,8 +190,24 @@ router.post('/edit/:id', (req, res) => {
 router.post('/delete/:id', (req, res) => {
   Exercise.deleteExercise(req.params.id, (err, result) => {
     if (err) throw err;
-    req.flash('success', 'Exercise deleted');
-    res.redirect('/user');
+
+    User.getUserById(req.user._id, (err, user) => {
+      if (err) throw err;
+      user.exercises.forEach(exercise => {
+        console.log(exercise)
+        console.log(req.params.id)
+        if (exercise == req.params.id) {
+          console.log('match')
+          user.exercises.splice(user.exercises.indexOf(exercise), 1);
+        }
+      });
+
+      User.updateExercise(user, req.params.id, (err, result) => {
+        if (err) throw err;
+        req.flash('success', 'Exercise deleted');
+        res.redirect('/user');
+      });
+    });
   });
 });
 

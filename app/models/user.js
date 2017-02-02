@@ -113,6 +113,17 @@ module.exports.addExercise = function(exerciseCreator, newExercise, cb) {
   }, cb);
 }
 
+module.exports.updateExercise = function(exerciseCreator, exerciseId, cb) {
+  User.update({
+    _id: exerciseCreator._id
+  },
+  {
+    $set: {
+      exercises: exerciseCreator.exercises
+    }
+  }, cb);
+}
+
 // User method - returns all workouts belonging to a user
 module.exports.getWorkouts = function(workoutCreator, cb) {
   Workout.find({creator: workoutCreator._id}, cb);
