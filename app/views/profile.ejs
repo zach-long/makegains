@@ -2,30 +2,37 @@
 
 <% include partials/flashMessages %>
 
-<h2>Profile page for <%= user.name %></h2>
+<h2>Wecome, <%= user.name %>.</h2>
 <a href="/user/logout">Log out</a>
 
-<h3>Your Exercises</h3>
-<% if (!exercises.length < 1) { %>
-  <ul>
-  <% exercises.forEach(function(exercise) { %>
-    <%- include('components/exercise-list-view', {exercise: exercise}); %>
-  <% }); %>
-  </ul>
-<% } else { %>
-  <p>You have no exercises, <a href="/exercise/new">create one now!</a></p>
-<% } %>
-
-<h3>Your Workouts</h3>
-<% if (!workouts.length < 1) { %>
-  <ul>
-  <% workouts.forEach(function(workout) { %>
-    <%- include('components/workout-list-view', {workout: workout}); %>
-  <% }); %>
-  </ul>
-<% } else { %>
-  <p>You have no workouts, <a href="/workout/new">create one now!</a></p>
-<% } %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Your Exercises</h3>
+      <% if (!exercises.length < 1) { %>
+        <ul class="list-group">
+        <% exercises.forEach(function(exercise) { %>
+          <%- include('components/exercise-list-view', {exercise: exercise}); %>
+        <% }); %>
+        </ul>
+      <% } else { %>
+        <p>You have no exercises, <a href="/exercise/new">create one now!</a></p>
+      <% } %>
+    </div>
+    <div class="col-md-6">
+      <h3>Your Workouts</h3>
+      <% if (!workouts.length < 1) { %>
+        <ul class="list-group">
+        <% workouts.forEach(function(workout) { %>
+          <%- include('components/workout-list-view', {workout: workout}); %>
+        <% }); %>
+        </ul>
+      <% } else { %>
+        <p>You have no workouts, <a href="/workout/new">create one now!</a></p>
+      <% } %>
+    </div>
+  </div>
+</div>
 
 <a href="/exercise/new">Create an exercise</a>
 <a href="/workout/new">Create a workout</a>

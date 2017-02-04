@@ -5822,6 +5822,9 @@ button.close {
   background-color: #a6211d;
   color: #ffffff; }
 
+.list-group-item form {
+  display: inline; }
+
 html, body {
   min-height: 100vh;
   height: 100vh;

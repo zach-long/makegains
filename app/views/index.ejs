@@ -1,15 +1,11 @@
 <% include partials/header %>
 
-<% include partials/flashMessages %>
-
 <div class="jumbotron bg-flair text-center">
   <h1>Are you ready to make gains?</h1>
 </div>
 
 <div class="container text-center">
-  <div class="page-header text-center">
-    <h2>What is 'Makegains'</h2>
-  </div>
+  <h2 class="page-header text-center">What is 'Makegains'</h2>
   <div class="row">
     <div class="col-md-4">
       <h3>Push yourself harder every workout!</h3>
@@ -26,8 +22,10 @@
   </div>
 </div>
 
+<% include partials/flashMessages %>
+
 <div class="container">
-  <h2>Sounds great! Let's get started!</h2>
+  <h2 class="page-header text-center">Sounds great! Let's get started!</h2>
   <% include partials/authenticate %>
 </div>
 

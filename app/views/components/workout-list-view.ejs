@@ -1,1 +1,11 @@
-<li><a href="/workout/detail/<%= workout._id %>"><%= workout.name %></a></li>
+<li class="list-group-item">
+  <a href="/workout/detail/<%= workout._id %>"><%= workout.name %></a>
+  <!--
+  <form method="get" action="/workout/edit/<%= workout._id %>">
+    <button class="btn btn-warning" type="submit">Edit</button>
+  </form>
+  <form method="post" action="/workout/delete/<%= workout._id %>">
+    <button class="btn btn-danger" type="submit">Delete</button>
+  </form>
+  -->
+</li>
