@@ -5818,6 +5818,10 @@ button.close {
   background-color: #eeeeee;
   color: #333; }
 
+.bg-dark {
+  background-color: #333;
+  color: #ffffff; }
+
 .bg-flair {
   background-color: #a6211d;
   color: #ffffff; }

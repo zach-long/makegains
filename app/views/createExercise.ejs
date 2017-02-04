@@ -1,22 +1,24 @@
 <% include partials/header %>
 
-<div>
-  <h3>Create exercise</h3>
+<div class="container">
+  <h3 class="text-center">Create exercise</h3>
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <form method="post" action="/exercise/new">
+        <div class="form-group">
+          <label>Name</label>
+          <input class="form-control" type="text" placeholder="Name" name="name">
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <input class="form-control" type="text" placeholder="Description" name="description">
+        </div>
+        <button class="btn btn-primary" type="submit">Create an exercise!</button>
+      </form>
+    </div>
+  </div>
 </div>
-<form method="post" action="/exercise/new">
-  <div>
-    <label>Name</label>
-    <input type="text" placeholder="Name" name="name">
-  </div>
-  <div>
-    <label>Description</label>
-    <input type="text" placeholder="Description" name="description">
-  </div>
-  <div>
-    <input type="submit" value="Create an exercise!"/>
-  </div>
-</form>
-
+<!--
 <h3>Your Exercises</h3>
 <% if (!exercises.length < 1) { %>
   <ul>
@@ -25,5 +27,6 @@
   <% }); %>
   </ul>
 <% } %>
+-->
 
 <% include partials/footer %>
