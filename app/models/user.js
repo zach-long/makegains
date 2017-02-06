@@ -103,6 +103,18 @@ module.exports.addProgram = function(programCreator, newProgram, cb) {
   }, cb);
 }
 
+module.exports.addWorkout = function(user, newWorkout, cb) {
+  user.workouts.push(newWorkout);
+  User.update({
+    _id: user._id
+  },
+  {
+    $set: {
+      workouts: user.workouts
+    }
+  }, cb)
+}
+
 // User method - adds a program to the the user
 // ***** this may ultimately be unnecessary
 module.exports.addExercise = function(exerciseCreator, newExercise, cb) {

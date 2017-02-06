@@ -32,11 +32,7 @@ var ExerciseModel = mongoose.Schema({
   creator: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
-  },
-  programs: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Program'
-  }]
+  }
 });
 
 var Exercise = module.exports = mongoose.model('Exercise', ExerciseModel);

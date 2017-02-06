@@ -47,6 +47,10 @@ router.post('/complete', (req, res) => {
   if (req.user) {
     console.log("Completing workout")
     console.log('looking at every exercise for ' + req.user.name)
+    // define array of exercises used for the user
+    let exercisesPerformed = [];
+
+    // make this a promise?
     req.user.exercises.forEach(exercise => {
       console.log(exercise)
       Exercise.getExerciseByExerciseId(exercise, (err, exercise) => {
@@ -57,15 +61,17 @@ router.post('/complete', (req, res) => {
           dataHistory: []
         }
         console.log('looking at sets of ' + exercise.name)
-        exercise.sets.forEach(entry => {
-          console.log(entry)
-          let placeholder = {
-            weight: entry.weight,
-            repetitions: entry.repetitions,
-            oneRepMax: entry.oneRepMax
-          }
-          newHistory.dataHistory.push(placeholder);
-        });
+        if (exercise.sets.length > 0) {
+          exercisesPerformed.push(exercise);
+          exercise.sets.forEach(entry => {
+            let placeholder = {
+              weight: entry.weight,
+              repetitions: entry.repetitions,
+              oneRepMax: entry.oneRepMax
+            }
+            newHistory.dataHistory.push(placeholder);
+          });
+        }
         exercise.exerciseHistory.push(newHistory);
         Exercise.updateHistory(exercise, (err, result) => {
           if (err) throw err;
@@ -78,8 +84,32 @@ router.post('/complete', (req, res) => {
         });
       });
     });
-    req.flash('success', 'Workout completed!');
-    res.redirect('/user');
+
+    // below code is not running 
+    console.log('doing temp workout')
+    let tempWorkout = {
+      name: req.body.workoutName,
+      date: new Date(),
+      creator: req.user._id,
+      exercises: exercisesPerformed
+    }
+    console.log(tempWorkout)
+    console.log('saving workout to db')
+    Workout.createWorkout(tempWorkout, (err, workout) => {
+      if (err) throw err;
+      console.log(workout);
+
+      console.log('saving users reference to this workout')
+      // add workout to user
+      User.addWorkout(req.user, tempWorkout, (err, user) => {
+        if (err) throw err;
+        console.log(user);
+
+        console.log('done')
+        req.flash('success', 'Workout completed!');
+        res.redirect('/user');
+      });
+    });
 
   } else {
     res.redirect('/');

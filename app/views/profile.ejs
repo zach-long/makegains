@@ -32,6 +32,16 @@
       <% } %>
     </div>
   </div>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <h3 class="text-center">Your workout history</h3>
+      <% if (!workouts.length < 1) { %>
+        <p>You have completed workouts but this is not implemented yet</p>
+      <% } else { %>
+        <p>You have no completed workouts, get swole</p>
+      <% } %>
+    </div>
+  </div>
 </div>
 
 <a href="/exercise/new">Create an exercise</a>
