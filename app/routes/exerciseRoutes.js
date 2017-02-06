@@ -12,7 +12,7 @@ const calculateEstimatedOneRepMax = require('../resources/oneRepMax.js');
 // import models
 const User = require('../models/user.js');
 const Exercise = require('../models/exercise.js');
-const Workout = require('../models/workout.js');
+const Program = require('../models/program.js');
 
 // GET request to return all of a users exercises
 router.get('/myexercises', (req, res) => {
@@ -84,7 +84,7 @@ router.post('/set/add', (req, res) => {
       if (err) throw err;
       console.log(result);
 
-      res.redirect('/workout/log');
+      res.redirect('/program/log');
     });
   });
 });
@@ -157,7 +157,7 @@ router.post('/set/delete/:exerciseId/:setId', (req, res) => {
     // save the updated exercise
     Exercise.updateSet(exercise, (err, result) => {
       req.flash('success', 'Set deleted');
-      res.redirect('/workout/log');
+      res.redirect('/program/log');
     });
   });
 });

@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 
 // import models
-const Workout = require('./workout.js');
+const Program = require('./program.js');
 const Exercise = require('./exercise.js');
 
 // define User model
@@ -22,9 +22,9 @@ var UserModel = mongoose.Schema({
   password: {
     type: String
   },
-  workouts: [{
+  programs: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Workout'
+    ref: 'Program'
   }],
   exercises: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -85,21 +85,21 @@ module.exports.comparePassword = function(password, hash, cb) {
   });
 }
 
-// User method - adds a workout to the the user
+// User method - adds a program to the the user
 // ***** this may ultimately be unnecessary
-module.exports.addWorkout = function(workoutCreator, newWorkout, cb) {
-  workoutCreator.workouts.push(newWorkout);
+module.exports.addProgram = function(programCreator, newProgram, cb) {
+  programCreator.programs.push(newProgram);
   User.update({
-    _id: workoutCreator._id
+    _id: programCreator._id
   },
   {
     $set: {
-      workouts: workoutCreator.workouts
+      programs: programCreator.programs
     }
   }, cb);
 }
 
-// User method - adds a workout to the the user
+// User method - adds a program to the the user
 // ***** this may ultimately be unnecessary
 module.exports.addExercise = function(exerciseCreator, newExercise, cb) {
   exerciseCreator.exercises.push(newExercise);
@@ -124,9 +124,9 @@ module.exports.updateExercise = function(exerciseCreator, exerciseId, cb) {
   }, cb);
 }
 
-// User method - returns all workouts belonging to a user
-module.exports.getWorkouts = function(workoutCreator, cb) {
-  Workout.find({creator: workoutCreator._id}, cb);
+// User method - returns all programs belonging to a user
+module.exports.getPrograms = function(programCreator, cb) {
+  Program.find({creator: programCreator._id}, cb);
 }
 
 // User method - returns all exercises belonging to a user

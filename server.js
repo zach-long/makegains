@@ -14,7 +14,7 @@ const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 
 // set constants
-const mongoPath = 'mongodb://localhost/workout_tracker-full';
+const mongoPath = 'mongodb://localhost/program_tracker-full';
 const localPort = 3000;
 const LocalStrategy = require('passport-local').Strategy;
 const localStrategy = require('./app/config/passportLocalStrategy.js');
@@ -29,7 +29,7 @@ mongoose.connect(process.env.MONGODB_URI || mongoPath, (err) => {
 // import routes
 const routes = require('./app/routes/index.js');
 const userRoutes = require('./app/routes/userRoutes.js');
-const workoutRoutes = require('./app/routes/workoutRoutes.js');
+const programRoutes = require('./app/routes/programRoutes.js');
 const exerciseRoutes = require('./app/routes/exerciseRoutes.js');
 
 // import User model for passport config
@@ -103,7 +103,7 @@ app.use((req, res, next) => {
 // set routes
 app.use('/', routes);
 app.use('/user', userRoutes);
-app.use('/workout', workoutRoutes);
+app.use('/program', programRoutes);
 app.use('/exercise', exerciseRoutes);
 
 // start server

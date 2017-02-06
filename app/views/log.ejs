@@ -1,6 +1,6 @@
 <% include partials/header %>
 
-<h2>Your current workout session...</h2>
+<h2>Your current program session...</h2>
 
 <div class="container">
   <div class="row">
@@ -31,8 +31,8 @@
           <%- include('components/exerciseDisplay', {exercise: exercise}); %>
         <% }); %>
       <% } %>
-      <form method="post" action="/workout/complete">
-        <button class="btn btn-primary" type="submit">Complete workout</button>
+      <form method="post" action="/program/complete">
+        <button class="btn btn-primary" type="submit">Complete program</button>
       </form>
     </div>
   </div>

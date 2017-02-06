@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 // import models
 const User = require('./user.js');
-const Workout = require('./workout.js');
+const Program = require('./program.js');
 
 // define Set sub-schema
 var ExerciseSetModel = mongoose.Schema({
@@ -33,9 +33,9 @@ var ExerciseModel = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
-  workouts: [{
+  programs: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Workout'
+    ref: 'Program'
   }]
 });
 
@@ -70,14 +70,14 @@ module.exports.updateSet = function(exercise, cb) {
   }, cb);
 }
 
-// Exercise method - assign all exercises of a workout the object reference of workout
-module.exports.addWorkout = function(exercise, workout, cb) {
+// Exercise method - assign all exercises of a program the object reference of program
+module.exports.addProgram = function(exercise, program, cb) {
   Exercise.update({
     _id: exercise._id
   },
   {
     $set: {
-      workouts: exercise.workouts
+      programs: exercise.programs
     }
   }, cb);
 }

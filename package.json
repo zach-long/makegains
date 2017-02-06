@@ -1,7 +1,7 @@
 {
-  "name": "workout-tracker",
+  "name": "program-tracker",
   "version": "1.0.0",
-  "description": "A Node.js, React, MongoDB web app with a fast, minimalist UI for easy workout tracking and long-term progress aggregation.",
+  "description": "A Node.js, React, MongoDB web app with a fast, minimalist UI for easy program tracking and long-term progress aggregation.",
   "main": "server.js",
   "scripts": {
     "watch-app": "nodemon server.js",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zach-long/workout-tracker.git"
+    "url": "git+https://github.com/zach-long/program-tracker.git"
   },
   "author": "Zachary Long",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/zach-long/workout-tracker/issues"
+    "url": "https://github.com/zach-long/program-tracker/issues"
   },
-  "homepage": "https://github.com/zach-long/workout-tracker#readme",
+  "homepage": "https://github.com/zach-long/program-tracker#readme",
   "dependencies": {
     "bcryptjs": "^2.4.0",
     "body-parser": "^1.16.0",

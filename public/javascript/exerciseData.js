@@ -24,14 +24,14 @@ get(apiUrl).then(function (response) {
 /* Parses every oneRepMax entry for a single exercise
    and pulls out the highest one for each exercise session */
 function displayTrend(data) {
-  var workouts = data.exerciseHistory;
-  var oneRepMaxArray = workouts.map(function (workoutSession) {
-    return workoutSession.dataHistory.map(function (datePerformance) {
+  var programs = data.exerciseHistory;
+  var oneRepMaxArray = programs.map(function (programSession) {
+    return programSession.dataHistory.map(function (datePerformance) {
       return datePerformance.oneRepMax;
     }).sort().pop();
   });
-  var dateArray = workouts.map(function (workoutSession) {
-    var dateify = new Date(workoutSession.date);
+  var dateArray = programs.map(function (programSession) {
+    var dateify = new Date(programSession.date);
     var formattedDate = dateify.toLocaleDateString();
     return formattedDate;
   });

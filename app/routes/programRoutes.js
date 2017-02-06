@@ -8,23 +8,23 @@ const router = express.Router();
 
 // import models
 const User = require('../models/user.js');
-const Workout = require('../models/workout.js');
+const Program = require('../models/program.js');
 const Exercise = require('../models/exercise.js');
 
-// GET request to return all of a users workouts
-router.get('/myworkouts', (req, res) => {
-  Workout.getOwnWorkouts(req.user, (err, workouts) => {
+// GET request to return all of a users programs
+router.get('/myprograms', (req, res) => {
+  Program.getOwnPrograms(req.user, (err, programs) => {
     if (err) throw err
-    res.json(workouts);
+    res.json(programs);
   });
 });
 
-// GET request to display page where User can create a workout
+// GET request to display page where User can create a program
 router.get('/new', (req, res) => {
   if (req.user) {
-    Workout.getOwnWorkouts(req.user, (err, workouts) => {
+    Program.getOwnPrograms(req.user, (err, programs) => {
       Exercise.getOwnExercises(req.user, (err, exercises) => {
-        res.render('createWorkout', {workouts: workouts, exercises: exercises});
+        res.render('createProgram', {programs: programs, exercises: exercises});
       });
     });
 
@@ -33,13 +33,13 @@ router.get('/new', (req, res) => {
   }
 });
 
-// GET request to display specific information about a workout
+// GET request to display specific information about a program
 router.get('/detail/:id', (req, res) => {
   if (req.user) {
-    let workoutId = req.params.id;
-    Workout.getWorkoutByWorkoutId(workoutId, (err, workout) => {
+    let programId = req.params.id;
+    Program.getProgramByProgramId(programId, (err, program) => {
       if (err) throw err;
-      res.render('workoutDetail', {workout: workout});
+      res.render('programDetail', {program: program});
     });
 
   } else {
@@ -47,7 +47,7 @@ router.get('/detail/:id', (req, res) => {
   }
 });
 
-// GET request to display interface for logging a freeform workout
+// GET request to display interface for logging a freeform program
 router.get('/log', (req, res) => {
   if (req.user) {
     console.log(res.locals)
@@ -60,7 +60,7 @@ router.get('/log', (req, res) => {
   }
 });
 
-// GET request to display interface for logging a specific workout
+// GET request to display interface for logging a specific program
 router.get('/log/:id', (req, res) => {
   if (req.user) {
     res.render('log');
@@ -70,10 +70,10 @@ router.get('/log/:id', (req, res) => {
   }
 });
 
-// POST request upon workout completion
+// POST request upon program completion
 router.post('/complete', (req, res) => {
   if (req.user) {
-    console.log("Completing workout")
+    console.log("Completing program")
     console.log('looking at every exercise for ' + req.user.name)
     req.user.exercises.forEach(exercise => {
       console.log(exercise)
@@ -106,7 +106,7 @@ router.post('/complete', (req, res) => {
         });
       });
     });
-    req.flash('success', 'Workout completed!');
+    req.flash('success', 'Program completed!');
     res.redirect('/user');
 
   } else {
@@ -114,7 +114,7 @@ router.post('/complete', (req, res) => {
   }
 });
 
-// POST request to creating a new workout
+// POST request to creating a new program
 router.post('/new', (req, res) => {
   // validate
   req.checkBody('name', 'Please enter a name').notEmpty();
@@ -129,54 +129,54 @@ router.post('/new', (req, res) => {
     });
 
   } else {
-    // create a workout and save to database
-    let newWorkout = new Workout({
+    // create a program and save to database
+    let newProgram = new Program({
       name: req.body.name,
       description: req.body.description,
       creator: req.user._id,
     });
 
-    // add exercises to workout
+    // add exercises to program
     let exercisePlaceholders = req.body.exercise;
     exercisePlaceholders.forEach(exerciseIdString => {
       for (let i = 0; i < req.user.exercises.length; i++) {
         if (String(req.user.exercises[i]) === exerciseIdString) {
-          newWorkout.exercises.push(req.user.exercises[i]);
+          newProgram.exercises.push(req.user.exercises[i]);
         }
       }
     });
 
-    // add workout to user
-    console.log('Adding workout to user, components: ')
+    // add program to user
+    console.log('Adding program to user, components: ')
     console.log(req.user)
-    console.log(newWorkout)
-    User.addWorkout(req.user, newWorkout, (err, result) => {
+    console.log(newProgram)
+    User.addProgram(req.user, newProgram, (err, result) => {
       if (err) throw err;
       console.log(result);
     });
 
-    // add workout to exercises
+    // add program to exercises
 
 
-    // save workout
-    Workout.createWorkout(newWorkout, (err, result) => {
+    // save program
+    Program.createProgram(newProgram, (err, result) => {
       if (err) throw err;
       console.log(result);
     })
 
-    console.log(newWorkout);
+    console.log(newProgram);
     console.log(req.user);
-    req.flash('success', 'Workout created successfully!');
+    req.flash('success', 'Program created successfully!');
     res.redirect('/user');
   }
 });
 
-// PUT request to update a workout
+// PUT request to update a program
 router.put('/edit', (req, res) => {
 
 });
 
-// DELETE request to delete a workout
+// DELETE request to delete a program
 router.delete('/delete', (req, res) => {
 
 });

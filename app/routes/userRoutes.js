@@ -10,19 +10,19 @@ const LocalStrategy = require('passport-local').Strategy;
 
 // import models
 const User = require('../models/user.js');
-const Workout = require('../models/workout.js');
+const Program = require('../models/program.js');
 const Exercise = require('../models/exercise.js');
 
 // get request for user profile page
 router.get('/', (req, res) => {
   if (req.user) {
-    Workout.getOwnWorkouts(req.user, (err, workouts) => {
+    Program.getOwnPrograms(req.user, (err, programs) => {
       if (err) throw err;
 
       Exercise.getOwnExercises(req.user, (err, exercises) => {
         if (err) throw err;
 
-        res.render('profile', {workouts: workouts, exercises: exercises});
+        res.render('profile', {programs: programs, exercises: exercises});
       });
     });
 
