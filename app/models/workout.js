@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 // import models
 const User = require('./user.js');
 const Exercise = require('./exercise.js');
-const Workout = require('./workout.js');
+const Program = require('./program.js');
 
 // define Workout model
 var WorkoutModel = mongoose.Schema({

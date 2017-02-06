@@ -31,6 +31,7 @@ const routes = require('./app/routes/index.js');
 const userRoutes = require('./app/routes/userRoutes.js');
 const programRoutes = require('./app/routes/programRoutes.js');
 const exerciseRoutes = require('./app/routes/exerciseRoutes.js');
+const workoutRoutes = require('./app/routes/workoutRoutes.js');
 
 // import User model for passport config
 const User = require('./app/models/user.js');
@@ -105,6 +106,7 @@ app.use('/', routes);
 app.use('/user', userRoutes);
 app.use('/program', programRoutes);
 app.use('/exercise', exerciseRoutes);
+app.use('/workout', workoutRoutes);
 
 // start server
 app.listen(process.env.PORT || localPort, function() {
