@@ -14,7 +14,7 @@ const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 
 // set constants
-const mongoPath = 'mongodb://localhost/program_tracker-full';
+const mongoPath = 'mongodb://localhost/makegains';
 const localPort = 3000;
 const LocalStrategy = require('passport-local').Strategy;
 const localStrategy = require('./app/config/passportLocalStrategy.js');

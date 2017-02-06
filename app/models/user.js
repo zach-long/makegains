@@ -29,6 +29,10 @@ var UserModel = mongoose.Schema({
   exercises: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Exercise'
+  }],
+  workouts: [{
+    type: mongoose.Schema. Types.ObjectId,
+    ref: 'Workout'
   }]
 });
 
