@@ -52,15 +52,11 @@ router.post('/complete', (req, res) => {
 
     // make this a promise?
     req.user.exercises.forEach(exercise => {
-      console.log(exercise)
       Exercise.getExerciseByExerciseId(exercise, (err, exercise) => {
-        console.log('found exercise:')
-        console.log(exercise)
         let newHistory = {
           date: new Date(),
           dataHistory: []
         }
-        console.log('looking at sets of ' + exercise.name)
         if (exercise.sets.length > 0) {
           exercisesPerformed.push(exercise);
           exercise.sets.forEach(entry => {
@@ -85,7 +81,6 @@ router.post('/complete', (req, res) => {
       });
     });
 
-    // below code is not running 
     console.log('doing temp workout')
     let tempWorkout = {
       name: req.body.workoutName,

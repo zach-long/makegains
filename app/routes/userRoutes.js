@@ -36,6 +36,15 @@ router.get('/', (req, res) => {
   }
 });
 
+router.get('/myexercises', (req, res) => {
+  Exercise.getExercisesPromise()
+    .then(exercises => {
+      res.send(exercises);
+    }, (error) => {
+      res.send(error);
+    });
+})
+
 // get request to authenticate
 router.get('/authenticate', (req, res) => {
   if (!req.user) {

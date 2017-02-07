@@ -89,6 +89,16 @@ module.exports.deleteExercise = function(exerciseId, cb) {
 module.exports.getExercises = function(cb) {
   Exercise.find({}, cb);
 }
+module.exports.getExercisesPromise = function() {
+  return new Promise((resolve, reject) => {
+    let exercises = Exercise.find({name: 'Bench Press'});
+    if (exercises) {
+      resolve(exercises);
+    } else {
+      reject(Error());
+    }
+  })
+}
 
 // Exercise method - returns all of users own exercises
 module.exports.getOwnExercises = function(user, cb) {
