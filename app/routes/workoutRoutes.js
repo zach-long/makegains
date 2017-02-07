@@ -45,8 +45,6 @@ router.get('/log/:id', (req, res) => {
 // POST request upon workout completion
 router.post('/complete', (req, res) => {
   if (req.user) {
-    console.log("Completing workout")
-    console.log('looking at every exercise for ' + req.user.name)
     // define array of exercises used for the user
     let exercisesPerformed = [];
 
@@ -81,26 +79,20 @@ router.post('/complete', (req, res) => {
       });
     });
 
-    console.log('doing temp workout')
-    let tempWorkout = {
+    let tempWorkout = new Workout({
       name: req.body.workoutName,
       date: new Date(),
       creator: req.user._id,
       exercises: exercisesPerformed
-    }
-    console.log(tempWorkout)
-    console.log('saving workout to db')
+    });
+
     Workout.createWorkout(tempWorkout, (err, workout) => {
       if (err) throw err;
-      console.log(workout);
 
-      console.log('saving users reference to this workout')
       // add workout to user
       User.addWorkout(req.user, tempWorkout, (err, user) => {
         if (err) throw err;
-        console.log(user);
 
-        console.log('done')
         req.flash('success', 'Workout completed!');
         res.redirect('/user');
       });
