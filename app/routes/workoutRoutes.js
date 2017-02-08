@@ -43,47 +43,14 @@ router.get('/log/:id', (req, res) => {
 });
 
 // POST request upon workout completion
+// this is completely awful and needs refactored
 router.post('/complete', (req, res) => {
   if (req.user) {
-    // define array of exercises used for the user
-    let exercisesPerformed = [];
-
-    // make this a promise?
-    req.user.exercises.forEach(exercise => {
-      Exercise.getExerciseByExerciseId(exercise, (err, exercise) => {
-        let newHistory = {
-          date: new Date(),
-          dataHistory: []
-        }
-        if (exercise.sets.length > 0) {
-          exercisesPerformed.push(exercise);
-          exercise.sets.forEach(entry => {
-            let placeholder = {
-              weight: entry.weight,
-              repetitions: entry.repetitions,
-              oneRepMax: entry.oneRepMax
-            }
-            newHistory.dataHistory.push(placeholder);
-          });
-        }
-        exercise.exerciseHistory.push(newHistory);
-        Exercise.updateHistory(exercise, (err, result) => {
-          if (err) throw err;
-          console.log(result);
-        });
-        exercise.sets.length = 0;
-        Exercise.resetSets(exercise, (err, result) => {
-          if (err) throw err;
-          console.log(result);
-        });
-      });
-    });
-
     let tempWorkout = new Workout({
       name: req.body.workoutName,
       date: new Date(),
       creator: req.user._id,
-      exercises: exercisesPerformed
+      exercises: []
     });
 
     Workout.createWorkout(tempWorkout, (err, workout) => {
@@ -93,6 +60,41 @@ router.post('/complete', (req, res) => {
       User.addWorkout(req.user, tempWorkout, (err, user) => {
         if (err) throw err;
 
+        // This is terribad
+        // should be non-blocking and asynchronous, also less tangled
+        for (let i = 0; i < req.user.exercises.length; i++) {
+          Exercise.getExerciseByExerciseId(req.user.exercises[i], (err, exercise) => {
+
+            let newHistory = {
+              date: new Date(),
+              dataHistory: []
+            }
+
+            if (exercise.sets.length > 0) {
+              workout.exercises.push(exercise);
+              Workout.addExercise(workout, (err, result) => {
+                if (err) throw err;
+              });
+              exercise.sets.forEach(entry => {
+                let placeholder = {
+                  weight: entry.weight,
+                  repetitions: entry.repetitions,
+                  oneRepMax: entry.oneRepMax
+                }
+                newHistory.dataHistory.push(placeholder);
+              });
+
+              exercise.exerciseHistory.push(newHistory);
+              Exercise.updateHistory(exercise, (err, result) => {
+                if (err) throw err;
+              });
+              exercise.sets.length = 0;
+              Exercise.resetSets(exercise, (err, result) => {
+                if (err) throw err;
+              });
+            };
+          });
+        }
         req.flash('success', 'Workout completed!');
         res.redirect('/user');
       });

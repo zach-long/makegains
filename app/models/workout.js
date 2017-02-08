@@ -42,6 +42,17 @@ module.exports.updateWorkout = function(workout, cb) {
   }, workout, cb);
 }
 
+module.exports.addExercise = function(workout, cb) {
+  Workout.update({
+    _id: workout._id
+  },
+  {
+    $set: {
+      exercises: workout.exercises
+    }
+  }, cb);
+}
+
 // Workout method - deletes a workout
 module.exports.deleteWorkout = function(workout, cb) {
   Workout.findOneAndRemove({

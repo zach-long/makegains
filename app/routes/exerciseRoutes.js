@@ -68,7 +68,7 @@ router.post('/set/add', (req, res) => {
   Exercise.getExerciseByExerciseId(req.body.exercise, (err, exercise) => {
     // calculate estimated one rep max
     let estMax = calculateEstimatedOneRepMax(req.body.weight, req.body.reps);
-    console.log(estMax);
+
     // define the new set
     let newSet = {
       weight: req.body.weight,
@@ -82,7 +82,6 @@ router.post('/set/add', (req, res) => {
     // update exercise
     Exercise.addSet(exercise, (err, result) => {
       if (err) throw err;
-      console.log(result);
 
       res.redirect('/program/log');
     });
@@ -94,46 +93,30 @@ router.post('/new', (req, res) => {
   if (req.user) {
     // validate
     req.checkBody('name', 'Please enter a name').notEmpty();
-    console.log('Console will track exercise creation process...');
-    console.log('Validating new exercise...');
 
     // handle errors or proceed
     if (req.validationErrors()) {
-      console.log('There were validation errors: ');
       // send validation errors
       req.getValidationResult().then((validationResult) => {
-        console.log(validationResult);
         res.json(validationResult.array());
       });
 
     } else {
-      console.log('New exercise validated successfully');
       // create an exercise and save to database
       let newExercise = new Exercise({
         name: req.body.name,
         description: req.body.description,
         creator: req.user
       });
-      console.log(newExercise);
 
       Exercise.createExercise(newExercise, (err, theExercise) => {
         if (err) throw err;
-        console.log('Saved exercise to DB successfully');
-        console.log(theExercise);
 
         // Update User with this exercise
         User.addExercise(req.user, theExercise, (err, updatedUser) => {
           if (err) throw err;
-          console.log('Added exercise to User who created it...');
-          console.log(updatedUser);
 
           req.flash('success', 'Exercise created successfully!');
-          console.log('All processes complete, changed entities printed below. New exercise should have a creator and the User should have this exercise.');
-          console.log('Below: the Exercise -');
-          console.log(theExercise);
-          console.log(theExercise.creator);
-          console.log('Below: the User - ');
-          console.log(updatedUser);
           res.redirect('/user');
         });
       });
@@ -194,10 +177,7 @@ router.post('/delete/:id', (req, res) => {
     User.getUserById(req.user._id, (err, user) => {
       if (err) throw err;
       user.exercises.forEach(exercise => {
-        console.log(exercise)
-        console.log(req.params.id)
         if (exercise == req.params.id) {
-          console.log('match')
           user.exercises.splice(user.exercises.indexOf(exercise), 1);
         }
       });

@@ -12,7 +12,6 @@ router.get('/', (req, res) => {
     res.render('index');
 
   } else {
-    console.log(req.user);
     res.redirect('/user');
   }
 });
