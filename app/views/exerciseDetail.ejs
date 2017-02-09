@@ -2,17 +2,23 @@
 
 <a href="/user">Go back</a>
 
-<h2>Exercise Detail page for <%= exercise.name %></h2>
+<div class="container">
+  <h2 class="page-header text-center">Exercise Detail page for <%= exercise.name %></h2>
+  <h5 class="text-center"><%= exercise.description %></h5>
 
-<h4>Control:</h4>
-<form method="get" action="/exercise/edit/<%= exercise._id %>">
-  <button class="btn btn-warning" type="submit">Edit</button>
-</form>
-<form method="post" action="/exercise/delete/<%= exercise._id %>">
-  <button class="btn btn-danger" type="submit">Delete</button>
-</form>
+  <form method="get" action="/exercise/edit/<%= exercise._id %>">
+    <button class="btn btn-warning" type="submit">Edit</button>
+  </form>
+  <form method="post" action="/exercise/delete/<%= exercise._id %>">
+    <button class="btn btn-danger" type="submit">Delete</button>
+  </form>
 
-<canvas id="results"></canvas>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <canvas id="results"></canvas>
+    </div>
+  </div>
+</div>
 
 <script src="/bower_components/chart.js/dist/Chart.min.js"></script>
 <script src="/javascript/exerciseData.js"></script>
