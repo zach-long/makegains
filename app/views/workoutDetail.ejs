@@ -10,14 +10,11 @@
     <a href="/exercise/detail/<%= exercise._id %>"><%= exercise.name %></a>
     <% exercise.exerciseHistory.forEach(i => { %>
       <% i.dataHistory.forEach(set => { %>
-        <p><%= set.repetitions %> reps at <%= set.weight %> lbs. Strength Index: <%= set.oneRepMax %></p>
+        <p><%= set.repetitions %> reps at <%= set.weight %> lbs. Est. 1RM: <%= set.oneRepMax %></p>
       <% }); %>
     <% }); %>
   </li>
 <% }); %>
 </ul>
-
-<script src="/bower_components/chart.js/dist/Chart.min.js"></script>
-<script src="/javascript/exerciseData.js"></script>
 
 <% include partials/footer %>

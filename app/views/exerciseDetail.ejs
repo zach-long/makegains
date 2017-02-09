@@ -5,7 +5,12 @@
 <h2>Exercise Detail page for <%= exercise.name %></h2>
 
 <h4>Control:</h4>
-<%- include('components/exerciseUD', {exercise: exercise}); %>
+<form method="get" action="/exercise/edit/<%= exercise._id %>">
+  <button class="btn btn-warning" type="submit">Edit</button>
+</form>
+<form method="post" action="/exercise/delete/<%= exercise._id %>">
+  <button class="btn btn-danger" type="submit">Delete</button>
+</form>
 
 <canvas id="results"></canvas>
 

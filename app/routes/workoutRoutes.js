@@ -23,16 +23,6 @@ router.get('/myworkouts', (req, res) => {
 router.get('/detail/:id', (req, res) => {
   Workout.getWorkoutAndExercises(req.params.id, (err, workout) => {
     if (err) throw err;
-    console.log('******************* the workout *******************')
-    console.log(workout)
-    console.log('******************* the exercises *******************')
-    console.log(workout[0].exercises);
-    console.log('******************* the history *******************')
-    workout[0].exercises.forEach(eh => {
-      eh.exerciseHistory.forEach(h => {
-        console.log(h.dataHistory)
-      })
-    })
 
     res.render('workoutDetail', {workout: workout[0], exercises: workout[0].exercises});
   });

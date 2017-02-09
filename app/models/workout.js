@@ -48,8 +48,6 @@ module.exports.getWorkoutAndExercises = function(workoutId, cb) {
     _id: workoutId
   })
   .populate('exercises')
-  .populate('exercises.exerciseHistory')
-  .populate('exercises.exerciseHistory.dataHistory')
   .exec(cb);
 }
 
