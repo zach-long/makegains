@@ -1,0 +1,6 @@
+<li class="list-group-item">
+  <a href="/workout/detail/<%= workout._id %>"><%= workout.date %></a>
+  <form method="post" action="/workout/delete/<%= workout._id %>">
+    <button class="btn btn-danger" type="submit">Delete</button>
+  </form>
+</li>

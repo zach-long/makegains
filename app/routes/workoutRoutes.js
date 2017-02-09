@@ -19,6 +19,18 @@ router.get('/myworkouts', (req, res) => {
   });
 });
 
+// GET request to show the details of a logged workout
+router.get('/detail/:id', (req, res) => {
+  Workout.getWorkoutAndExercises(req.params.id, (err, workout) => {
+    if (err) throw err;
+    console.log(workout)
+    console.log(workout[0].exercises);
+    workout[0].exercises.forEach(e => {console.log(e)});
+
+    res.render('workoutDetail', {workout: workout[0], exercises: workout[0].exercises});
+  });
+});
+
 // GET request to display interface for logging a freeform workout
 router.get('/log', (req, res) => {
   if (req.user) {

@@ -42,6 +42,13 @@ module.exports.updateWorkout = function(workout, cb) {
   }, workout, cb);
 }
 
+// Workout method - gets exercises for this workout
+module.exports.getWorkoutAndExercises = function(workoutId, cb) {
+  Workout.find({
+    _id: workoutId
+  }).populate('exercises').exec(cb);
+}
+
 module.exports.addExercise = function(workout, cb) {
   Workout.update({
     _id: workout._id

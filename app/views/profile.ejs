@@ -36,7 +36,11 @@
     <div class="col-md-8 col-md-offset-2">
       <h3 class="text-center">Your workout history</h3>
       <% if (!workouts.length < 1) { %>
-        <p>You have completed workouts but this is not implemented yet</p>
+        <ul class="list-group">
+        <% workouts.forEach(function(workout) { %>
+          <%- include('components/workout-list-view', {workout: workout}); %>
+        <% }); %>
+        </ul>
       <% } else { %>
         <p>You have no completed workouts, get swole</p>
       <% } %>

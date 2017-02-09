@@ -1,0 +1,16 @@
+<% include partials/header %>
+
+<a href="/user">Go back</a>
+
+<h2>Workout details for your workout completed on <%= workout.date %></h2>
+
+<ul class="list-group">
+<% exercises.forEach(exercise => { %>
+  <li class="list-group-item"><a href="/exercise/detail/<%= exercise._id %>"><%= exercise.name %></a></li>
+<% }); %>
+</ul>
+
+<script src="/bower_components/chart.js/dist/Chart.min.js"></script>
+<script src="/javascript/exerciseData.js"></script>
+
+<% include partials/footer %>
