@@ -1,2 +1,2 @@
-# program-tracker
-A Node.js and MongoDB web app for easy program tracking and long-term progress aggregation.
+# MakeGains
+A Node.js and MongoDB web app for easy workout tracking and long-term progress aggregation.
