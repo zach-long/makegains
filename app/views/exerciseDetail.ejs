@@ -6,18 +6,24 @@
   <h2 class="page-header text-center">Exercise Detail page for <%= exercise.name %></h2>
   <h5 class="text-center"><%= exercise.description %></h5>
 
-  <form method="get" action="/exercise/edit/<%= exercise._id %>">
-    <button class="btn btn-warning" type="submit">Edit</button>
-  </form>
-  <form method="post" action="/exercise/delete/<%= exercise._id %>">
-    <button class="btn btn-danger" type="submit">Delete</button>
-  </form>
-
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
       <canvas id="results"></canvas>
     </div>
   </div>
+
+  <ul class="list-inline text-center">
+    <li>
+      <form method="get" action="/exercise/edit/<%= exercise._id %>">
+        <button class="btn btn-warning" type="submit">Edit</button>
+      </form>
+    </li>
+    <li>
+      <form method="post" action="/exercise/delete/<%= exercise._id %>">
+        <button class="btn btn-danger" type="submit">Delete</button>
+      </form>
+    </li>
+  </ul>
 </div>
 
 <script src="/bower_components/chart.js/dist/Chart.min.js"></script>

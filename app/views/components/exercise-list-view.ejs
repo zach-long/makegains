@@ -1,9 +1,9 @@
 <li class="list-group-item">
   <a href="/exercise/detail/<%= exercise._id %>"><%= exercise.name %></a>
-  <form method="get" action="/exercise/edit/<%= exercise._id %>">
-    <button class="btn btn-warning" type="submit">Edit</button>
-  </form>
   <form method="post" action="/exercise/delete/<%= exercise._id %>">
     <button class="btn btn-danger" type="submit">Delete</button>
+  </form>
+  <form method="get" action="/exercise/edit/<%= exercise._id %>">
+    <button class="btn btn-warning right-buffer" type="submit">Edit</button>
   </form>
 </li>
