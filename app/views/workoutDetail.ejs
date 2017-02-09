@@ -2,19 +2,28 @@
 
 <a href="/user">Go back</a>
 
-<h2>Workout details for your workout completed on <%= workout.date %></h2>
+<div class="container">
+  <h2 class="page-header text-center">Workout details for your workout completed on <%= workout.date %></h2>
 
-<ul class="list-group">
-<% exercises.forEach(exercise => { %>
-  <li class="list-group-item">
-    <a href="/exercise/detail/<%= exercise._id %>"><%= exercise.name %></a>
-    <% exercise.exerciseHistory.forEach(i => { %>
-      <% i.dataHistory.forEach(set => { %>
-        <p><%= set.repetitions %> reps at <%= set.weight %> lbs. Est. 1RM: <%= set.oneRepMax %></p>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="list-group">
+      <% exercises.forEach(exercise => { %>
+        <a class="list-group-item list-group-item-info" href="/exercise/detail/<%= exercise._id %>"><%= exercise.name %></a>
+        <ul class="list-group">
+          <% exercise.exerciseHistory.forEach(i => { %>
+            <% i.dataHistory.forEach(set => { %>
+              <li class="list-group-item"><%= set.repetitions %> reps at <%= set.weight %> lbs. Est. 1RM: <%= set.oneRepMax %></li>
+            <% }); %>
+          <% }); %>
+        </ul>
       <% }); %>
-    <% }); %>
-  </li>
-<% }); %>
-</ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/bower_components/chart.js/dist/Chart.min.js"></script>
+<script src="/javascript/exerciseData.js"></script>
 
 <% include partials/footer %>
