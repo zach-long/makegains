@@ -31,7 +31,6 @@ router.get('/detail/:id', (req, res) => {
 // GET request to display interface for logging a freeform workout
 router.get('/log', (req, res) => {
   if (req.user) {
-    console.log(res.locals)
     Exercise.getOwnExercises(req.user, (err, exercises) => {
       res.render('log', {exercises: exercises});
     });
