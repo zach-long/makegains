@@ -8,6 +8,17 @@ const User = require('./user.js');
 const Exercise = require('./exercise.js');
 const Program = require('./program.js');
 
+// define Set sub-schema
+var ExerciseSetModel = mongoose.Schema({
+  weight: Number,
+  repetitions: Number,
+  oneRepMax: Number,
+  exercise: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Exercise'
+  }
+});
+
 // define Workout model
 var WorkoutModel = mongoose.Schema({
   name: {
@@ -23,7 +34,8 @@ var WorkoutModel = mongoose.Schema({
   exercises: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Exercise'
-  }]
+  }],
+  sets: [ExerciseSetModel]
 });
 
 var Workout = module.exports = mongoose.model('Workout', WorkoutModel);
@@ -43,12 +55,10 @@ module.exports.updateWorkout = function(workout, cb) {
 }
 
 // Workout method - gets exercises for this workout
-module.exports.getWorkoutAndExercises = function(workoutId, cb) {
+module.exports.getWorkoutAndSets = function(workoutId, cb) {
   Workout.find({
     _id: workoutId
-  })
-  .populate('exercises')
-  .exec(cb);
+  }).populate('sets').exec(cb);
 }
 
 module.exports.addExercise = function(workout, cb) {
@@ -58,6 +68,17 @@ module.exports.addExercise = function(workout, cb) {
   {
     $set: {
       exercises: workout.exercises
+    }
+  }, cb);
+}
+
+module.exports.addSets = function(workout, cb) {
+  Workout.update({
+    _id: workout._id
+  },
+  {
+    $set: {
+      sets: workout.sets
     }
   }, cb);
 }

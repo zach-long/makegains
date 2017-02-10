@@ -31,7 +31,7 @@
       <% exercises.forEach(function(exercise) { %>
         <%- include('components/exerciseDisplay', {exercise: exercise}); %>
       <% }); %>
-        <form method="post" action="/workout/complete">
+        <form class="text-center" method="post" action="/workout/complete">
           <button class="btn btn-primary" type="submit">Complete program</button>
         </form>
     </div>

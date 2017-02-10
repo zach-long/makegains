@@ -21,10 +21,18 @@ router.get('/myworkouts', (req, res) => {
 
 // GET request to show the details of a logged workout
 router.get('/detail/:id', (req, res) => {
-  Workout.getWorkoutAndExercises(req.params.id, (err, workout) => {
+  Workout.getWorkoutAndSets(req.params.id, (err, workout) => {
     if (err) throw err;
 
-    res.render('workoutDetail', {workout: workout[0], exercises: workout[0].exercises});
+    console.log('displaying detail for workout');
+    console.log('returned data:')
+    console.log(workout)
+    console.log('specificating data')
+    console.log(workout[0])
+    console.log('look at sets performed:')
+    workout[0].sets.forEach(set => { console.log(set) })
+
+    res.render('workoutDetail', {workout: workout[0], sets: workout[0].sets});
   });
 });
 
@@ -58,7 +66,8 @@ router.post('/complete', (req, res) => {
       name: req.body.workoutName,
       date: new Date(),
       creator: req.user._id,
-      exercises: []
+      exercises: [],
+      sets: []
     });
 
     Workout.createWorkout(tempWorkout, (err, workout) => {
@@ -81,6 +90,10 @@ router.post('/complete', (req, res) => {
             if (exercise.sets.length > 0) {
               workout.exercises.push(exercise);
               Workout.addExercise(workout, (err, result) => {
+                if (err) throw err;
+              });
+              workout.sets.push(exercise.sets);
+              Workout.addSets(workout, (err, result) => {
                 if (err) throw err;
               });
               exercise.sets.forEach(entry => {
@@ -113,9 +126,12 @@ router.post('/complete', (req, res) => {
   }
 });
 
-// DELETE request to delete a workout
-router.delete('/delete', (req, res) => {
-
+// POST request to delete a workout
+router.post('/delete/:id', (req, res) => {
+  Workout.deleteWorkout(req.params.id, (err, result) => {
+    if (err) throw err;
+    res.redirect('/user');
+  })
 });
 
 module.exports = router;

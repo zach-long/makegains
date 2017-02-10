@@ -11,7 +11,11 @@ const Program = require('./program.js');
 var ExerciseSetModel = mongoose.Schema({
   weight: Number,
   repetitions: Number,
-  oneRepMax: Number
+  oneRepMax: Number,
+  exercise: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Exercise'
+  }
 });
 
 var ExerciseHistorySetModel = mongoose.Schema({
