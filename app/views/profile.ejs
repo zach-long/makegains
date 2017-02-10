@@ -2,13 +2,11 @@
 
 <% include partials/flashMessages %>
 
-<a href="/user/logout">Log out</a>
-
 <div class="container">
   <h2 class="page-header text-center">Wecome, <%= user.name %>.</h2>
   <div class="row">
     <div class="col-md-6">
-      <h3>Your Exercises</h3>
+      <h3 class="text-center">Your Exercises | <a href="/exercise/new">New</a></h3>
       <% if (!exercises.length < 1) { %>
         <ul class="list-group">
         <% exercises.forEach(function(exercise) { %>
@@ -20,7 +18,7 @@
       <% } %>
     </div>
     <div class="col-md-6">
-      <h3>Your Programs</h3>
+      <h3 class="text-center">Your Programs | <a href="/program/new">New</a></h3>
       <% if (!programs.length < 1) { %>
         <ul class="list-group">
         <% programs.forEach(function(program) { %>
@@ -34,7 +32,7 @@
   </div>
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
-      <h3 class="text-center">Your workout history</h3>
+      <h3 class="text-center">Your workout history | <a href="/workout/log">New</a></h3>
       <% if (!workouts.length < 1) { %>
         <ul class="list-group">
         <% workouts.forEach(function(workout) { %>
@@ -47,9 +45,5 @@
     </div>
   </div>
 </div>
-
-<a href="/exercise/new">Create an exercise</a>
-<a href="/program/new">Create a program</a>
-<a href="/workout/log">Log a workout</a>
 
 <% include partials/footer %>

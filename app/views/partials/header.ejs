@@ -15,7 +15,36 @@
   <script src="/javascript/main.js"></script>
 </head>
 <body>
-  <header class='bg-dark'>
+  <header class='bg-dark'></header>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <% if (user) { %>
+      <ul class="nav navbar-nav navbar-left">
+        <li><a href="/user">Home</a></li>
+        <li><a href="/exercise/new">New Exercise</a></li>
+        <li><a href="/program/new">New Program</a></li>
+        <li><a href="/workout/log">New Workout</a></li>
+      </ul>
+      <% } else { %>
+      <p class="navbar-text">Sign in to add exercises and log workouts</p>
+      <% } %>
+      <% if (user) { %>
+      <ul class="nav navbar-nav navbar-right no-margin">
+        <li><p class="navbar-text">Welcome, <%= user.name %>.</p></li>
+        <li><a href="/user/logout">Sign out</a></li>
+      </ul>
+      <% } else { %>
+      <form class="navbar-form navbar-right no-margin" method="post" action="/user/signin">
+        <div class="form-group">
+          <input class="form-control" type="text" placeholder="Username" name="username">
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="password" placeholder="Password" name="password">
+        </div>
+        <button class="btn btn-default" type="submit">Sign in</button>
+      </form>
+      <% } %>
+    </div>
+  </nav>
 
-  </header>
   <main>
