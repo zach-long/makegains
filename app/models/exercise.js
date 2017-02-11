@@ -28,6 +28,9 @@ var ExerciseModel = mongoose.Schema({
   description: {
     type: String
   },
+  category: {
+    type: String
+  },
   sets: [ExerciseSetModel],
   exerciseHistory: [ExerciseHistorySetModel],
   creator: {

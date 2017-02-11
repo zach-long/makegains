@@ -107,6 +107,7 @@ router.post('/new', (req, res) => {
       let newExercise = new Exercise({
         name: req.body.name,
         description: req.body.description,
+        category: req.body.category,
         creator: req.user
       });
 
