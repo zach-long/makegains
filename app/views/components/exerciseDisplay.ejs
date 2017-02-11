@@ -1,11 +1,15 @@
 <% if (exercise.sets.length > 0) { %>
 
-  <h3><%= exercise.name %></h3>
+  <h3 class="text-center"><%= exercise.name %></h3>
 
-  <h4>Performance:</h4>
+  <ul class="list-group">
   <% exercise.sets.forEach(function(set) { %>
-    <p><%= set.repetitions %> x <%= set.weight %> : <%= set.oneRepMax %></p>
-    <%- include('setUD', {exercise: exercise, set: set}) %>
+    <li class="list-group-item">
+      <p><%= set.repetitions %> x <%= set.weight %> &mdash; Est. 1RM: <% if (set.oneRepMax != null) { %><%= set.oneRepMax %><% } else { %>n/a<% } %></p>
+      <form method="post" action="/exercise/set/delete/<%= exercise._id %>/<%= set._id %>">
+        <button class="btn btn-danger" type="submit">Delete Set</button>
+      </form>
+    </li>
   <% }); %>
 
 <% } %>

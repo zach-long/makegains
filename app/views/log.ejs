@@ -27,13 +27,13 @@
       </form>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-4 col-md-offset-1">
       <% exercises.forEach(function(exercise) { %>
         <%- include('components/exerciseDisplay', {exercise: exercise}); %>
       <% }); %>
-        <form class="text-center" method="post" action="/workout/complete">
-          <button class="btn btn-primary" type="submit">Complete program</button>
-        </form>
+      <form class="text-center buffer-top" method="post" action="/workout/complete">
+        <button class="btn btn-primary" type="submit">Complete Workout</button>
+      </form>
     </div>
 
   </div>

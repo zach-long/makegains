@@ -5835,10 +5835,17 @@ button.close {
 .fill-top {
   margin-top: -20px !important; }
 
+.buffer-top {
+  margin-top: 10px; }
+
 .list-group-item {
   overflow: hidden; }
   .list-group-item a {
-    line-height: 3rem; }
+    line-height: 3.4rem; }
+  .list-group-item p {
+    line-height: 3.4rem;
+    display: inline;
+    margin: 0 0 0 0; }
   .list-group-item form {
     display: inline;
     float: right; }

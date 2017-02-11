@@ -1,5 +1,6 @@
 <li class="list-group-item">
-  <a href="/workout/detail/<%= workout._id %>"><%= workout.date %></a>
+  <% var localDate = new Date(workout.date).toLocaleString(); %>
+  <a href="/workout/detail/<%= workout._id %>"><%= localDate %></a>
   <form method="post" action="/workout/delete/<%= workout._id %>">
     <button class="btn btn-danger" type="submit">Delete</button>
   </form>

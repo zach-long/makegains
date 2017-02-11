@@ -1,9 +1,9 @@
 <% include partials/header %>
 
-<a href="/user">Go back</a>
-
 <div class="container">
-  <h2 class="page-header text-center">Workout details for your workout completed on <%= workout.date %></h2>
+  <% var localDate = new Date(workout.date).toLocaleDateString(); %>
+  <% var localTime = new Date(workout.date).toLocaleTimeString(); %>
+  <h2 class="page-header text-center">Workout details for your workout completed <%= localDate %> at <%= localTime %></h2>
 
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
@@ -24,8 +24,5 @@
     </div>
   </div>
 </div>
-
-<script src="/bower_components/chart.js/dist/Chart.min.js"></script>
-<script src="/javascript/exerciseData.js"></script>
 
 <% include partials/footer %>
