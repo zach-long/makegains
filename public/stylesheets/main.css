@@ -4416,10 +4416,6 @@ button.list-group-item-danger {
   background-color: #eeeeee;
   color: #333333; }
 
-.bg-dark {
-  background-color: #333333;
-  color: #ffffff; }
-
 .bg-flair {
   background-color: #a6211d;
   color: #ffffff; }
@@ -4458,6 +4454,8 @@ button.list-group-item-danger {
     color: #c9c9c9; }
     .navbar-default .navbar-nav li a:hover {
       color: #f2f2f2; }
+    .navbar-default .navbar-nav li a:focus {
+      color: #f2f2f2; }
 
 .navbar {
   border-bottom: 1px solid transparent;
@@ -4472,5 +4470,14 @@ main {
   flex: 1 1 auto; }
 
 footer {
-  height: 3rem;
-  min-height: 3rem; }
+  background-color: #333333;
+  color: #c9c9c9; }
+  footer a {
+    color: #c9c9c9;
+    text-decoration: underline; }
+    footer a:hover {
+      color: #f2f2f2;
+      text-decoration: none; }
+    footer a:focus {
+      color: #f2f2f2;
+      text-decoration: underline; }

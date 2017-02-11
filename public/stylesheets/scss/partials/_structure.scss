@@ -5,7 +5,7 @@ html, body {
 }
 
 header {
-  
+
 }
 
 main {
@@ -13,6 +13,19 @@ main {
 }
 
 footer {
-  height: 3rem;
-  min-height: 3rem;
+  background-color: $dark;
+  color: $darkTextDarkBackground;
+
+  a {
+    color: $darkTextDarkBackground;
+    text-decoration: underline;
+    &:hover {
+      color: $darkTextDarkBackgroundHover;
+      text-decoration: none;
+    }
+    &:focus {
+      color: $darkTextDarkBackgroundHover;
+      text-decoration: underline;
+    }
+  }
 }

@@ -33,6 +33,9 @@
         &:hover {
           color: $darkTextDarkBackgroundHover;
         }
+        &:focus {
+          color: $darkTextDarkBackgroundHover;
+        }
       }
     }
   }
