@@ -123,10 +123,14 @@ router.post('/complete', (req, res) => {
 
 // POST request to delete a workout
 router.post('/delete/:id', (req, res) => {
-  Workout.deleteWorkout(req.params.id, (err, result) => {
+  Workout.getWorkoutByWorkoutId(req.params.id, (err, workout) => {
     if (err) throw err;
 
-    res.redirect('/user');
+    workout.remove((err, result) => {
+      if (err) throw err;
+
+      res.redirect('/user');
+    });
   })
 });
 

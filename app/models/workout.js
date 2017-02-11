@@ -35,18 +35,17 @@ var WorkoutModel = mongoose.Schema({
   sets: [ExerciseSetModel]
 });
 
-var Workout = module.exports = mongoose.model('Workout', WorkoutModel);
-
-// Workout methods
-
-WorkoutModel.pre('update',function(next) {
-  this.model('User').update(
-    {},
+WorkoutModel.pre('remove',function(next) {
+  this.model('User').update({},
     { $pull: { workouts: this._id } },
     { "multi": true },
     next
   );
 })
+
+var Workout = module.exports = mongoose.model('Workout', WorkoutModel);
+
+// Workout methods
 
 // Workout method - saves a workout to the database
 module.exports.createWorkout = function(newWorkout, cb) {
@@ -91,9 +90,7 @@ module.exports.addSets = function(workout, cb) {
 
 // Workout method - deletes a workout
 module.exports.deleteWorkout = function(workout, cb) {
-  Workout.findOneAndRemove({
-    id: workout._id
-  }, cb);
+  workout.remove(cb);
 }
 
 // Workout method - returns all workouts
