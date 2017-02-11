@@ -12,10 +12,7 @@ var ExerciseSetModel = mongoose.Schema({
   weight: Number,
   repetitions: Number,
   oneRepMax: Number,
-  exercise: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Exercise'
-  }
+  exercise: String
 });
 
 var ExerciseHistorySetModel = mongoose.Schema({

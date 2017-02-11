@@ -13,10 +13,7 @@ var ExerciseSetModel = mongoose.Schema({
   weight: Number,
   repetitions: Number,
   oneRepMax: Number,
-  exercise: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Exercise'
-  }
+  exercise: String
 });
 
 // define Workout model
@@ -42,6 +39,15 @@ var Workout = module.exports = mongoose.model('Workout', WorkoutModel);
 
 // Workout methods
 
+WorkoutModel.pre('update',function(next) {
+  this.model('User').update(
+    {},
+    { $pull: { workouts: this._id } },
+    { "multi": true },
+    next
+  );
+})
+
 // Workout method - saves a workout to the database
 module.exports.createWorkout = function(newWorkout, cb) {
   newWorkout.save(cb);
@@ -55,10 +61,10 @@ module.exports.updateWorkout = function(workout, cb) {
 }
 
 // Workout method - gets exercises for this workout
-module.exports.getWorkoutAndSets = function(workoutId, cb) {
+module.exports.getWorkoutAndExercises = function(workoutId, cb) {
   Workout.find({
     _id: workoutId
-  }).populate('sets').exec(cb);
+  }).populate('exercises').exec(cb);
 }
 
 module.exports.addExercise = function(workout, cb) {

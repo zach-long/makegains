@@ -74,7 +74,7 @@ router.post('/set/add', (req, res) => {
       weight: req.body.weight,
       repetitions: req.body.reps,
       oneRepMax: estMax,
-      exercise: exercise
+      exercise: exercise.name
     }
 
     // add set to exercise.sets array

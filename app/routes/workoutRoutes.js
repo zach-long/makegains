@@ -21,18 +21,10 @@ router.get('/myworkouts', (req, res) => {
 
 // GET request to show the details of a logged workout
 router.get('/detail/:id', (req, res) => {
-  Workout.getWorkoutAndSets(req.params.id, (err, workout) => {
+  Workout.getWorkoutAndExercises(req.params.id, (err, workout) => {
     if (err) throw err;
 
-    console.log('displaying detail for workout');
-    console.log('returned data:')
-    console.log(workout)
-    console.log('specificating data')
-    console.log(workout[0])
-    console.log('look at sets performed:')
-    workout[0].sets.forEach(set => { console.log(set) })
-
-    res.render('workoutDetail', {workout: workout[0], sets: workout[0].sets});
+    res.render('workoutDetail', {workout: workout[0], exercises: workout[0].exercises, sets: workout[0].sets});
   });
 });
 
@@ -92,17 +84,20 @@ router.post('/complete', (req, res) => {
               Workout.addExercise(workout, (err, result) => {
                 if (err) throw err;
               });
-              workout.sets.push(exercise.sets);
-              Workout.addSets(workout, (err, result) => {
-                if (err) throw err;
-              });
+              console.log(exercise.sets)
               exercise.sets.forEach(entry => {
                 let placeholder = {
                   weight: entry.weight,
                   repetitions: entry.repetitions,
-                  oneRepMax: entry.oneRepMax
+                  oneRepMax: entry.oneRepMax,
+                  exercise: entry.exercise
                 }
                 newHistory.dataHistory.push(placeholder);
+                workout.sets.push(placeholder);
+              });
+
+              Workout.addSets(workout, (err, result) => {
+                if (err) throw err;
               });
 
               exercise.exerciseHistory.push(newHistory);
@@ -130,6 +125,7 @@ router.post('/complete', (req, res) => {
 router.post('/delete/:id', (req, res) => {
   Workout.deleteWorkout(req.params.id, (err, result) => {
     if (err) throw err;
+
     res.redirect('/user');
   })
 });

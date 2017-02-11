@@ -8,7 +8,18 @@
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
       <div class="list-group">
-      
+      <% exercises.forEach(exercise => { %>
+        <% console.log(exercise.name) %>
+        <a class="list-group-item" href="/exercise/detail/<%= exercise._id %>"><%= exercise.name %></a>
+        <ul class="list-group">
+        <% sets.forEach(set => { %>
+          <% console.log(set.name) %>
+          <% if (set.exercise == exercise.name) { %>
+            <li class="list-group-item"><%= set.repetitions %> reps of <%= set.weight %> lbs, Strength-Index: <%= set.oneRepMax %></li>
+          <% } %>
+        <% }); %>
+        </ul>
+      <% }); %>
       </div>
     </div>
   </div>
