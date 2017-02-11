@@ -16,3 +16,29 @@
     float: right;
   }
 }
+
+.navbar-default {
+  background-color: $dark;
+  border-color: $black;
+  border-bottom: 1px solid transparent;
+
+  .navbar-text {
+    color: $darkTextDarkBackground;
+  }
+
+  .navbar-nav {
+    li {
+      a {
+        color: $darkTextDarkBackground;
+        &:hover {
+          color: $darkTextDarkBackgroundHover;
+        }
+      }
+    }
+  }
+}
+
+.navbar {
+  border-bottom: 1px solid transparent;
+  border-radius: 0;
+}
