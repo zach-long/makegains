@@ -1,12 +1,9 @@
-"use strict";
-
-var sampleJSON = [{ "_id": "589f37a1251cc61588c4d951", "name": "Bench Press", "description": "Push a bar with your chest", "creator": "589f3792251cc61588c4d950", "__v": 0, "exerciseHistory": [{ "date": "2017-02-11T16:16:55.821Z", "_id": "589f38f7c1fbcb16052a694f", "dataHistory": [{ "weight": 150, "repetitions": 10, "oneRepMax": 200, "exercise": "Bench Press", "_id": "589f38f7c1fbcb16052a6952" }, { "weight": 155, "repetitions": 10, "oneRepMax": 206, "exercise": "Bench Press", "_id": "589f38f7c1fbcb16052a6951" }, { "weight": 155, "repetitions": 9, "oneRepMax": 201, "exercise": "Bench Press", "_id": "589f38f7c1fbcb16052a6950" }] }, { "date": "2017-02-11T16:23:21.303Z", "_id": "589f3a79b17af816f5cc8023", "dataHistory": [{ "weight": 155, "repetitions": 10, "oneRepMax": 206, "exercise": "Bench Press", "_id": "589f3a79b17af816f5cc8025" }, { "weight": 160, "repetitions": 10, "oneRepMax": 213, "exercise": "Bench Press", "_id": "589f3a79b17af816f5cc8024" }] }, { "date": "2017-02-11T16:38:56.177Z", "_id": "589f3e20c665041904fa2eb4", "dataHistory": [{ "weight": 160, "repetitions": 10, "oneRepMax": 213, "exercise": "Bench Press", "_id": "589f3e20c665041904fa2eb7" }, { "weight": 160, "repetitions": 10, "oneRepMax": 213, "exercise": "Bench Press", "_id": "589f3e20c665041904fa2eb6" }, { "weight": 160, "repetitions": 9, "oneRepMax": 207, "exercise": "Bench Press", "_id": "589f3e20c665041904fa2eb5" }] }, { "date": "2017-02-11T16:48:53.340Z", "_id": "589f4075378f8f1c13fe88cf", "dataHistory": [{ "weight": 290, "repetitions": 12, "oneRepMax": 414, "exercise": "Bench Press", "_id": "589f4075378f8f1c13fe88d0" }] }, { "date": "2017-02-11T16:58:27.658Z", "_id": "589f42b37f922f1d90f9941a", "dataHistory": [{ "weight": 123, "repetitions": 124, "exercise": "Bench Press", "_id": "589f42b37f922f1d90f9941b" }] }, { "date": "2017-02-11T17:24:26.946Z", "_id": "589f48ca7f922f1d90f99428", "dataHistory": [{ "weight": 160, "repetitions": 12, "oneRepMax": 228, "exercise": "Bench Press", "_id": "589f48ca7f922f1d90f9942b" }, { "weight": 160, "repetitions": 12, "oneRepMax": 228, "exercise": "Bench Press", "_id": "589f48ca7f922f1d90f9942a" }, { "weight": 160, "repetitions": 10, "oneRepMax": 213, "exercise": "Bench Press", "_id": "589f48ca7f922f1d90f99429" }] }], "sets": [] }, { "_id": "589f37ad251cc61588c4d952", "name": "Incline Dumbbell Press", "description": "", "creator": "589f3792251cc61588c4d950", "__v": 0, "exerciseHistory": [{ "date": "2017-02-11T16:16:55.837Z", "_id": "589f38f7c1fbcb16052a6955", "dataHistory": [{ "weight": 50, "repetitions": 10, "oneRepMax": 66, "exercise": "Incline Dumbbell Press", "_id": "589f38f7c1fbcb16052a6958" }, { "weight": 50, "repetitions": 10, "oneRepMax": 66, "exercise": "Incline Dumbbell Press", "_id": "589f38f7c1fbcb16052a6957" }, { "weight": 50, "repetitions": 10, "oneRepMax": 66, "exercise": "Incline Dumbbell Press", "_id": "589f38f7c1fbcb16052a6956" }] }, { "date": "2017-02-11T16:23:21.315Z", "_id": "589f3a79b17af816f5cc8027", "dataHistory": [{ "weight": 55, "repetitions": 12, "oneRepMax": 78, "exercise": "Incline Dumbbell Press", "_id": "589f3a79b17af816f5cc8028" }] }, { "date": "2017-02-11T16:38:56.193Z", "_id": "589f3e20c665041904fa2eba", "dataHistory": [{ "weight": 55, "repetitions": 12, "oneRepMax": 78, "exercise": "Incline Dumbbell Press", "_id": "589f3e20c665041904fa2ebc" }, { "weight": 55, "repetitions": 12, "oneRepMax": 78, "exercise": "Incline Dumbbell Press", "_id": "589f3e20c665041904fa2ebb" }] }, { "date": "2017-02-11T17:24:26.959Z", "_id": "589f48ca7f922f1d90f9942f", "dataHistory": [{ "weight": 60, "repetitions": 12, "oneRepMax": 85, "exercise": "Incline Dumbbell Press", "_id": "589f48ca7f922f1d90f99432" }, { "weight": 60, "repetitions": 12, "oneRepMax": 85, "exercise": "Incline Dumbbell Press", "_id": "589f48ca7f922f1d90f99431" }, { "weight": 60, "repetitions": 12, "oneRepMax": 85, "exercise": "Incline Dumbbell Press", "_id": "589f48ca7f922f1d90f99430" }] }], "sets": [] }, { "_id": "589f37b6251cc61588c4d953", "name": "Chest Fly (Machine)", "description": "", "creator": "589f3792251cc61588c4d950", "__v": 0, "exerciseHistory": [{ "date": "2017-02-11T16:16:55.857Z", "_id": "589f38f7c1fbcb16052a695c", "dataHistory": [{ "weight": 120, "repetitions": 12, "oneRepMax": 171, "exercise": "Chest Fly (Machine)", "_id": "589f38f7c1fbcb16052a695f" }, { "weight": 120, "repetitions": 12, "oneRepMax": 171, "exercise": "Chest Fly (Machine)", "_id": "589f38f7c1fbcb16052a695e" }, { "weight": 120, "repetitions": 12, "oneRepMax": 171, "exercise": "Chest Fly (Machine)", "_id": "589f38f7c1fbcb16052a695d" }] }, { "date": "2017-02-11T16:38:56.220Z", "_id": "589f3e20c665041904fa2ec0", "dataHistory": [{ "weight": 125, "repetitions": 12, "oneRepMax": 178, "exercise": "Chest Fly (Machine)", "_id": "589f3e20c665041904fa2ec3" }, { "weight": 155, "repetitions": 12, "oneRepMax": 221, "exercise": "Chest Fly (Machine)", "_id": "589f3e20c665041904fa2ec2" }, { "weight": 155, "repetitions": 12, "oneRepMax": 221, "exercise": "Chest Fly (Machine)", "_id": "589f3e20c665041904fa2ec1" }] }, { "date": "2017-02-11T17:24:26.988Z", "_id": "589f48ca7f922f1d90f99435", "dataHistory": [{ "weight": 120, "repetitions": 15, "exercise": "Chest Fly (Machine)", "_id": "589f48ca7f922f1d90f99437" }, { "weight": 120, "repetitions": 14, "exercise": "Chest Fly (Machine)", "_id": "589f48ca7f922f1d90f99436" }] }], "sets": [] }, { "_id": "589fa43e8a47ef0ca0ea92aa", "name": "Bicep Curl", "description": "Curl", "category": "Arms", "creator": "589f3792251cc61588c4d950", "__v": 0, "exerciseHistory": [], "sets": [] }, { "_id": "58a084e56af5c40cbf2d7af4", "name": "Crunch", "description": "", "category": "Core", "creator": "589f3792251cc61588c4d950", "__v": 0, "exerciseHistory": [], "sets": [] }];
+'use strict';
 
 // makes an ajax request for a user's exercises, programs, or workouts
 // then displays it on the DOM in the appropriate location
-/*
 function getUserAssets(url, delimeter) {
-  let path;
+  var path = void 0;
 
   if (delimeter !== null) {
     path = url + '/' + delimeter;
@@ -14,29 +11,16 @@ function getUserAssets(url, delimeter) {
     path = url;
   }
 
-  get(path)
-  .then(response => {
-    let data = JSON.parse(response);
+  get(path).then(function (response) {
+    var data = JSON.parse(response);
 
-    handleSpecificResponseType(data)
-    .then(formattedResponse => {
-      displayResponse(typeOfData, formattedResponse);
-
-    }, err => {
+    handleSpecificResponseType(data).then(function (identifiedData) {
+      displayResponse(identifiedData.data, identifiedData.type);
+    }, function (err) {
       console.log('Error in function "handleSpecficResponseType()"');
     });
-
-  }, err => {
+  }, function (err) {
     console.log('Error retrieving data in "getUserAssets()"');
-  });
-}
-*/
-function getUserAssetsTest(json, delimeter) {
-
-  handleSpecificResponseType(json).then(function (data) {
-    displayResponse(data.data, data.type);
-  }, function (error) {
-    console.log('Error in function "handleSpecficResponseType()" - ' + error);
   });
 }
 
@@ -70,18 +54,18 @@ function displayResponse(response, typeOfData) {
   if (typeOfData = 'exercise') {
     appendTo = document.getElementById('exercises');
     ul.innerHTML = response.map(function (exercise) {
-      return "<li class=\"list-group-item\">\n                <a href=\"/exercise/detail/" + exercise._id + "\">" + exercise.name + "</a>\n                <form method=\"post\" action=\"/exercise/delete/" + exercise._id + "\">\n                  <button class=\"btn btn-danger\" type=\"submit\">Delete</button>\n                </form>\n                <form method=\"get\" action=\"/exercise/edit/" + exercise.name + "\">\n                  <button class=\"btn btn-warning right-buffer\" type=\"submit\">Edit</button>\n                </form>\n              </li>";
+      return '<li class="list-group-item">\n                <a href="/exercise/detail/' + exercise._id + '">' + exercise.name + '</a>\n                <form method="post" action="/exercise/delete/' + exercise._id + '">\n                  <button class="btn btn-danger" type="submit">Delete</button>\n                </form>\n                <form method="get" action="/exercise/edit/' + exercise.name + '">\n                  <button class="btn btn-warning right-buffer" type="submit">Edit</button>\n                </form>\n              </li>';
     }).join('');
   } else if (typeOfData = 'workout') {
     appendTo = document.getElementById('workouts');
     ul.innerHTML = response.map(function (workout) {
       var localDate = new Date(workout.date).toLocaleString();
-      return "<li class=\"list-group-item\">\n                <a href=\"/workout/detail/" + workout._id + "\">" + localDate + "</a>\n                <form method=\"post\" action=\"/workout/delete/" + workout._id + "\">\n                  <button class=\"btn btn-danger\" type=\"submit\">Delete</button>\n                </form>\n              </li>";
+      return '<li class="list-group-item">\n                <a href="/workout/detail/' + workout._id + '">' + localDate + '</a>\n                <form method="post" action="/workout/delete/' + workout._id + '">\n                  <button class="btn btn-danger" type="submit">Delete</button>\n                </form>\n              </li>';
     }).join('');
   } else {
     appendTo = document.getElementById('programs');
     ul.innerHTML = response.map(function (program) {
-      return "<li class=\"list-group-item\">\n                <a href=\"/program/detail/" + program._id + "\">" + program.name + "</a>\n                <!--\n                <form method=\"get\" action=\"/program/edit/" + program._id + "\">\n                  <button class=\"btn btn-warning\" type=\"submit\">Edit</button>\n                </form>\n                <form method=\"post\" action=\"/program/delete/" + program._id + "\">\n                  <button class=\"btn btn-danger\" type=\"submit\">Delete</button>\n                </form>\n                -->\n              </li>";
+      return '<li class="list-group-item">\n                <a href="/program/detail/' + program._id + '">' + program.name + '</a>\n                <!--\n                <form method="get" action="/program/edit/' + program._id + '">\n                  <button class="btn btn-warning" type="submit">Edit</button>\n                </form>\n                <form method="post" action="/program/delete/' + program._id + '">\n                  <button class="btn btn-danger" type="submit">Delete</button>\n                </form>\n                -->\n              </li>';
     }).join('');
   }
   appendTo.appendChild(ul);
@@ -102,8 +86,6 @@ function isProgram(sample) {
   }
 }
 
-getUserAssetsTest(sampleJSON, null);
-
-//getUserAssets('localhost:3000/user/exercises', null);
-//getUserAssets('localhost:3000/user/programs', null);
-//getUserAssets('localhost:3000/user/workouts', null);
+getUserAssets('https://makegains.herokuapp.com/user/exercises', null);
+getUserAssets('https://makegains.herokuapp.com/user/programs', null);
+getUserAssets('https://makegains.herokuapp.com/user/workouts', null);
