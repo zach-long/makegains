@@ -30,19 +30,22 @@ function handleSpecificResponseType(json) {
   return new Promise(function (resolve, reject) {
 
     var sampleCase = json[0];
-    var response = { data: json };
+    var response = {};
     if (isExercise(sampleCase)) {
+      response.data = json;
       response.type = 'exercise';
       resolve(response);
     } else if (isWorkout(sampleCase)) {
+      response.data = json;
       response.type = 'workout';
       resolve(response);
     } else if (isProgram(sampleCase)) {
+      response.data = json;
       response.type = 'program';
       resolve(response);
     } else {
-      response.type = 'none';
       response.data = 'You have no data for this yet!';
+      response.type = 'none';
       resolve(response);
     }
 
