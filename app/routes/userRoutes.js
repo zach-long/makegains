@@ -14,21 +14,50 @@ const Program = require('../models/program.js');
 const Exercise = require('../models/exercise.js');
 const Workout = require('../models/workout.js');
 
+// API request to return all of a user's programs
+router.get('/programs', (req, res) => {
+  User.getPrograms(req.user, null, (err, programs) => {
+    if (err) throw err;
+    res.json(programs);
+  });
+});
+
+// API request to return a user's workouts by date
+router.get('/workouts/:timePeriod', (req, res) => {
+  User.getWorkouts(req.user, req.params.timePeriod, (err, workouts) => {
+    if (err) throw err;
+    res.json(exercises);
+  });
+});
+
+// API request to return all of a user's workouts
+router.get('/workouts', (req, res) => {
+  User.getWorkouts(req.user, null, (err, workouts) => {
+    if (err) throw err;
+    res.json(workouts);
+  });
+});
+
+// API request to return a user's exercises by category
+router.get('/exercises/:category', (req, res) => {
+  User.getExercises(req.user, req.params.category, (err, exercises) => {
+    if (err) throw err;
+    res.json(exercises);
+  });
+});
+
+// API request to return all of a user's exercises
+router.get('/exercises', (req, res) => {
+  User.getExercises(req.user, null, (err, exercises) => {
+    if (err) throw err;
+    res.json(exercises);
+  });
+});
+
 // get request for user profile page
 router.get('/', (req, res) => {
   if (req.user) {
-    Program.getOwnPrograms(req.user, (err, programs) => {
-      if (err) throw err;
-
-      Exercise.getOwnExercises(req.user, (err, exercises) => {
-        if (err) throw err;
-
-        Workout.getOwnWorkouts(req.user, (err, workouts) => {
-          if (err) throw err;
-          res.render('profile', {programs: programs, exercises: exercises, workouts: workouts});
-        });
-      });
-    });
+    res.render('profile');
 
   } else {
     // user is not authenticated

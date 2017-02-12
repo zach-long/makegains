@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 // import models
 const Program = require('./program.js');
 const Exercise = require('./exercise.js');
+const Workout = require('./workout.js');
 
 // define User model
 var UserModel = mongoose.Schema({
@@ -146,6 +147,43 @@ module.exports.getPrograms = function(programCreator, cb) {
 }
 
 // User method - returns all exercises belonging to a user
-module.exports.getExercises = function(exerciseCreator, cb) {
-  Exercise.find({creator: exerciseCreator._id}, cb);
+module.exports.getExercises = function(exerciseCreator, category, cb) {
+  if (category !== null) {
+    Exercise.find({
+      creator: exerciseCreator._id,
+      category: category
+    }, cb);
+  } else {
+    Exercise.find({
+      creator: exerciseCreator._id
+    }, cb);
+  }
+}
+
+// User method - returns all exercises belonging to a user
+module.exports.getWorkouts = function(workoutCreator, timePeriod, cb) {
+  if (timePeriod !== null) {
+    Workout.find({
+      creator: workoutCreator._id,
+      date: timePeriod
+    }, cb);
+  } else {
+    Workout.find({
+      creator: workoutCreator._id
+    }, cb);
+  }
+}
+
+// User method - returns all exercises belonging to a user
+module.exports.getPrograms = function(programCreator, category, cb) {
+  if (category !== null) {
+    Program.find({
+      creator: programCreator._id,
+      category: category
+    }, cb);
+  } else {
+    Program.find({
+      creator: programCreator._id
+    }, cb);
+  }
 }
