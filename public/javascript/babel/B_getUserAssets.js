@@ -42,10 +42,11 @@ function handleSpecificResponseType(json) {
       response.type = 'program';
 
     } else {
-      var errorMessage = 'An error has occured parsing the server response';
+      response.type = 'none';
+      response.data = 'You have no data for this yet!';
     }
 
-    errorMessage === undefined ? resolve(response) : reject(Error(errorMessage));
+    resolve(response);
   });
 }
 
@@ -55,7 +56,7 @@ function displayResponse(response, typeOfData) {
   let ul = document.createElement('ul');
   ul.classList.add('list-group');
 
-  if (typeOfData = 'exercise') {
+  if (typeOfData == 'exercise') {
     appendTo = document.getElementById('exercises');
     ul.innerHTML = response.map(exercise => {
       return `<li class="list-group-item">
@@ -69,7 +70,7 @@ function displayResponse(response, typeOfData) {
               </li>`
     }).join('');
 
-  } else if (typeOfData = 'workout') {
+  } else if (typeOfData == 'workout') {
     appendTo = document.getElementById('workouts');
     ul.innerHTML = response.map(workout => {
       let localDate = new Date(workout.date).toLocaleString();
@@ -81,7 +82,7 @@ function displayResponse(response, typeOfData) {
               </li>`
     }).join('');
 
-  } else {
+  } else if (typeOfData == 'program') {
     appendTo = document.getElementById('programs');
     ul.innerHTML = response.map(program => {
       return `<li class="list-group-item">
@@ -97,6 +98,15 @@ function displayResponse(response, typeOfData) {
               </li>`
     }).join('');
 
+  } else {
+    ul.innerHTML = `<li class="list-group-item">${response}`;
+    if (document.getElementById('exercises').innerHTML.length < 100) {
+      appendTo = document.getElementById('exercises');
+    } else if (document.getElementById('workouts').innerHTML.length < 100) {
+      appendTo = document.getElementById('workouts');
+    } else {
+      appendTo = document.getElementById('programs');
+    }
   }
   appendTo.appendChild(ul);
 }

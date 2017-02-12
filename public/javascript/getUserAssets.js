@@ -38,10 +38,11 @@ function handleSpecificResponseType(json) {
     } else if (isProgram(sampleCase)) {
       response.type = 'program';
     } else {
-      var errorMessage = 'An error has occured parsing the server response';
+      response.type = 'none';
+      response.data = 'You have no data for this yet!';
     }
 
-    errorMessage === undefined ? resolve(response) : reject(Error(errorMessage));
+    resolve(response);
   });
 }
 
@@ -51,22 +52,31 @@ function displayResponse(response, typeOfData) {
   var ul = document.createElement('ul');
   ul.classList.add('list-group');
 
-  if (typeOfData = 'exercise') {
+  if (typeOfData == 'exercise') {
     appendTo = document.getElementById('exercises');
     ul.innerHTML = response.map(function (exercise) {
       return '<li class="list-group-item">\n                <a href="/exercise/detail/' + exercise._id + '">' + exercise.name + '</a>\n                <form method="post" action="/exercise/delete/' + exercise._id + '">\n                  <button class="btn btn-danger" type="submit">Delete</button>\n                </form>\n                <form method="get" action="/exercise/edit/' + exercise.name + '">\n                  <button class="btn btn-warning right-buffer" type="submit">Edit</button>\n                </form>\n              </li>';
     }).join('');
-  } else if (typeOfData = 'workout') {
+  } else if (typeOfData == 'workout') {
     appendTo = document.getElementById('workouts');
     ul.innerHTML = response.map(function (workout) {
       var localDate = new Date(workout.date).toLocaleString();
       return '<li class="list-group-item">\n                <a href="/workout/detail/' + workout._id + '">' + localDate + '</a>\n                <form method="post" action="/workout/delete/' + workout._id + '">\n                  <button class="btn btn-danger" type="submit">Delete</button>\n                </form>\n              </li>';
     }).join('');
-  } else {
+  } else if (typeOfData == 'program') {
     appendTo = document.getElementById('programs');
     ul.innerHTML = response.map(function (program) {
       return '<li class="list-group-item">\n                <a href="/program/detail/' + program._id + '">' + program.name + '</a>\n                <!--\n                <form method="get" action="/program/edit/' + program._id + '">\n                  <button class="btn btn-warning" type="submit">Edit</button>\n                </form>\n                <form method="post" action="/program/delete/' + program._id + '">\n                  <button class="btn btn-danger" type="submit">Delete</button>\n                </form>\n                -->\n              </li>';
     }).join('');
+  } else {
+    ul.innerHTML = '<li class="list-group-item">' + response;
+    if (document.getElementById('exercises').innerHTML.length < 100) {
+      appendTo = document.getElementById('exercises');
+    } else if (document.getElementById('workouts').innerHTML.length < 100) {
+      appendTo = document.getElementById('workouts');
+    } else {
+      appendTo = document.getElementById('programs');
+    }
   }
   appendTo.appendChild(ul);
 }
