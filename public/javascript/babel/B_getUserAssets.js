@@ -120,7 +120,7 @@ function isExercise(sample) {
   return sample.hasOwnProperty('exerciseHistory') ? true : false;
 }
 function isWorkout(sample) {
-  return sample.hasOwnProperty('exercises') ? true : false;
+  return sample.hasOwnProperty('date') ? true : false;
 }
 function isProgram(sample) {
   if (!isExercise(sample) && !isWorkout(sample)) {
