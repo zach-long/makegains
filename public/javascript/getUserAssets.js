@@ -59,7 +59,7 @@ function displayResponse(response, typeOfData) {
   if (typeOfData == 'exercise') {
     appendTo = document.getElementById('exercises');
     ul.innerHTML = response.map(function (exercise) {
-      return '<li class="list-group-item">\n                <a href="/exercise/detail/' + exercise._id + '">' + exercise.name + '</a>\n                <form method="post" action="/exercise/delete/' + exercise._id + '">\n                  <button class="btn btn-danger" type="submit">Delete</button>\n                </form>\n                <form method="get" action="/exercise/edit/' + exercise.name + '">\n                  <button class="btn btn-warning right-buffer" type="submit">Edit</button>\n                </form>\n              </li>';
+      return '<li class="list-group-item">\n                <a href="/exercise/detail/' + exercise._id + '">' + exercise.name + '</a>\n                <form method="post" action="/exercise/delete/' + exercise._id + '">\n                  <button class="btn btn-danger" type="submit">Delete</button>\n                </form>\n                <form method="get" action="/exercise/edit/' + exercise._id + '">\n                  <button class="btn btn-warning right-buffer" type="submit">Edit</button>\n                </form>\n              </li>';
     }).join('');
   } else if (typeOfData == 'workout') {
     appendTo = document.getElementById('workouts');

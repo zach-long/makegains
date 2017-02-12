@@ -68,7 +68,7 @@ function displayResponse(response, typeOfData) {
                 <form method="post" action="/exercise/delete/${exercise._id}">
                   <button class="btn btn-danger" type="submit">Delete</button>
                 </form>
-                <form method="get" action="/exercise/edit/${exercise.name}">
+                <form method="get" action="/exercise/edit/${exercise._id}">
                   <button class="btn btn-warning right-buffer" type="submit">Edit</button>
                 </form>
               </li>`

@@ -160,7 +160,8 @@ router.post('/edit/:id', (req, res) => {
   // define new exercise information
   let newParams = {
     name: req.body.name,
-    description: req.body.description
+    description: req.body.description,
+    category: req.body.category
   }
   // update the exercise with requested information
   Exercise.getExerciseByExerciseId(req.params.id, (err, exercise) => {
