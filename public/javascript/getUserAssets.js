@@ -25,7 +25,7 @@ function getUserAssets(url, delimeter) {
 }
 
 // determines whether the response was an exercise or a program or a workout
-// then returns a formatted version of the data
+// then assigns a type to it for further processing
 function handleSpecificResponseType(json) {
   return new Promise(function (resolve, reject) {
 
@@ -33,16 +33,20 @@ function handleSpecificResponseType(json) {
     var response = { data: json };
     if (isExercise(sampleCase)) {
       response.type = 'exercise';
+      resolve(response);
     } else if (isWorkout(sampleCase)) {
       response.type = 'workout';
+      resolve(response);
     } else if (isProgram(sampleCase)) {
       response.type = 'program';
+      resolve(response);
     } else {
       response.type = 'none';
       response.data = 'You have no data for this yet!';
+      resolve(response);
     }
 
-    resolve(response);
+    reject(Error('An error has occured, sorry this isn\'t more specific!'));
   });
 }
 
