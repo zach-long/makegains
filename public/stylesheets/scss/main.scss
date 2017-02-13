@@ -1,4 +1,6 @@
-@import 'bootstrap';
+@import 'modules/bootstrap-override';
+
+@import '../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap';
 
 @import 'variables/colors';
 

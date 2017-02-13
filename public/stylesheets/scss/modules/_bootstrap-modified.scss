@@ -30,6 +30,7 @@
     li {
       a {
         color: $darkTextDarkBackground;
+        transition: color 100ms;
         &:hover {
           color: $darkTextDarkBackgroundHover;
         }
@@ -45,3 +46,41 @@
   border-bottom: 1px solid transparent;
   border-radius: 0;
 }
+
+.btn {
+  border-radius: 2px;
+}
+
+@mixin btn($bg, $bord, $bgDark, $bordDark) {
+  background-color: $bg;
+  border-color: $bord;
+  &:hover {
+    background-color: $bgDark;
+    border-color: $bordDark;
+  }
+  &:focus {
+    background-color: $bgDark;
+    border-color: $bordDark;
+  }
+}
+
+.btn-default, .btn-warning, .btn-danger, .btn-primary {
+  transition: background-color 200ms, border-color 200ms;
+}
+
+.btn-default {
+  @include btn($default, $defaultBorder, $defaultDarken, $defaultBorderDarken);
+}
+/*
+.btn-warning {
+  @include btn($warn, $warnBorder, $warnDarken, $warnBorderDarken);
+}
+
+.btn-danger {
+  @include btn($danger, $dangerBorder, $dangerDarken, $dangerBorderDarken);
+}
+
+.btn-primary {
+  @include btn($primary, $primaryBorder, $primaryDarken, $primaryBorderDarken);
+}
+*/

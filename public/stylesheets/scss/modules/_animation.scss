@@ -33,7 +33,6 @@
     0% { @include transform(rotate(0deg)); }
     100% { @include transform(rotate(359deg)); }
   }
-  @include animation(spin 1000ms infinite linear);
+  @include animation(spin 1750ms infinite linear);
   font-size: 2.5em;
-  padding-top: 1em;
 }

@@ -103,6 +103,9 @@ function _DEV_isProgram(sample) {
   }
 }
 
-_DEV_getUserAssets(jsonExercises, null);
-_DEV_getUserAssets(jsonWorkouts, null);
-_DEV_getUserAssets(jsonPrograms, null);
+// simulate loading
+setTimeout(function () {
+  _DEV_getUserAssets(jsonExercises, null);
+  _DEV_getUserAssets(jsonWorkouts, null);
+  _DEV_getUserAssets(jsonPrograms, null);
+}, 2000);
