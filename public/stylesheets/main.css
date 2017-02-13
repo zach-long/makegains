@@ -4461,6 +4461,31 @@ button.list-group-item-danger {
   border-bottom: 1px solid transparent;
   border-radius: 0; }
 
+.spin {
+  -webkit-animation-name: spin;
+  -moz-animation-name: spin;
+  animation-name: spin;
+  -webkit-animation: spin 1000ms infinite linear;
+  animation: spin 1000ms infinite linear;
+  font-size: 2.5em;
+  padding-top: 1em; }
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg); } }
+
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg); } }
+
 html, body {
   min-height: 100vh;
   display: flex;

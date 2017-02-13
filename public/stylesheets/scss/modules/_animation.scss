@@ -1,0 +1,39 @@
+// cross browser friendly animation call
+@mixin animation($type) {
+  -webkit-animation: $type;
+  animation: $type;
+}
+
+// cross browser friendly animation name mixin
+@mixin animationName($name) {
+  -webkit-animation-name: $name;
+  -moz-animation-name: $name;
+  animation-name: $name;
+}
+
+// cross browser friendly keyframe mixin
+@mixin keyframe($name) {
+  @-webkit-keyframes #{$name} {
+    @content;
+  }
+  @keyframes #{$name} {
+    @content;
+  }
+}
+
+// cross browser friendly animation declaration mixin
+@mixin transform($style) {
+  -webkit-transform: $style;
+  transform: $style;
+}
+
+.spin {
+  @include animationName(spin);
+  @include keyframe(spin) {
+    0% { @include transform(rotate(0deg)); }
+    100% { @include transform(rotate(359deg)); }
+  }
+  @include animation(spin 1000ms infinite linear);
+  font-size: 2.5em;
+  padding-top: 1em;
+}
