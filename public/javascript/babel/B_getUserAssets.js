@@ -9,6 +9,7 @@ function getUserAssets(url, delimeter) {
     path = url;
   }
 
+  // flow of logic
   get(path)
   .then(response => {
     let data = JSON.parse(response);
@@ -30,39 +31,55 @@ function getUserAssets(url, delimeter) {
 function handleSpecificResponseType(json) {
   return new Promise((resolve, reject) => {
 
+    // use the first index of the returned json as a sample to determine the type of the dataset
     let sampleCase = json[0];
+    // initialize the empty data object
     let response = {};
-    if (isExercise(sampleCase)) {
+    // If there is not data
+    if (sampleCase === undefined) {
+      response.data = 'You have no data for this yet!';
+      response.type = 'none';
+      resolve(response);
+
+    // If the data is an Exercise
+    } else if (isExercise(sampleCase)) {
       response.data = json;
       response.type = 'exercise';
       resolve(response);
 
+    // If the data is a workout
     } else if (isWorkout(sampleCase)) {
       response.data = json;
       response.type = 'workout';
       resolve(response);
 
+    // If the data is a program
     } else if (isProgram(sampleCase)) {
       response.data = json;
       response.type = 'program';
       resolve(response);
 
+    // I messed up
     } else {
-      response.data = 'You have no data for this yet!';
-      response.type = 'none';
-      resolve(response);
+      reject(Error('An error has occured, sorry this isn\'t more specific!'));
     }
-
-    reject(Error('An error has occured, sorry this isn\'t more specific!'));
   });
 }
 
 // writes the reponse to the DOM based on what type of data is received
 function displayResponse(response, typeOfData) {
+  // Hide the loading animation
+  let loadingFields = document.getElementsByClassName('loading');
+  for (let i = 0; i < loadingFields.length; i++) {
+    loadingFields[i].classList.add('hidden');
+  }
+
+  // initialize HTML which is a part of every DOM addition
   let appendTo;
   let ul = document.createElement('ul');
   ul.classList.add('list-group');
 
+  // create HTML for every json object, concatenate
   if (typeOfData == 'exercise') {
     appendTo = document.getElementById('exercises');
     ul.innerHTML = response.map(exercise => {
@@ -105,16 +122,27 @@ function displayResponse(response, typeOfData) {
               </li>`
     }).join('');
 
-  } else {
-    ul.innerHTML = `<li class="list-group-item">${response}`;
-    if (document.getElementById('exercises').innerHTML.length < 100) {
+  // else if - displays the HTML for when no data is present
+  } else if (typeOfData == 'none') {
+    if (document.getElementById('exercises').innerHTML.length < 170) {
       appendTo = document.getElementById('exercises');
-    } else if (document.getElementById('workouts').innerHTML.length < 100) {
+      ul.innerHTML = `<li class="list-group-item text-center">Add exercises to your account so you can add them to programs, log them in your workouts, and track your progress!</li>`;
+
+    } else if (document.getElementById('workouts').innerHTML.length < 170) {
       appendTo = document.getElementById('workouts');
+      ul.innerHTML = `<li class="list-group-item text-center">You don't have any workouts logged yet! Add exercises so you can include them in logged workouts. Workouts can be free-form or follow a pre-defined program. Track your workouts so can start recording progress!</li>`;
+
     } else {
       appendTo = document.getElementById('programs');
+      ul.innerHTML = `<li class="list-group-item text-center">Have a few workouts that are "set-in-stone"? Input a your workout program so you can use it as a template while logging sets!</li>`;
     }
+
+  // Something bad happened
+  } else {
+    alert(":(");
   }
+
+  // Apply result to the DOM
   appendTo.appendChild(ul);
 }
 
@@ -133,6 +161,7 @@ function isProgram(sample) {
   }
 }
 
+// GET initial data from the server
 getUserAssets('https://makegains.herokuapp.com/user/exercises', null);
 getUserAssets('https://makegains.herokuapp.com/user/programs', null);
 getUserAssets('https://makegains.herokuapp.com/user/workouts', null);
