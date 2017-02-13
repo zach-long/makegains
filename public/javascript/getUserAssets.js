@@ -98,10 +98,10 @@ function displayResponse(response, typeOfData) {
 
     // else if - displays the HTML for when no data is present
   } else if (typeOfData == 'none') {
-    if (document.getElementById('exercises').innerHTML.length < 170) {
+    if (document.getElementById('exercises').innerHTML.length < 300) {
       appendTo = document.getElementById('exercises');
       ul.innerHTML = '<li class="list-group-item text-center">Add exercises to your account so you can add them to programs, log them in your workouts, and track your progress!</li>';
-    } else if (document.getElementById('workouts').innerHTML.length < 170) {
+    } else if (document.getElementById('workouts').innerHTML.length < 300) {
       appendTo = document.getElementById('workouts');
       ul.innerHTML = '<li class="list-group-item text-center">You don\'t have any workouts logged yet! Add exercises so you can include them in logged workouts. Workouts can be free-form or follow a pre-defined program. Track your workouts so can start recording progress!</li>';
     } else {
