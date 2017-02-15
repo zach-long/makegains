@@ -11,11 +11,16 @@ function getUserAssets(url, delimeter) {
     path = url;
   }
 
+  // define type of request
+  var tempArray = url.split('/');
+  var reqType = tempArray.pop();
+  console.log(reqType);
+
   // flow of logic
   get(path).then(function (response) {
     var data = JSON.parse(response);
 
-    handleSpecificResponseType(data).then(function (identifiedData) {
+    handleSpecificResponseType(data, reqType).then(function (identifiedData) {
       displayResponse(identifiedData.data, identifiedData.type);
     }, function (err) {
       console.log('Error in function "handleSpecficResponseType()"');
@@ -27,41 +32,38 @@ function getUserAssets(url, delimeter) {
 
 // determines whether the response was an exercise or a program or a workout
 // then assigns a type to it for further processing
-function handleSpecificResponseType(json) {
+function handleSpecificResponseType(json, reqType) {
   return new Promise(function (resolve, reject) {
 
-    // use the first index of the returned json as a sample to determine the type of the dataset
-    var sampleCase = json[0];
-    // initialize the empty data object
+    // check if data exists by sampling json data
+    var sample = json[0];
+
+    // initialize empty response object
     var response = {};
-    // If there is not data
-    if (sampleCase === undefined) {
-      response.data = 'You have no data for this yet!';
-      response.type = 'none';
-      resolve(response);
 
-      // If the data is an Exercise
-    } else if (isExercise(sampleCase)) {
-      response.data = json;
-      response.type = 'exercise';
-      resolve(response);
+    // call function to display data based on type
+    switch (reqType) {
+      case 'exercises':
+        response.type = 'exercises';
+        break;
 
-      // If the data is a workout
-    } else if (isWorkout(sampleCase)) {
-      response.data = json;
-      response.type = 'workout';
-      resolve(response);
+      case 'workouts':
+        response.type = 'workouts';
+        break;
 
-      // If the data is a program
-    } else if (isProgram(sampleCase)) {
-      response.data = json;
-      response.type = 'program';
-      resolve(response);
-
-      // I messed up
-    } else {
-      reject(Error('An error has occured, sorry this isn\'t more specific!'));
+      case 'programs':
+        response.type = 'programs';
+        break;
     }
+
+    // determined whether data is existant
+    if (sample === undefined) {
+      response.data === undefined;
+    } else {
+      response.data === json;
+    }
+
+    resolve(response);
   });
 }
 
@@ -79,35 +81,26 @@ function displayResponse(response, typeOfData) {
   ul.classList.add('list-group');
 
   // create HTML for every json object, concatenate
-  if (typeOfData == 'exercise') {
+  if (typeOfData == 'exercises' && response !== undefined) {
     appendTo = document.getElementById('exercises');
-    ul.innerHTML = response.map(function (exercise) {
-      return '<li class="list-group-item">\n                <a href="/exercise/detail/' + exercise._id + '">' + exercise.name + '</a>\n                <form method="post" action="/exercise/delete/' + exercise._id + '">\n                  <button class="btn btn-danger" type="submit">Delete</button>\n                </form>\n                <form method="get" action="/exercise/edit/' + exercise._id + '">\n                  <button class="btn btn-warning right-buffer" type="submit">Edit</button>\n                </form>\n              </li>';
-    }).join('');
-  } else if (typeOfData == 'workout') {
+    ul.innerHTML = displayExercise(response);
+  } else if (typeOfData == 'workouts' && response !== undefined) {
     appendTo = document.getElementById('workouts');
-    ul.innerHTML = response.map(function (workout) {
-      var localDate = new Date(workout.date).toLocaleString();
-      return '<li class="list-group-item">\n                <a href="/workout/detail/' + workout._id + '">' + localDate + '</a>\n                <form method="post" action="/workout/delete/' + workout._id + '">\n                  <button class="btn btn-danger" type="submit">Delete</button>\n                </form>\n              </li>';
-    }).join('');
-  } else if (typeOfData == 'program') {
+    ul.innerHTML = displayWorkout(response);
+  } else if (typeOfData == 'programs' && response !== undefined) {
     appendTo = document.getElementById('programs');
-    ul.innerHTML = response.map(function (program) {
-      return '<li class="list-group-item">\n                <a href="/program/detail/' + program._id + '">' + program.name + '</a>\n                <!--\n                <form method="get" action="/program/edit/' + program._id + '">\n                  <button class="btn btn-warning" type="submit">Edit</button>\n                </form>\n                <form method="post" action="/program/delete/' + program._id + '">\n                  <button class="btn btn-danger" type="submit">Delete</button>\n                </form>\n                -->\n              </li>';
-    }).join('');
+    ul.innerHTML = displayProgram(response);
 
-    // else if - displays the HTML for when no data is present
-  } else if (typeOfData == 'none') {
-    if (document.getElementById('exercises').innerHTML.length < 300) {
-      appendTo = document.getElementById('exercises');
-      ul.innerHTML = '<li class="list-group-item text-center">Add exercises to your account so you can add them to programs, log them in your workouts, and track your progress!</li>';
-    } else if (document.getElementById('workouts').innerHTML.length < 300) {
-      appendTo = document.getElementById('workouts');
-      ul.innerHTML = '<li class="list-group-item text-center">You don\'t have any workouts logged yet! Add exercises so you can include them in logged workouts. Workouts can be free-form or follow a pre-defined program. Track your workouts so can start recording progress!</li>';
-    } else {
-      appendTo = document.getElementById('programs');
-      ul.innerHTML = '<li class="list-group-item text-center">Have a few workouts that are "set-in-stone"? Input a your workout program so you can use it as a template while logging sets!</li>';
-    }
+    // displays the HTML for when no data is present
+  } else if (typeOfData == 'exercises' && response === undefined) {
+    appendTo = document.getElementById('exercises');
+    ul.innerHTML = displayNodataExercise();
+  } else if (typeOfData == 'workouts' && response === undefined) {
+    appendTo = document.getElementById('workouts');
+    ul.innerHTML = displayNodataWorkout();
+  } else if (typeOfData == 'programs' && reponse === undefined) {
+    appendTo = document.getElementById('program');
+    ul.innerHTML = displayNodataProgram();
 
     // Something bad happened
   } else {
@@ -118,22 +111,39 @@ function displayResponse(response, typeOfData) {
   appendTo.appendChild(ul);
 }
 
-// functions to check the type of the json response
-function isExercise(sample) {
-  return sample.hasOwnProperty('exerciseHistory') ? true : false;
+// functions to perform display operations based on datatype
+function displayExercise(response) {
+  response.map(function (exercise) {
+    return '<li class="list-group-item">\n              <a href="/exercise/detail/' + exercise._id + '">' + exercise.name + '</a>\n              <form method="post" action="/exercise/delete/' + exercise._id + '">\n                <button class="btn btn-danger" type="submit">Delete</button>\n              </form>\n              <form method="get" action="/exercise/edit/' + exercise._id + '">\n                <button class="btn btn-warning right-buffer" type="submit">Edit</button>\n              </form>\n            </li>';
+  }).join('');
 }
-function isWorkout(sample) {
-  return sample.hasOwnProperty('date') ? true : false;
+
+function displayWorkout(response) {
+  response.map(function (workout) {
+    var localDate = new Date(workout.date).toLocaleString();
+    return '<li class="list-group-item">\n              <a href="/workout/detail/' + workout._id + '">' + localDate + '</a>\n              <form method="post" action="/workout/delete/' + workout._id + '">\n                <button class="btn btn-danger" type="submit">Delete</button>\n              </form>\n            </li>';
+  }).join('');
 }
-function isProgram(sample) {
-  if (!isExercise(sample) && !isWorkout(sample)) {
-    return true;
-  } else {
-    return false;
-  }
+
+function displayProgram(response) {
+  response.map(function (program) {
+    return '<li class="list-group-item">\n              <a href="/program/detail/' + program._id + '">' + program.name + '</a>\n              <!--\n              <form method="get" action="/program/edit/' + program._id + '">\n                <button class="btn btn-warning" type="submit">Edit</button>\n              </form>\n              <form method="post" action="/program/delete/' + program._id + '">\n                <button class="btn btn-danger" type="submit">Delete</button>\n              </form>\n              -->\n            </li>';
+  }).join('');
+}
+
+function displayNodataExercise() {
+  return '<li class="list-group-item text-center">\n            Add exercises to your account so you can add them to programs, log them in your workouts, and track your progress!\n          </li>';
+}
+
+function displayNodataWorkout() {
+  return '<li class="list-group-item text-center">\n            You don\'t have any workouts logged yet! Add exercises so you can include them in logged workouts. Workouts can be free-form or follow a pre-defined program. Track your workouts so can start recording progress!\n          </li>';
+}
+
+function displayNodataProgram() {
+  return '<li class="list-group-item text-center">\n            Have a few workouts that are "set-in-stone"? Input a your workout program so you can use it as a template while logging sets!\n          </li>';
 }
 
 // GET initial data from the server
-getUserAssets('https://makegains.herokuapp.com/user/exercises', null);
-getUserAssets('https://makegains.herokuapp.com/user/programs', null);
-getUserAssets('https://makegains.herokuapp.com/user/workouts', null);
+getUserAssets('http://makegains.herokuapp.com/user/exercises', null);
+getUserAssets('http://makegains.herokuapp.com/user/programs', null);
+getUserAssets('http://makegains.herokuapp.com/user/workouts', null);
