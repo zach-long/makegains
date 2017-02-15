@@ -37,28 +37,14 @@ router.get('/new', (req, res) => {
 // GET request to display specific information about an exercise
 router.get('/detail/:id', (req, res) => {
   if (req.user) {
-    let exerciseId = req.params.id;
-    Exercise.getExerciseByExerciseId(exerciseId, (err, exercise) => {
+    Exercise.getExerciseByExerciseId(req.params.id, (err, exercise) => {
       if (err) throw err;
+
       res.render('exerciseDetail', {exercise: exercise});
     });
 
   } else {
     res.redirect('/');
-  }
-});
-
-// GET request for specific data used by AJAX
-router.get('/detail/api/:id', (req, res) => {
-  if (req.user) {
-    let exerciseId = req.params.id;
-    Exercise.getExerciseByExerciseId(exerciseId, (err, exercise) => {
-      if (err) throw err;
-      res.json(exercise);
-    });
-
-  } else {
-    res.json('You are not authorized to access this resource.');
   }
 });
 
@@ -77,11 +63,8 @@ router.post('/set/add', (req, res) => {
       exercise: exercise.name
     }
 
-    // add set to exercise.sets array
-    exercise.sets.push(newSet);
-
     // update exercise
-    Exercise.addSet(exercise, (err, result) => {
+    Exercise.addSet(exercise, newSet, (err, result) => {
       if (err) throw err;
 
       res.redirect('/program/log');
@@ -133,14 +116,11 @@ router.post('/new', (req, res) => {
 router.post('/set/delete/:exerciseId/:setId', (req, res) => {
   // get the exercise to remove a set from
   Exercise.getExerciseByExerciseId(req.params.exerciseId, (err, exercise) => {
+
     // find the set requested for removal
-    exercise.sets.forEach(set => {
-      if (set._id == req.params.setId) {
-        exercise.sets.splice(exercise.sets.indexOf(set), 1);
-      }
-    });
-    // save the updated exercise
-    Exercise.updateSet(exercise, (err, result) => {
+    Exercise.removeSet(exercise, setId, (err, updatedExercise) => {
+      if (err) throw err;
+
       req.flash('success', 'Set deleted');
       res.redirect('/program/log');
     });
@@ -151,6 +131,7 @@ router.post('/set/delete/:exerciseId/:setId', (req, res) => {
 router.get('/edit/:id', (req, res) => {
   Exercise.getExerciseByExerciseId(req.params.id, (err, exercise) => {
     if (err) throw err;
+
     res.render('editExercise', {exercise: exercise});
   });
 });
@@ -163,9 +144,14 @@ router.post('/edit/:id', (req, res) => {
     description: req.body.description,
     category: req.body.category
   }
+
   // update the exercise with requested information
   Exercise.getExerciseByExerciseId(req.params.id, (err, exercise) => {
+    if (err) throw err;
+
     Exercise.updateExercise(exercise, newParams, (err, result) => {
+      if (err) throw err;
+
       req.flash('success', 'Exercise "' + exercise.name + '" updated!');
       res.redirect('/user');
     });
@@ -174,22 +160,14 @@ router.post('/edit/:id', (req, res) => {
 
 // DELETE request to delete an exercise
 router.post('/delete/:id', (req, res) => {
-  Exercise.deleteExercise(req.params.id, (err, result) => {
+  Exercise.getExerciseByExerciseId(req.params.id, (err, exercise) => {
     if (err) throw err;
 
-    User.getUserById(req.user._id, (err, user) => {
+    let eName = exercise.name;
+    Exercise.deleteExercise(exercise, (err, result) => {
       if (err) throw err;
-      user.exercises.forEach(exercise => {
-        if (exercise == req.params.id) {
-          user.exercises.splice(user.exercises.indexOf(exercise), 1);
-        }
-      });
 
-      User.updateExercise(user, req.params.id, (err, result) => {
-        if (err) throw err;
-        req.flash('success', 'Exercise deleted');
-        res.redirect('/user');
-      });
+      req.flash('success', `Exercise '${eName}' deleted successfully!`);
     });
   });
 });

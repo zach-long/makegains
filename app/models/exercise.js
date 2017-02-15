@@ -39,6 +39,17 @@ var ExerciseModel = mongoose.Schema({
   }
 });
 
+// removes references from the User and Programs when an exercise is removed
+ExerciseModel.pre('remove', (next) => {
+  this.model('User').update({},
+    { $pull: { exercises: this._id } },
+    { "multi": true });
+  this.model('Program').update({},
+    { $pull: { exercises: this._id } },
+    { "multi": true });
+  next;
+});
+
 var Exercise = module.exports = mongoose.model('Exercise', ExerciseModel);
 
 // Exercise methods
@@ -82,11 +93,9 @@ module.exports.addProgram = function(exercise, program, cb) {
   }, cb);
 }
 
-// Exercise method - deletes a exercise
-module.exports.deleteExercise = function(exerciseId, cb) {
-  Exercise.findOneAndRemove({
-    _id: exerciseId
-  }, cb);
+// Exercise method - deletes an exercise and removes references of it
+module.exports.deleteExercise = function(exercise, cb) {
+  exercise.remove(cb);
 }
 
 // Exercise method - returns all exercises
@@ -117,7 +126,26 @@ module.exports.getExerciseByExerciseId = function(exerciseId, cb) {
 }
 
 // Exercise method - gets specified exercise and updates the set information
-module.exports.addSet = function(exercise, cb) {
+module.exports.addSet = function(exercise, setToAdd, cb) {
+  exercise.sets.push(setToAdd);
+  Exercise.update({
+    _id: exercise._id
+  },
+  {
+    $set: {
+      sets: exercise.sets
+    }
+  }, cb);
+}
+
+// Exercise method - removes the specified set from an exercise, and updates it
+module.exports.removeSet = function(exercise, idToRemove, cb) {
+  exercise.sets.forEach(set => {
+    if (set._id == idToRemove) {
+      exercise.sets.splice(exercise.sets.indexOf(set), 1);
+    }
+  });
+
   Exercise.update({
     _id: exercise._id
   },
