@@ -6,6 +6,7 @@ const path = require('path');
 const ejs = require('ejs');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const helmet = require('helmet');
 const expressValidator = require('express-validator');
 const session = require('express-session');
 const flash = require('connect-flash');
@@ -44,6 +45,9 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+// helmet
+app.use(helmet());
 
 // set public directory
 app.use(express.static(path.join(__dirname, 'public')));
