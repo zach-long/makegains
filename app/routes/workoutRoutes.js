@@ -11,14 +11,6 @@ const User = require('../models/user.js');
 const Workout = require('../models/workout.js');
 const Exercise = require('../models/exercise.js');
 
-// GET request to return all of a users workouts
-router.get('/myworkouts', (req, res) => {
-  Workout.getOwnWorkouts(req.user, (err, workouts) => {
-    if (err) throw err
-    res.json(workouts);
-  });
-});
-
 // GET request to show the details of a logged workout
 router.get('/detail/:id', (req, res) => {
   Workout.getWorkoutAndExercises(req.params.id, (err, workout) => {
