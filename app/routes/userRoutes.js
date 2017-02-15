@@ -23,8 +23,8 @@ router.get('/programs', (req, res) => {
 });
 
 // API request to return a user's workouts by date
-router.get('/workouts/:timePeriod', (req, res) => {
-  User.getWorkouts(req.user, req.params.timePeriod, (err, workouts) => {
+router.get('/workouts/:dateStart/:dateEnd', (req, res) => {
+  User.getWorkouts(req.user, req.params.dateStart, req.params.dateEnd, (err, workouts) => {
     if (err) throw err;
     res.json(exercises);
   });
