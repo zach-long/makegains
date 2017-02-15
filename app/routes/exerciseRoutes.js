@@ -118,7 +118,7 @@ router.post('/set/delete/:exerciseId/:setId', (req, res) => {
   Exercise.getExerciseByExerciseId(req.params.exerciseId, (err, exercise) => {
 
     // find the set requested for removal
-    Exercise.removeSet(exercise, setId, (err, updatedExercise) => {
+    Exercise.removeSet(exercise, req.params.setId, (err, updatedExercise) => {
       if (err) throw err;
 
       req.flash('success', 'Set deleted');

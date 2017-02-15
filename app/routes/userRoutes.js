@@ -137,7 +137,7 @@ router.get('/logout', (req, res) => {
 
 // delete a User account
 router.get('/delete/:id', (req, res) => {
-  User.deleteUser(req.user, (err, result) => {
+  User.deleteUser(req.user, (err) => {
     if (err) throw err;
 
     Exercise.remove({ creator: req.params.id }, (err) => {
@@ -152,9 +152,9 @@ router.get('/delete/:id', (req, res) => {
           req.flash('success', 'Your account has been deleted.');
           res.redirect('/');
         });
-      })
+      });
     });
-  })
+  });
 });
 
 module.exports = router;
