@@ -45,24 +45,31 @@ function handleSpecificResponseType(json, reqType) {
     switch (reqType) {
       case 'exercises':
         response.type = 'exercises';
+        console.log('Type assigned: ' + response.type);
         break;
 
       case 'workouts':
         response.type = 'workouts';
+        console.log('Type assigned: ' + response.type);
         break;
 
       case 'programs':
         response.type = 'programs';
+        console.log('Type assigned: ' + response.type);
         break;
     }
 
     // determined whether data is existant
     if (sample === undefined) {
-      response.data === undefined;
+      response.data = undefined;
+      console.log('Assigned data: ' + response.data);
     } else {
-      response.data === json;
+      response.data = json;
+      console.log('Assigned data: ' + response.data);
     }
 
+    console.log('Resolving promise with object: ');
+    console.log(response);
     resolve(response);
   });
 }
@@ -79,6 +86,14 @@ function displayResponse(response, typeOfData) {
   var appendTo = void 0;
   var ul = document.createElement('ul');
   ul.classList.add('list-group');
+
+  console.log('parsing response');
+  console.log(response);
+  console.log(typeOfData);
+  console.log(response != undefined);
+  console.log(response !== undefined);
+  console.log(response == undefined);
+  console.log(response === undefined);
 
   // create HTML for every json object, concatenate
   if (typeOfData == 'exercises' && response !== undefined) {
@@ -113,20 +128,20 @@ function displayResponse(response, typeOfData) {
 
 // functions to perform display operations based on datatype
 function displayExercise(response) {
-  response.map(function (exercise) {
+  return response.map(function (exercise) {
     return '<li class="list-group-item">\n              <a href="/exercise/detail/' + exercise._id + '">' + exercise.name + '</a>\n              <form method="post" action="/exercise/delete/' + exercise._id + '">\n                <button class="btn btn-danger" type="submit">Delete</button>\n              </form>\n              <form method="get" action="/exercise/edit/' + exercise._id + '">\n                <button class="btn btn-warning right-buffer" type="submit">Edit</button>\n              </form>\n            </li>';
   }).join('');
 }
 
 function displayWorkout(response) {
-  response.map(function (workout) {
+  return response.map(function (workout) {
     var localDate = new Date(workout.date).toLocaleString();
     return '<li class="list-group-item">\n              <a href="/workout/detail/' + workout._id + '">' + localDate + '</a>\n              <form method="post" action="/workout/delete/' + workout._id + '">\n                <button class="btn btn-danger" type="submit">Delete</button>\n              </form>\n            </li>';
   }).join('');
 }
 
 function displayProgram(response) {
-  response.map(function (program) {
+  return response.map(function (program) {
     return '<li class="list-group-item">\n              <a href="/program/detail/' + program._id + '">' + program.name + '</a>\n              <!--\n              <form method="get" action="/program/edit/' + program._id + '">\n                <button class="btn btn-warning" type="submit">Edit</button>\n              </form>\n              <form method="post" action="/program/delete/' + program._id + '">\n                <button class="btn btn-danger" type="submit">Delete</button>\n              </form>\n              -->\n            </li>';
   }).join('');
 }

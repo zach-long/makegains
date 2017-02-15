@@ -46,24 +46,31 @@ function handleSpecificResponseType(json, reqType) {
     switch (reqType) {
       case 'exercises':
         response.type = 'exercises';
+        console.log(`Type assigned: ${response.type}`);
         break;
 
       case 'workouts':
         response.type = 'workouts';
+        console.log(`Type assigned: ${response.type}`);
         break;
 
       case 'programs':
         response.type = 'programs';
+        console.log(`Type assigned: ${response.type}`);
         break;
     }
 
     // determined whether data is existant
     if (sample === undefined) {
-      response.data === undefined;
+      response.data = undefined;
+      console.log(`Assigned data: ${response.data}`);
     } else {
-      response.data === json;
+      response.data = json;
+      console.log(`Assigned data: ${response.data}`);
     }
 
+    console.log('Resolving promise with object: ')
+    console.log(response);
     resolve(response);
   });
 }
@@ -81,6 +88,14 @@ function displayResponse(response, typeOfData) {
   let ul = document.createElement('ul');
   ul.classList.add('list-group');
 
+  console.log('parsing response')
+  console.log(response)
+  console.log(typeOfData)
+  console.log(response != undefined)
+  console.log(response !== undefined)
+  console.log(response == undefined)
+  console.log(response === undefined)
+
   // create HTML for every json object, concatenate
   if (typeOfData == 'exercises' && response !== undefined) {
     appendTo = document.getElementById('exercises');
@@ -95,7 +110,7 @@ function displayResponse(response, typeOfData) {
     ul.innerHTML = displayProgram(response);
 
   // displays the HTML for when no data is present
-} else if (typeOfData == 'exercises' && response === undefined) {
+  } else if (typeOfData == 'exercises' && response === undefined) {
     appendTo = document.getElementById('exercises');
     ul.innerHTML = displayNodataExercise();
 
@@ -118,7 +133,7 @@ function displayResponse(response, typeOfData) {
 
 // functions to perform display operations based on datatype
 function displayExercise(response) {
-  response.map(exercise => {
+  return response.map(exercise => {
     return `<li class="list-group-item">
               <a href="/exercise/detail/${exercise._id}">${exercise.name}</a>
               <form method="post" action="/exercise/delete/${exercise._id}">
@@ -132,7 +147,7 @@ function displayExercise(response) {
 }
 
 function displayWorkout(response) {
-  response.map(workout => {
+  return response.map(workout => {
     let localDate = new Date(workout.date).toLocaleString();
     return `<li class="list-group-item">
               <a href="/workout/detail/${workout._id}">${localDate}</a>
@@ -144,7 +159,7 @@ function displayWorkout(response) {
 }
 
 function displayProgram(response) {
-  response.map(program => {
+  return response.map(program => {
     return `<li class="list-group-item">
               <a href="/program/detail/${program._id}">${program.name}</a>
               <!--
