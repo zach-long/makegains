@@ -98,7 +98,7 @@ function displayResponse(response, typeOfData) {
   } else if (typeOfData == 'workouts' && response === undefined) {
     appendTo = document.getElementById('workouts');
     ul.innerHTML = displayNodataWorkout();
-  } else if (typeOfData == 'programs' && reponse === undefined) {
+  } else if (typeOfData == 'programs' && response === undefined) {
     appendTo = document.getElementById('program');
     ul.innerHTML = displayNodataProgram();
 
