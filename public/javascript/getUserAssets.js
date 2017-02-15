@@ -99,7 +99,7 @@ function displayResponse(response, typeOfData) {
     appendTo = document.getElementById('workouts');
     ul.innerHTML = displayNodataWorkout();
   } else if (typeOfData == 'programs' && response === undefined) {
-    appendTo = document.getElementById('program');
+    appendTo = document.getElementById('programs');
     ul.innerHTML = displayNodataProgram();
 
     // Something bad happened
