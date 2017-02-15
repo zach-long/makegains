@@ -97,7 +97,8 @@ router.post('/signup', (req, res) => {
   // handle errors or proceed
   if (req.validationErrors()) {
     // send validation errors
-    req.getValidationResult().then((validationResult) => {
+    req.getValidationResult()
+    .then((validationResult) => {
       let errors = validationResult.array();
       res.render('index', {authError: errors});
     });
