@@ -11,13 +11,11 @@ const User = require('../models/user.js');
 const Workout = require('../models/workout.js');
 const Exercise = require('../models/exercise.js');
 
-// GET request to return all of a users workouts
-router.get('/myworkouts', (req, res) => {
-  Workout.getOwnWorkouts(req.user, (err, workouts) => {
-    if (err) throw err
-    res.json(workouts);
-  });
-});
+// import helper functions
+const getPerformedSets = require('../resources/helperFunctions.js').getPerformedSets;
+const getPerformedExercises = require('../resources/helperFunctions.js').getPerformedExercises;
+const updateTempModelSets = require('../resources/helperFunctions.js').updateTempModelSets;
+const updateTempModelExercises = require('../resources/helperFunctions.js').updateTempModelExercises;
 
 // GET request to show the details of a logged workout
 router.get('/detail/:id', (req, res) => {
@@ -51,7 +49,6 @@ router.get('/log/:id', (req, res) => {
 });
 
 // POST request upon workout completion
-// this is completely awful and needs refactored
 router.post('/complete', (req, res) => {
   if (req.user) {
     let tempWorkout = new Workout({
@@ -62,57 +59,34 @@ router.post('/complete', (req, res) => {
       sets: []
     });
 
-    Workout.createWorkout(tempWorkout, (err, workout) => {
-      if (err) throw err;
+    getPerformedSets(req.user)
+    .then(performedSets => {
 
-      // add workout to user
-      User.addWorkout(req.user, tempWorkout, (err, user) => {
-        if (err) throw err;
+      updateTempModelSets(tempWorkout, performedSets)
+      .then(updatedTempWorkout => {
 
-        // This is terribad
-        // should be non-blocking and asynchronous, also less tangled
-        for (let i = 0; i < req.user.exercises.length; i++) {
-          Exercise.getExerciseByExerciseId(req.user.exercises[i], (err, exercise) => {
+        getPerformedExercises(req.user)
+        .then(performedExercises => {
 
-            let newHistory = {
-              date: new Date(),
-              dataHistory: []
-            }
+          updateTempModelExercises(updatedTempWorkout, performedExercises)
+          .then(newUpdatedTempWorkout => {
 
-            if (exercise.sets.length > 0) {
-              workout.exercises.push(exercise);
-              Workout.addExercise(workout, (err, result) => {
+            Exercise.archiveSets(performedExercises, (err, result) => {
+              if (err) throw err;
+
+              Workout.createWorkout(newUpdatedTempWorkout, (err, result) => {
                 if (err) throw err;
-              });
-              console.log(exercise.sets)
-              exercise.sets.forEach(entry => {
-                let placeholder = {
-                  weight: entry.weight,
-                  repetitions: entry.repetitions,
-                  oneRepMax: entry.oneRepMax,
-                  exercise: entry.exercise
-                }
-                newHistory.dataHistory.push(placeholder);
-                workout.sets.push(placeholder);
-              });
 
-              Workout.addSets(workout, (err, result) => {
-                if (err) throw err;
-              });
+                User.addWorkout(req.user, newUpdatedTempWorkout, (err, result) => {
+                  if (err) throw err;
 
-              exercise.exerciseHistory.push(newHistory);
-              Exercise.updateHistory(exercise, (err, result) => {
-                if (err) throw err;
+                  req.flash('success', 'Workout completed!');
+                  res.redirect('/user')
+                });
               });
-              exercise.sets.length = 0;
-              Exercise.resetSets(exercise, (err, result) => {
-                if (err) throw err;
-              });
-            };
+            });
           });
-        }
-        req.flash('success', 'Workout completed!');
-        res.redirect('/user');
+        });
       });
     });
 

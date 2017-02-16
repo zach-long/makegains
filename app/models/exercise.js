@@ -39,6 +39,17 @@ var ExerciseModel = mongoose.Schema({
   }
 });
 
+// removes references from the User and Programs when an exercise is removed
+ExerciseModel.pre('remove', (next) => {
+  this.model('User').update({},
+    { $pull: { exercises: this._id } },
+    { "multi": true });
+  this.model('Program').update({},
+    { $pull: { exercises: this._id } },
+    { "multi": true });
+  next;
+});
+
 var Exercise = module.exports = mongoose.model('Exercise', ExerciseModel);
 
 // Exercise methods
@@ -82,11 +93,9 @@ module.exports.addProgram = function(exercise, program, cb) {
   }, cb);
 }
 
-// Exercise method - deletes a exercise
-module.exports.deleteExercise = function(exerciseId, cb) {
-  Exercise.findOneAndRemove({
-    _id: exerciseId
-  }, cb);
+// Exercise method - deletes an exercise and removes references of it
+module.exports.deleteExercise = function(exercise, cb) {
+  exercise.remove(cb);
 }
 
 // Exercise method - returns all exercises
@@ -117,7 +126,26 @@ module.exports.getExerciseByExerciseId = function(exerciseId, cb) {
 }
 
 // Exercise method - gets specified exercise and updates the set information
-module.exports.addSet = function(exercise, cb) {
+module.exports.addSet = function(exercise, setToAdd, cb) {
+  exercise.sets.push(setToAdd);
+  Exercise.update({
+    _id: exercise._id
+  },
+  {
+    $set: {
+      sets: exercise.sets
+    }
+  }, cb);
+}
+
+// Exercise method - removes the specified set from an exercise, and updates it
+module.exports.removeSet = function(exercise, idToRemove, cb) {
+  exercise.sets.forEach(set => {
+    if (set._id == idToRemove) {
+      exercise.sets.splice(exercise.sets.indexOf(set), 1);
+    }
+  });
+
   Exercise.update({
     _id: exercise._id
   },
@@ -149,4 +177,89 @@ module.exports.updateHistory = function(exercise, cb) {
       exerciseHistory: exercise.exerciseHistory
     }
   }, cb);
+}
+
+// Exercise method - moves all data from Exercise.sets into Exercise.history
+module.exports.archiveSets = function(performedExercises, cb) {
+  console.log('Examining "archiveSets" middleware for bugs...')
+  let doneCount = 0;
+  console.log(`doneCount initialized: ${doneCount}`)
+  console.log('iteration over exercises')
+  performedExercises.forEach(exercise => {
+    console.log(`examining exercise ${exercise.name}, below:`)
+    console.log(exercise)
+    Exercise.findById(exercise, (err, theExercise) => {
+      console.log(`found exercise ${theExercise.name}, below:`)
+      console.log(theExercise)
+      if (err) throw err;
+
+      console.log('initializing newHistory object')
+      let newHistory = {
+        date: new Date(),
+        dataHistory: []
+      }
+      console.log(newHistory)
+
+      console.log('entering actual "archive" method')
+      archive(theExercise, newHistory, (newNewHistory) => {
+        console.log('exiting "archive" method, here is the new history object')
+        console.log(newNewHistory)
+        console.log('apply history to exercise and remove sets')
+        theExercise.exerciseHistory.push(newNewHistory);
+        theExercise.sets.length = 0;
+        console.log('the exercise history:')
+        console.log(theExercise.exerciseHistory)
+        console.log('the exercise sets')
+        console.log(theExercise.sets)
+        console.log('update modified exercise, below:')
+        console.log(theExercise)
+        Exercise.update({
+          _id: theExercise._id
+        },
+        {
+          $set: {
+            exerciseHistory: theExercise.exerciseHistory,
+            sets: theExercise.sets
+          }
+        }, (err, result) => {
+          console.log('exercise updated, check done count')
+          doneCount++;
+          console.log(doneCount)
+          console.log('Does doneCount match the goal?')
+          console.log(`doneCount = ${doneCount}, goal = ${performedExercises.length}`)
+          if (doneCount === performedExercises.length) {
+            console.log('doneCount fulfilled, send callback')
+            cb(null, 'All updated');
+          }
+        });
+      });
+    });
+  });
+
+  function archive(exercise, arrTemp, cb) {
+    console.log('entered "archive" with following arguments:')
+    console.log('the exercise: ')
+    console.log(exercise)
+    console.log('the temp')
+    console.log(arrTemp)
+    console.log('iterating over exercise sets...')
+    exercise.sets.forEach(entry => {
+      console.log('examining - ' + entry)
+      console.log('initialized placeholder')
+      let placeholder = {
+        weight: entry.weight,
+        repetitions: entry.repetitions,
+        oneRepMax: entry.oneRepMax,
+        exercise: entry.exercise
+      }
+      console.log(placeholder)
+      console.log('pushing placeholder to the temp array')
+      arrTemp.dataHistory.push(placeholder);
+      console.log(arrTemp)
+    });
+    console.log('iteration complete, sending callback with temp arr:')
+    console.log(arrTemp)
+    cb(arrTemp);
+  }
+
 }

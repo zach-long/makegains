@@ -4,7 +4,7 @@
   "description": "A Node.js, React, MongoDB web app with a fast, minimalist UI for easy program tracking and long-term progress aggregation.",
   "main": "server.js",
   "scripts": {
-    "watch-app": "nodemon server.js",
+    "watch-app": "nodemon server.js --trace-sync-io",
     "watch-scss": "node-sass -w public/stylesheets/scss/main.scss public/stylesheets/main.css",
     "watch-js": "babel public/javascript/babel/B_httpRequest.js --watch --out-file public/javascript/httpRequest.js & babel public/javascript/babel/B_log.js --watch --out-file public/javascript/log.js & babel public/javascript/babel/B_main.js --watch --out-file public/javascript/main.js & babel public/javascript/babel/B_exerciseData.js --watch --out-file public/javascript/exerciseData.js & babel public/javascript/babel/B_getUserAssets.js --watch --out-file public/javascript/getUserAssets.js & babel public/javascript/babel/_DEV --watch --out-file public/javascript/DEV.js",
     "build-js": "babel public/javascript/babel --out-file public/javascript/compiled.js",

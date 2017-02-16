@@ -97,7 +97,8 @@ router.post('/signup', (req, res) => {
   // handle errors or proceed
   if (req.validationErrors()) {
     // send validation errors
-    req.getValidationResult().then((validationResult) => {
+    req.getValidationResult()
+    .then((validationResult) => {
       let errors = validationResult.array();
       res.render('index', {authError: errors});
     });
@@ -132,6 +133,28 @@ router.post('/signin', passport.authenticate('local', {
 router.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
+});
+
+// delete a User account
+router.get('/delete/:id', (req, res) => {
+  User.deleteUser(req.user, (err) => {
+    if (err) throw err;
+
+    Exercise.remove({ creator: req.params.id }, (err) => {
+      if (err) throw err;
+
+      Workout.remove({ creator: req.params.id }, (err) => {
+        if (err) throw err;
+
+        Program.remove({ creator: req.params.id }, (err) => {
+          if (err) throw err;
+
+          req.flash('success', 'Your account has been deleted.');
+          res.redirect('/');
+        });
+      });
+    });
+  });
 });
 
 module.exports = router;
