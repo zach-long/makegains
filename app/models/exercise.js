@@ -178,3 +178,88 @@ module.exports.updateHistory = function(exercise, cb) {
     }
   }, cb);
 }
+
+// Exercise method - moves all data from Exercise.sets into Exercise.history
+module.exports.archiveSets = function(performedExercises, cb) {
+  console.log('Examining "archiveSets" middleware for bugs...')
+  let doneCount = 0;
+  console.log(`doneCount initialized: ${doneCount}`)
+  console.log('iteration over exercises')
+  performedExercises.forEach(exercise => {
+    console.log(`examining exercise ${exercise.name}, below:`)
+    console.log(exercise)
+    Exercise.findById(exercise, (err, theExercise) => {
+      console.log(`found exercise ${theExercise.name}, below:`)
+      console.log(theExercise)
+      if (err) throw err;
+
+      console.log('initializing newHistory object')
+      let newHistory = {
+        date: new Date(),
+        dataHistory: []
+      }
+      console.log(newHistory)
+
+      console.log('entering actual "archive" method')
+      archive(theExercise, newHistory, (newNewHistory) => {
+        console.log('exiting "archive" method, here is the new history object')
+        console.log(newNewHistory)
+        console.log('apply history to exercise and remove sets')
+        theExercise.exerciseHistory.push(newNewHistory);
+        theExercise.sets.length = 0;
+        console.log('the exercise history:')
+        console.log(theExercise.exerciseHistory)
+        console.log('the exercise sets')
+        console.log(theExercise.sets)
+        console.log('update modified exercise, below:')
+        console.log(theExercise)
+        Exercise.update({
+          _id: theExercise._id
+        },
+        {
+          $set: {
+            exerciseHistory: theExercise.exerciseHistory,
+            sets: theExercise.sets
+          }
+        }, (err, result) => {
+          console.log('exercise updated, check done count')
+          doneCount++;
+          console.log(doneCount)
+          console.log('Does doneCount match the goal?')
+          console.log(`doneCount = ${doneCount}, goal = ${performedExercises.length}`)
+          if (doneCount === performedExercises.length) {
+            console.log('doneCount fulfilled, send callback')
+            cb(null, 'All updated');
+          }
+        });
+      });
+    });
+  });
+
+  function archive(exercise, arrTemp, cb) {
+    console.log('entered "archive" with following arguments:')
+    console.log('the exercise: ')
+    console.log(exercise)
+    console.log('the temp')
+    console.log(arrTemp)
+    console.log('iterating over exercise sets...')
+    exercise.sets.forEach(entry => {
+      console.log('examining - ' + entry)
+      console.log('initialized placeholder')
+      let placeholder = {
+        weight: entry.weight,
+        repetitions: entry.repetitions,
+        oneRepMax: entry.oneRepMax,
+        exercise: entry.exercise
+      }
+      console.log(placeholder)
+      console.log('pushing placeholder to the temp array')
+      arrTemp.dataHistory.push(placeholder);
+      console.log(arrTemp)
+    });
+    console.log('iteration complete, sending callback with temp arr:')
+    console.log(arrTemp)
+    cb(arrTemp);
+  }
+
+}

@@ -11,6 +11,12 @@ const User = require('../models/user.js');
 const Workout = require('../models/workout.js');
 const Exercise = require('../models/exercise.js');
 
+// import helper functions
+const getPerformedSets = require('../resources/helperFunctions.js').getPerformedSets;
+const getPerformedExercises = require('../resources/helperFunctions.js').getPerformedExercises;
+const updateTempModelSets = require('../resources/helperFunctions.js').updateTempModelSets;
+const updateTempModelExercises = require('../resources/helperFunctions.js').updateTempModelExercises;
+
 // GET request to show the details of a logged workout
 router.get('/detail/:id', (req, res) => {
   Workout.getWorkoutAndExercises(req.params.id, (err, workout) => {
@@ -43,19 +49,46 @@ router.get('/log/:id', (req, res) => {
 });
 
 // POST request upon workout completion
-// this is completely awful and needs refactored
 router.post('/complete', (req, res) => {
-  /* NEEDS TO
-      - Create a new workout
-      - Add new workout to the User
-      - Move Sets from every Exercise in the Workout to each Exercise's history
-      - Add same Sets to the Workout 'sets'
-  */
   if (req.user) {
+    let tempWorkout = new Workout({
+      name: req.body.workoutName,
+      date: new Date(),
+      creator: req.user._id,
+      exercises: [],
+      sets: []
+    });
 
+    getPerformedSets(req.user)
+    .then(performedSets => {
 
-    req.flash('success', 'Workout completed!');
-    res.redirect('/user');
+      updateTempModelSets(tempWorkout, performedSets)
+      .then(updatedTempWorkout => {
+
+        getPerformedExercises(req.user)
+        .then(performedExercises => {
+
+          updateTempModelExercises(updatedTempWorkout, performedExercises)
+          .then(newUpdatedTempWorkout => {
+
+            Exercise.archiveSets(performedExercises, (err, result) => {
+              if (err) throw err;
+
+              Workout.createWorkout(newUpdatedTempWorkout, (err, result) => {
+                if (err) throw err;
+
+                User.addWorkout(req.user, newUpdatedTempWorkout, (err, result) => {
+                  if (err) throw err;
+
+                  req.flash('success', 'Workout completed!');
+                  res.redirect('/user')
+                });
+              });
+            });
+          });
+        });
+      });
+    });
 
   } else {
     res.redirect('/');

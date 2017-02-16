@@ -35,13 +35,13 @@ var WorkoutModel = mongoose.Schema({
   sets: [ExerciseSetModel]
 });
 
-WorkoutModel.pre('remove',function(next) {
-  this.model('User').update({},
+// hook to remove deleted workout from User
+WorkoutModel.pre('remove', (next) => {
+  User.update({},
     { $pull: { workouts: this._id } },
-    { "multi": true },
-    next
-  );
-})
+    { "multi": true });
+  next;
+});
 
 var Workout = module.exports = mongoose.model('Workout', WorkoutModel);
 
