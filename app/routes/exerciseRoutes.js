@@ -97,13 +97,8 @@ router.post('/new', (req, res) => {
       Exercise.createExercise(newExercise, (err, theExercise) => {
         if (err) throw err;
 
-        // Update User with this exercise
-        User.addExercise(req.user, theExercise, (err, updatedUser) => {
-          if (err) throw err;
-
-          req.flash('success', 'Exercise created successfully!');
-          res.redirect('/user');
-        });
+        req.flash('success', 'Exercise created successfully!');
+        res.redirect('/user');
       });
     }
 

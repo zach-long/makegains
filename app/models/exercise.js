@@ -40,7 +40,7 @@ var ExerciseModel = mongoose.Schema({
 });
 
 // removes references from the User and Programs when an exercise is removed
-ExerciseModel.pre('remove', (next) => {
+ExerciseModel.post('remove', (next) => {
   mongoose.model('User').update({},
     { $pull: { exercises: this._id } },
     { "multi": true });
@@ -49,6 +49,13 @@ ExerciseModel.pre('remove', (next) => {
     { "multi": true });
   next;
 });
+
+// adds references to the User when an exercise is created
+ExerciseModel.post('save', (next) => {
+  mongoose.model('User').update({},
+  { $push: { exercises: this._id } });
+  next;
+})
 
 var Exercise = module.exports = mongoose.model('Exercise', ExerciseModel);
 
