@@ -37,6 +37,13 @@ var UserModel = mongoose.Schema({
   }]
 });
 
+// remove all User assets when a User is deleted
+UserModel.post('remove', (next) => {
+  mongoose.model('Exercises').findOneAndRemove({ creator: this._id },
+    { "multi": true });
+  next;
+});
+
 // set User equal to a reference of the UserModel mongoose schema
 var User = module.exports = mongoose.model('User', UserModel);
 
