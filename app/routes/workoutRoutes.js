@@ -77,12 +77,8 @@ router.post('/complete', (req, res) => {
               Workout.createWorkout(newUpdatedTempWorkout, (err, result) => {
                 if (err) throw err;
 
-                User.addWorkout(req.user, newUpdatedTempWorkout, (err, result) => {
-                  if (err) throw err;
-
-                  req.flash('success', 'Workout completed!');
-                  res.redirect('/user')
-                });
+                req.flash('success', 'Workout completed!');
+                res.redirect('/user')
               });
             });
           });

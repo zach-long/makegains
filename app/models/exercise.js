@@ -41,10 +41,10 @@ var ExerciseModel = mongoose.Schema({
 
 // removes references from the User and Programs when an exercise is removed
 ExerciseModel.pre('remove', (next) => {
-  this.model('User').update({},
+  mongoose.model('User').update({},
     { $pull: { exercises: this._id } },
     { "multi": true });
-  this.model('Program').update({},
+  mongoose.model('Program').update({},
     { $pull: { exercises: this._id } },
     { "multi": true });
   next;

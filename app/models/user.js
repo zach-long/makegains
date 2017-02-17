@@ -162,7 +162,7 @@ module.exports.getExercises = function(exerciseCreator, category, cb) {
 
 // User method - returns all exercises belonging to a user
 module.exports.getWorkouts = function(workoutCreator, lowVal, highVal, cb) {
-  if (timePeriod !== null) {
+  if (lowVal !== null) {
     Workout.find({
       creator: workoutCreator._id,
       date: {

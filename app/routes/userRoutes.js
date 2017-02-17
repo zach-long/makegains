@@ -14,6 +14,14 @@ const Program = require('../models/program.js');
 const Exercise = require('../models/exercise.js');
 const Workout = require('../models/workout.js');
 
+// API request to return the User's object
+router.get('/self', (req, res) => {
+  User.getUserById(req.user._id, (err, user) => {
+    if (err) throw err;
+    res.json(user);
+  });
+});
+
 // API request to return all of a user's programs
 router.get('/programs', (req, res) => {
   User.getPrograms(req.user, null, (err, programs) => {
@@ -32,7 +40,7 @@ router.get('/workouts/:dateStart/:dateEnd', (req, res) => {
 
 // API request to return all of a user's workouts
 router.get('/workouts', (req, res) => {
-  User.getWorkouts(req.user, null, (err, workouts) => {
+  User.getWorkouts(req.user, null, null, (err, workouts) => {
     if (err) throw err;
     res.json(workouts);
   });
