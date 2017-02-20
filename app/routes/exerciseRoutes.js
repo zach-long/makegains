@@ -65,6 +65,27 @@ router.get('/detail/:id', (req, res) => {
   }
 });
 
+// GET request for specific data used by AJAX
+router.get('/detail/api/:id', (req, res) => {
+  if (req.user) {
+    userHasResource(req.user, req.params.id).then((bool) => {
+      if (bool) {
+        
+        let exerciseId = req.params.id;
+        Exercise.getExerciseByExerciseId(exerciseId, (err, exercise) => {
+          if (err) throw err;
+          res.json(exercise);
+        });
+
+      } else {
+        res.redirect('/user');
+      }
+    });
+  } else {
+    res.json('You are not authorized to access this resource.');
+  }
+});
+
 // POST request to add set info to an exercise
 router.post('/set/add', (req, res) => {
   // check if User is logged in
@@ -209,7 +230,7 @@ router.post('/edit/:id', (req, res) => {
 router.post('/delete/:id', (req, res) => {
   userHasResource(req.user, req.params.id).then((bool) => {
     if (bool) {
-      
+
       Exercise.getExerciseByExerciseId(req.params.id, (err, exercise) => {
         if (err) throw err;
 

@@ -11,6 +11,9 @@ const User = require('../models/user.js');
 const Program = require('../models/program.js');
 const Exercise = require('../models/exercise.js');
 
+// import helper functions
+const userHasResource = require('../resoures/helperFunctions.js').userHasResource;
+
 // GET request to return all of a users programs
 router.get('/myprograms', (req, res) => {
   if (req.user) {
