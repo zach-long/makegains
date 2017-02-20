@@ -16,7 +16,7 @@ const getPerformedSets = require('../resources/helperFunctions.js').getPerformed
 const getPerformedExercises = require('../resources/helperFunctions.js').getPerformedExercises;
 const updateTempModelSets = require('../resources/helperFunctions.js').updateTempModelSets;
 const updateTempModelExercises = require('../resources/helperFunctions.js').updateTempModelExercises;
-const userHasResource = require('../resoures/helperFunctions.js').userHasResource;
+const userHasResource = require('../resources/helperFunctions.js').userHasResource;
 
 // GET request to show the details of a logged workout
 router.get('/detail/:id', (req, res) => {
