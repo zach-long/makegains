@@ -13,10 +13,16 @@ const Exercise = require('../models/exercise.js');
 
 // GET request to return all of a users programs
 router.get('/myprograms', (req, res) => {
-  Program.getOwnPrograms(req.user, (err, programs) => {
-    if (err) throw err
-    res.json(programs);
-  });
+  if (req.user) {
+    Program.getOwnPrograms(req.user, (err, programs) => {
+      if (err) throw err
+
+      res.json(programs);
+    });
+
+  } else {
+    res.json({ error: 'You must be logged in to view your programs.' });
+  }
 });
 
 // GET request to display page where User can create a program
@@ -36,12 +42,19 @@ router.get('/new', (req, res) => {
 // GET request to display specific information about a program
 router.get('/detail/:id', (req, res) => {
   if (req.user) {
-    let programId = req.params.id;
-    Program.getProgramByProgramId(programId, (err, program) => {
-      if (err) throw err;
-      res.render('programDetail', {program: program});
-    });
+    userHasResource(req.user, req.params.id).then((bool) => {
+      if (bool) {
 
+        let programId = req.params.id;
+        Program.getProgramByProgramId(programId, (err, program) => {
+          if (err) throw err;
+          res.render('programDetail', {program: program});
+        });
+
+      } else {
+        res.redirect('/user');
+      }
+    });
   } else {
     res.redirect('/');
   }
@@ -172,13 +185,27 @@ router.post('/new', (req, res) => {
 });
 
 // PUT request to update a program
-router.put('/edit', (req, res) => {
+router.put('/edit/:id', (req, res) => {
+  userHasResource(req.user, req.params.id).then((bool) => {
+    if (bool) {
 
+
+    } else {
+      res.redirect('/');
+    }
+  });
 });
 
 // DELETE request to delete a program
-router.delete('/delete', (req, res) => {
+router.delete('/delete/:id', (req, res) => {
+  userHasResource(req.user, req.params.id).then((bool) => {
+    if (bool) {
 
+
+    } else {
+      res.redirect('/');
+    }
+  });
 });
 
 module.exports = router;
