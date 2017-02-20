@@ -14,7 +14,6 @@ function getUserAssets(url, delimeter) {
   // define type of request
   var tempArray = url.split('/');
   var reqType = tempArray.pop();
-  console.log(reqType);
 
   // flow of logic
   get(path).then(function (response) {
@@ -45,31 +44,24 @@ function handleSpecificResponseType(json, reqType) {
     switch (reqType) {
       case 'exercises':
         response.type = 'exercises';
-        console.log('Type assigned: ' + response.type);
         break;
 
       case 'workouts':
         response.type = 'workouts';
-        console.log('Type assigned: ' + response.type);
         break;
 
       case 'programs':
         response.type = 'programs';
-        console.log('Type assigned: ' + response.type);
         break;
     }
 
     // determined whether data is existant
     if (sample === undefined) {
       response.data = undefined;
-      console.log('Assigned data: ' + response.data);
     } else {
       response.data = json;
-      console.log('Assigned data: ' + response.data);
     }
 
-    console.log('Resolving promise with object: ');
-    console.log(response);
     resolve(response);
   });
 }
@@ -86,14 +78,6 @@ function displayResponse(response, typeOfData) {
   var appendTo = void 0;
   var ul = document.createElement('ul');
   ul.classList.add('list-group');
-
-  console.log('parsing response');
-  console.log(response);
-  console.log(typeOfData);
-  console.log(response != undefined);
-  console.log(response !== undefined);
-  console.log(response == undefined);
-  console.log(response === undefined);
 
   // create HTML for every json object, concatenate
   if (typeOfData == 'exercises' && response !== undefined) {
@@ -159,6 +143,6 @@ function displayNodataProgram() {
 }
 
 // GET initial data from the server
-getUserAssets('http://makegains.herokuapp.com/user/exercises', null);
-getUserAssets('http://makegains.herokuapp.com/user/programs', null);
-getUserAssets('http://makegains.herokuapp.com/user/workouts', null);
+getUserAssets('https://makegains.herokuapp.com/user/exercises', null);
+getUserAssets('https://makegains.herokuapp.com/user/programs', null);
+getUserAssets('https://makegains.herokuapp.com/user/workouts', null);

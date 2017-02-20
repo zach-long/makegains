@@ -4,6 +4,16 @@ const Exercise = require('../models/exercise.js');
 const Program = require('../models/program.js');
 const Workout = require('../models/workout.js');
 
+// ensure a secure protocol
+module.exports.forceHTTPS = function forceHTTPS(req, res, next) {
+  if(req.headers["x-forwarded-proto"] === "https") {
+    return next();
+
+  } else {
+    res.redirect(`https://${req.hostname}${req.url}`);
+  }
+}
+
 module.exports.userHasResource = function userHasResource(user, resource) {
   return new Promise((resolve, reject) => {
     if (user === undefined) {

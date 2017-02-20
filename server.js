@@ -34,8 +34,14 @@ const programRoutes = require('./app/routes/programRoutes.js');
 const exerciseRoutes = require('./app/routes/exerciseRoutes.js');
 const workoutRoutes = require('./app/routes/workoutRoutes.js');
 
+// import helper function to ensure a secure protocol
+const forceHTTPS = require('./app/resources/helperFunctions').forceHTTPS;
+
 // import User model for passport config
 const User = require('./app/models/user.js');
+
+// set environment
+var env = app.get('env') || 'development';
 
 // set EJS as view engine
 app.set('views', path.join(__dirname, 'app/views'));
@@ -104,6 +110,11 @@ app.use((req, res, next) => {
   res.locals.passportError = req.flash('error');
   next();
 });
+
+// force https
+if (env == 'production') {
+  app.use(forceHTTPS);
+}
 
 // set routes
 app.use('/', routes);
