@@ -19,10 +19,17 @@ const updateTempModelExercises = require('../resources/helperFunctions.js').upda
 
 // GET request to show the details of a logged workout
 router.get('/detail/:id', (req, res) => {
-  Workout.getWorkoutAndExercises(req.params.id, (err, workout) => {
-    if (err) throw err;
+  userHasResource(req.user, req.params.id).then((bool) => {
+    if (bool) {
+      Workout.getWorkoutAndExercises(req.params.id, (err, workout) => {
+        if (err) throw err;
 
-    res.render('workoutDetail', {workout: workout[0], exercises: workout[0].exercises, sets: workout[0].sets});
+        res.render('workoutDetail', {workout: workout[0], exercises: workout[0].exercises, sets: workout[0].sets});
+      });
+
+    } else {
+      res.redirect('/');
+    }
   });
 });
 
@@ -32,16 +39,6 @@ router.get('/log', (req, res) => {
     Exercise.getOwnExercises(req.user, (err, exercises) => {
       res.render('log', {exercises: exercises});
     });
-
-  } else {
-    res.redirect('/');
-  }
-});
-
-// GET request to display interface for logging a specific workout
-router.get('/log/:id', (req, res) => {
-  if (req.user) {
-    res.render('log');
 
   } else {
     res.redirect('/');
@@ -93,15 +90,23 @@ router.post('/complete', (req, res) => {
 
 // POST request to delete a workout
 router.post('/delete/:id', (req, res) => {
-  Workout.getWorkoutByWorkoutId(req.params.id, (err, workout) => {
-    if (err) throw err;
+  userHasResource(req.user, req.params.id).then((bool) => {
+    if (bool) {
 
-    workout.remove((err, result) => {
-      if (err) throw err;
+      Workout.getWorkoutByWorkoutId(req.params.id, (err, workout) => {
+        if (err) throw err;
 
-      res.redirect('/user');
-    });
-  })
+        workout.remove((err, result) => {
+          if (err) throw err;
+
+          res.redirect('/user');
+        });
+      });
+
+    } else {
+      res.redirect('/');
+    }
+  });
 });
 
 module.exports = router;
