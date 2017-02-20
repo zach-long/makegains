@@ -122,12 +122,11 @@ router.post('/signup', (req, res) => {
 
     User.createUser(newUser, (err, theUser) => {
       if (err) throw err
+
+      req.flash('success', 'Account created! You can now sign in.');
+      res.redirect('/');
     });
-
-    req.flash('success', 'Account created! You can now sign in.');
-    res.redirect('/');
   }
-
 });
 
 // post request to log in a registered user
