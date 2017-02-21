@@ -37,6 +37,9 @@ const workoutRoutes = require('./app/routes/workoutRoutes.js');
 // import helper function to ensure a secure protocol
 const forceHTTPS = require('./app/resources/helperFunctions').forceHTTPS;
 
+// import helper to validate unique username
+const usernameIsUnique = require('./app/resources/helperFunctions').usernameIsUnique;
+
 // import User model for passport config
 const User = require('./app/models/user.js');
 

@@ -2,6 +2,7 @@
 
 // modules
 const express = require('express');
+const expressValidator = require('express-validator');
 const passport = require('passport');
 
 // constants
@@ -103,30 +104,37 @@ router.post('/signup', (req, res) => {
   req.checkBody('password2', 'The passwords you entered do not match').equals(req.body.password);
 
   // handle errors or proceed
-  if (req.validationErrors()) {
-    // send validation errors
-    req.getValidationResult()
-    .then((validationResult) => {
+  req.getValidationResult()
+  .then((validationResult) => {
+    if (!validationResult.isEmpty()) {
       let errors = validationResult.array();
       res.render('index', {authError: errors});
-    });
 
-  } else {
-    // create a user and save to database
-    let newUser = new User({
-      name: req.body.name,
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password
-    });
+    } else {
+      // create a user and save to database
+      let newUser = new User({
+        name: req.body.name,
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password
+      });
 
-    User.createUser(newUser, (err, theUser) => {
-      if (err) throw err
+      User.createUser(newUser, (err, theUser) => {
+        if (err && err.name === 'MongoError' && err.code === 11000) {
+          // handle duplicate username
+          req.flash('fail', 'Username already exists!');
+          res.redirect('/');
 
-      req.flash('success', 'Account created! You can now sign in.');
-      res.redirect('/');
-    });
-  }
+        } else if (err) {
+          console.log(err);
+
+        } else {
+          req.flash('success', 'Account created! You can now sign in.');
+          res.redirect('/');
+        }
+      });
+    }
+  });
 });
 
 // post request to log in a registered user

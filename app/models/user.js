@@ -34,25 +34,9 @@ var UserModel = mongoose.Schema({
     ref: 'Exercise'
   }],
   workouts: [{
-    type: mongoose.Schema. Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Workout'
   }]
-});
-
-// handle User validation error
-UserModel.pre('save', (next, done) => {
-  let self = this;
-  mongoose.model('User').findOne({ username: self.username }, (err, result) => {
-    if (err) {
-      done(err);
-    } else if (results) {
-      self.invalidate("username","This username is taken");
-      done(new Error("This user is taken"));
-    } else {
-      done();
-    }
-  });
-  next;
 });
 
 // remove all User assets when a User is deleted
