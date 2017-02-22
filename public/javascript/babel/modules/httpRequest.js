@@ -25,3 +25,5 @@ function get(url) {
     request.send();
   });
 }
+
+export { get };

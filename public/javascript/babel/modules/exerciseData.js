@@ -1,22 +1,26 @@
-// set placeholders
-var data;
+import get from './httpRequest.js';
 
-// create url for http request
-var pageUrl = window.location.href;
-var tempArray = pageUrl.split('/');
-var exerciseId = tempArray.pop();
-tempArray.push('api', exerciseId);
-var apiUrl = tempArray.join('/');
+function displayExerciseHistory() {
+  // set placeholders
+  let data;
 
-// GET the data for this particular exercise
-get(apiUrl).then(
-response => {
-  data = JSON.parse(response);
-  displayTrend(data);
+  // create url for http request
+  let pageUrl = window.location.href;
+  let tempArray = pageUrl.split('/');
+  let exerciseId = tempArray.pop();
+  tempArray.push('api', exerciseId);
+  let apiUrl = tempArray.join('/');
 
-}, error => {
-  data = 'An error has occured!';
-});
+  // GET the data for this particular exercise
+  get(apiUrl).then(
+  response => {
+    data = JSON.parse(response);
+    displayTrend(data);
+    
+  }, error => {
+    data = 'An error has occured!';
+  });
+}
 
 // Functions which can be called to display the data in a specific way
 // Each function will format data and then pass it to a method to display it
@@ -86,3 +90,5 @@ function createLineChart(theExercise, dateCompletedArray, strengthIndexArray) {
 
   });
 }
+
+export { displayExerciseHistory };

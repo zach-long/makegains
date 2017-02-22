@@ -6,8 +6,8 @@
   "scripts": {
     "watch-app": "nodemon server.js --trace-sync-io",
     "watch-scss": "node-sass -w public/stylesheets/scss/main.scss public/stylesheets/main.css",
-    "watch-js": "babel public/javascript/babel/B_httpRequest.js --watch --out-file public/javascript/httpRequest.js & babel public/javascript/babel/B_log.js --watch --out-file public/javascript/log.js & babel public/javascript/babel/B_main.js --watch --out-file public/javascript/main.js & babel public/javascript/babel/B_exerciseData.js --watch --out-file public/javascript/exerciseData.js & babel public/javascript/babel/B_getUserAssets.js --watch --out-file public/javascript/getUserAssets.js & babel public/javascript/babel/_DEV --watch --out-file public/javascript/DEV.js",
-    "build-js": "babel public/javascript/babel --out-file public/javascript/compiled.js",
+    "watch-js": "watchify public/javascript/babel/main.js -o public/javascript/main.js -t [ babelify --presets [ es2015 ] ] -v",
+    "build-js": "browserify public/javascript/babel/main.js -o public/javascript/main.js -t [ babelify --presets [ es2015 ] ]",
     "install-dev-tools": "npm install -g node-sass nodemon"
   },
   "repository": {
@@ -39,6 +39,10 @@
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
-    "babel-preset-env": "^1.1.8"
+    "babel-preset-babili": "0.0.11",
+    "babel-preset-env": "^1.1.8",
+    "babel-preset-es2015": "^6.22.0",
+    "babelify": "^7.3.0",
+    "watchify": "^3.9.0"
   }
 }
