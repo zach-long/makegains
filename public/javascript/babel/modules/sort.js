@@ -1,16 +1,16 @@
 import { getUserAssets, displayResponse } from './getUserAssets.js';
 
-function setExerciseSortingListeners() {
-  let exerciseTypeButtons = document.getElementsByClassName('exercise-category');
-  let exerciseUrlAPI = 'https://makegains.herokuapp.com/user/exercises';
-  let exerciseListId = 'exercise-list';
+function setSortingListeners(category) {
+  let sortingButtons = document.getElementsByClassName(`${category}-category`);
+  let APIurl = `https://makegains.herokuapp.com/user/${category}s`;
+  let categoryFieldId = `${category}-list`;
 
-  Array.prototype.filter.call(exerciseTypeButtons, (exerciseTypeButton) => {
-    exerciseTypeButton.addEventListener('click', () => {
-      let sortBy = exerciseTypeButton.innerHTML;
-      getUserAssets(exerciseUrlAPI, sortBy)
+  Array.prototype.filter.call(sortingButtons, (sortingButton) => {
+    sortingButton.addEventListener('click', () => {
+      let sortBy = sortingButton.innerHTML;
+      getUserAssets(APIurl, sortBy)
       .then((data) => {
-        clearField(exerciseListId, () => {
+        clearField(categoryFieldId, () => {
           displayResponse(data.data, data.type);
         });
       });
@@ -24,4 +24,4 @@ function clearField(idOfField, cb) {
   cb();
 }
 
-export { setExerciseSortingListeners };
+export { setSortingListeners };

@@ -1,6 +1,6 @@
 import { getUserAssets, displayResponse } from './modules/getUserAssets.js';
 import { displayExerciseHistory } from './modules/exerciseData.js';
-import { setExerciseSortingListeners } from './modules/sort.js';
+import { setSortingListeners } from './modules/sort.js';
 import { isProfilePage, isExerciseDetailPage } from './modules/helperFunctions.js';
 
 let thisPath = window.location.pathname;
@@ -21,7 +21,7 @@ if (isProfilePage(thisPath)) {
   });
 
   // set event listeners to sort categories
-  setExerciseSortingListeners();
+  setSortingListeners('exercise');
 }
 
 if (isExerciseDetailPage(thisPath)) {

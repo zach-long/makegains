@@ -24,7 +24,7 @@ if ((0, _helperFunctions.isProfilePage)(thisPath)) {
   });
 
   // set event listeners to sort categories
-  (0, _sort.setExerciseSortingListeners)();
+  (0, _sort.setSortingListeners)('exercise');
 }
 
 if ((0, _helperFunctions.isExerciseDetailPage)(thisPath)) {
@@ -374,20 +374,20 @@ exports.get = get;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.setExerciseSortingListeners = undefined;
+exports.setSortingListeners = undefined;
 
 var _getUserAssets = require('./getUserAssets.js');
 
-function setExerciseSortingListeners() {
-  var exerciseTypeButtons = document.getElementsByClassName('exercise-category');
-  var exerciseUrlAPI = 'https://makegains.herokuapp.com/user/exercises';
-  var exerciseListId = 'exercise-list';
+function setSortingListeners(category) {
+  var sortingButtons = document.getElementsByClassName(category + '-category');
+  var APIurl = 'https://makegains.herokuapp.com/user/' + category + 's';
+  var categoryFieldId = category + '-list';
 
-  Array.prototype.filter.call(exerciseTypeButtons, function (exerciseTypeButton) {
-    exerciseTypeButton.addEventListener('click', function () {
-      var sortBy = exerciseTypeButton.innerHTML;
-      (0, _getUserAssets.getUserAssets)(exerciseUrlAPI, sortBy).then(function (data) {
-        clearField(exerciseListId, function () {
+  Array.prototype.filter.call(sortingButtons, function (sortingButton) {
+    sortingButton.addEventListener('click', function () {
+      var sortBy = sortingButton.innerHTML;
+      (0, _getUserAssets.getUserAssets)(APIurl, sortBy).then(function (data) {
+        clearField(categoryFieldId, function () {
           (0, _getUserAssets.displayResponse)(data.data, data.type);
         });
       });
@@ -401,6 +401,6 @@ function clearField(idOfField, cb) {
   cb();
 }
 
-exports.setExerciseSortingListeners = setExerciseSortingListeners;
+exports.setSortingListeners = setSortingListeners;
 
 },{"./getUserAssets.js":3}]},{},[1]);
