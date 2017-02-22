@@ -7,7 +7,7 @@
     "watch-app": "nodemon server.js --trace-sync-io",
     "watch-scss": "node-sass -w public/stylesheets/scss/main.scss public/stylesheets/main.css",
     "watch-js": "watchify public/javascript/babel/main.js -o public/javascript/main.js -t [ babelify --presets [ es2015 ] ] -v",
-    "build-js": "browserify public/javascript/babel/main.js -o public/javascript/main.js -t [ babelify --presets [ es2015 ] ]",
+    "build-js": "browserify public/javascript/babel/main.js -o public/javascript/main.js -t [ babelify --presets [ es2015, babeli ] ]",
     "install-dev-tools": "npm install -g node-sass nodemon"
   },
   "repository": {
