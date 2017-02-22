@@ -12,12 +12,17 @@ var _helperFunctions = require('./modules/helperFunctions.js');
 var thisPath = window.location.pathname;
 
 if ((0, _helperFunctions.isProfilePage)(thisPath)) {
+  // populate with initial user data
   (0, _getUserAssets.getUserAssets)('https://makegains.herokuapp.com/user/exercises', null);
   (0, _getUserAssets.getUserAssets)('https://makegains.herokuapp.com/user/programs', null);
   (0, _getUserAssets.getUserAssets)('https://makegains.herokuapp.com/user/workouts', null);
+
+  // set event listeners to sort categories
+  (0, _sort.setSortingListeners)();
 }
 
 if ((0, _helperFunctions.isExerciseDetailPage)(thisPath)) {
+  // display a chart with exercise data over time
   (0, _exerciseData.displayExerciseHistory)();
 }
 
@@ -347,6 +352,17 @@ function get(url) {
 exports.get = get;
 
 },{}],6:[function(require,module,exports){
-"use strict";
+'use strict';
 
-},{}]},{},[1]);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.setSortingListeners = undefined;
+
+var _getUserAssets = require('./getUserAssets.js');
+
+function setSortingListeners() {}
+
+exports.setSortingListeners = setSortingListeners;
+
+},{"./getUserAssets.js":3}]},{},[1]);
