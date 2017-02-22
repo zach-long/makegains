@@ -13,12 +13,18 @@ var thisPath = window.location.pathname;
 
 if ((0, _helperFunctions.isProfilePage)(thisPath)) {
   // populate with initial user data
-  (0, _getUserAssets.getUserAssets)('https://makegains.herokuapp.com/user/exercises', null);
-  (0, _getUserAssets.getUserAssets)('https://makegains.herokuapp.com/user/programs', null);
-  (0, _getUserAssets.getUserAssets)('https://makegains.herokuapp.com/user/workouts', null);
+  (0, _getUserAssets.getUserAssets)('https://makegains.herokuapp.com/user/exercises', null).then(function (data) {
+    (0, _getUserAssets.displayResponse)(data);
+  });
+  (0, _getUserAssets.getUserAssets)('https://makegains.herokuapp.com/user/programs', null).then(function (data) {
+    (0, _getUserAssets.displayResponse)(data);
+  });
+  (0, _getUserAssets.getUserAssets)('https://makegains.herokuapp.com/user/workouts', null).then(function (data) {
+    (0, _getUserAssets.displayResponse)(data);
+  });
 
   // set event listeners to sort categories
-  (0, _sort.setSortingListeners)();
+  (0, _sort.setExerciseSortingListeners)();
 }
 
 if ((0, _helperFunctions.isExerciseDetailPage)(thisPath)) {
@@ -131,36 +137,40 @@ exports.displayExerciseHistory = displayExerciseHistory;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getUserAssets = undefined;
+exports.displayResponse = exports.getUserAssets = undefined;
 
 var _httpRequest = require('./httpRequest.js');
 
 // makes an ajax request for a user's exercises, programs, or workouts
 // then displays it on the DOM in the appropriate location
 function getUserAssets(url, delimeter) {
-  var path = void 0;
+  return new Promise(function (resolve, reject) {
 
-  if (delimeter !== null) {
-    path = url + '/' + delimeter;
-  } else {
-    path = url;
-  }
+    var path = void 0;
 
-  // define type of request
-  var tempArray = url.split('/');
-  var reqType = tempArray.pop();
+    if (delimeter !== null) {
+      path = url + '/' + delimeter;
+    } else {
+      path = url;
+    }
 
-  // flow of logic
-  (0, _httpRequest.get)(path).then(function (response) {
-    var data = JSON.parse(response);
+    // define type of request
+    var tempArray = url.split('/');
+    var reqType = tempArray.pop();
 
-    handleSpecificResponseType(data, reqType).then(function (identifiedData) {
-      displayResponse(identifiedData.data, identifiedData.type);
+    // flow of logic
+    (0, _httpRequest.get)(path).then(function (response) {
+      var data = JSON.parse(response);
+
+      handleSpecificResponseType(data, reqType).then(function (identifiedData) {
+
+        resolve(identifiedData);
+      }, function (err) {
+        console.log('Error in function "handleSpecficResponseType()"');
+      });
     }, function (err) {
-      console.log('Error in function "handleSpecficResponseType()"');
+      console.log('Error retrieving data in "getUserAssets()"');
     });
-  }, function (err) {
-    console.log('Error retrieving data in "getUserAssets()"');
   });
 }
 
@@ -212,28 +222,34 @@ function displayResponse(response, typeOfData) {
   // initialize HTML which is a part of every DOM addition
   var appendTo = void 0;
   var ul = document.createElement('ul');
-  ul.classList.add('list-group');
+  ul.classList.add('list-group', 'buffer-top');
 
   // create HTML for every json object, concatenate
   if (typeOfData == 'exercises' && response !== undefined) {
     appendTo = document.getElementById('exercises');
+    ul.id = 'exercise-list';
     ul.innerHTML = displayExercise(response);
   } else if (typeOfData == 'workouts' && response !== undefined) {
     appendTo = document.getElementById('workouts');
+    ul.id = 'workout-list';
     ul.innerHTML = displayWorkout(response);
   } else if (typeOfData == 'programs' && response !== undefined) {
     appendTo = document.getElementById('programs');
+    ul.id = 'program-list';
     ul.innerHTML = displayProgram(response);
 
     // displays the HTML for when no data is present
   } else if (typeOfData == 'exercises' && response === undefined) {
     appendTo = document.getElementById('exercises');
+    ul.id = 'exercise-list';
     ul.innerHTML = displayNodataExercise();
   } else if (typeOfData == 'workouts' && response === undefined) {
     appendTo = document.getElementById('workouts');
+    ul.id = 'workout-list';
     ul.innerHTML = displayNodataWorkout();
   } else if (typeOfData == 'programs' && response === undefined) {
     appendTo = document.getElementById('programs');
+    ul.id = 'program-list';
     ul.innerHTML = displayNodataProgram();
 
     // Something bad happened
@@ -278,6 +294,7 @@ function displayNodataProgram() {
 }
 
 exports.getUserAssets = getUserAssets;
+exports.displayResponse = displayResponse;
 
 },{"./httpRequest.js":5}],4:[function(require,module,exports){
 'use strict';
@@ -357,12 +374,42 @@ exports.get = get;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.setSortingListeners = undefined;
+exports.setExerciseSortingListeners = undefined;
 
 var _getUserAssets = require('./getUserAssets.js');
 
-function setSortingListeners() {}
+function setExerciseSortingListeners() {
+  var _this = this;
 
-exports.setSortingListeners = setSortingListeners;
+  var exerciseTypeButtons = document.getElementsByClassName('exercise-category');
+  var exerciseUrlAPI = 'https://makegains.herokuapp.com/user/exercises';
+  var exerciseListId = 'exercise-list';
+
+  Array.prototype.filter.call(exerciseTypeButtons, function (exerciseTypeButton) {
+    exerciseTypeButton.addEventListener('click', function () {
+      console.log('clicked ' + _this);
+      var sortBy = exerciseTypeButton.innerHTML;
+      console.log('sort this filed by ' + sortBy);
+      (0, _getUserAssets.getUserAssets)(exerciseUrlAPI, sortBy).then(function (data) {
+        console.log('got data: ' + data);
+        clearField(exerciseListId, function () {
+          console.log('after field cleared, display response');
+          (0, _getUserAssets.displayResponse)(data);
+        });
+      });
+    });
+  });
+}
+
+function clearField(idOfField, cb) {
+  console.log('clearing field for new data');
+  console.log('field is ' + field);
+  var field = document.getElementById(idOfField);
+  field.remove();
+  console.log('sending cb');
+  cb();
+}
+
+exports.setExerciseSortingListeners = setExerciseSortingListeners;
 
 },{"./getUserAssets.js":3}]},{},[1]);
