@@ -9,15 +9,15 @@ if (isProfilePage(thisPath)) {
   // populate with initial user data
   getUserAssets('https://makegains.herokuapp.com/user/exercises', null)
   .then((data) => {
-    displayResponse(data);
+    displayResponse(data.data, data.type);
   });
   getUserAssets('https://makegains.herokuapp.com/user/programs', null)
   .then((data) => {
-    displayResponse(data);
+    displayResponse(data.data, data.type);
   });
   getUserAssets('https://makegains.herokuapp.com/user/workouts', null)
   .then((data) => {
-    displayResponse(data);
+    displayResponse(data.data, data.type);
   });
 
   // set event listeners to sort categories

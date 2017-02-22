@@ -14,13 +14,13 @@ var thisPath = window.location.pathname;
 if ((0, _helperFunctions.isProfilePage)(thisPath)) {
   // populate with initial user data
   (0, _getUserAssets.getUserAssets)('https://makegains.herokuapp.com/user/exercises', null).then(function (data) {
-    (0, _getUserAssets.displayResponse)(data);
+    (0, _getUserAssets.displayResponse)(data.data, data.type);
   });
   (0, _getUserAssets.getUserAssets)('https://makegains.herokuapp.com/user/programs', null).then(function (data) {
-    (0, _getUserAssets.displayResponse)(data);
+    (0, _getUserAssets.displayResponse)(data.data, data.type);
   });
   (0, _getUserAssets.getUserAssets)('https://makegains.herokuapp.com/user/workouts', null).then(function (data) {
-    (0, _getUserAssets.displayResponse)(data);
+    (0, _getUserAssets.displayResponse)(data.data, data.type);
   });
 
   // set event listeners to sort categories
@@ -394,7 +394,7 @@ function setExerciseSortingListeners() {
         console.log('got data: ' + data);
         clearField(exerciseListId, function () {
           console.log('after field cleared, display response');
-          (0, _getUserAssets.displayResponse)(data);
+          (0, _getUserAssets.displayResponse)(data.data, data.type);
         });
       });
     });

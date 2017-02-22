@@ -15,7 +15,7 @@ console.log(`sort this filed by ${sortBy}`)
 console.log(`got data: ${data}`)
         clearField(exerciseListId, () => {
 console.log(`after field cleared, display response`)
-          displayResponse(data);
+          displayResponse(data.data, data.type);
         });
       });
     });
