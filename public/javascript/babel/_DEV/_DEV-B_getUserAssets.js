@@ -75,7 +75,7 @@ function _DEV_displayResponse(response, typeOfData) {
   // initialize HTML which is a part of every DOM addition
   let appendTo;
   let ul = document.createElement('ul');
-  ul.classList.add('list-group');
+  ul.classList.add('list-group', 'buffer-top');
 
   console.log('parsing response')
   console.log(response)
@@ -88,27 +88,33 @@ function _DEV_displayResponse(response, typeOfData) {
   // create HTML for every json object, concatenate
   if (typeOfData == 'exercises' && response !== undefined) {
     appendTo = document.getElementById('exercises');
+    ul.id = 'exercise-list';
     ul.innerHTML = _DEV_displayExercise(response);
 
   } else if (typeOfData == 'workouts' && response !== undefined) {
     appendTo = document.getElementById('workouts');
+    ul.id = 'workout-list';
     ul.innerHTML = _DEV_displayWorkout(response);
 
   } else if (typeOfData == 'programs' && response !== undefined) {
     appendTo = document.getElementById('programs');
+    ul.id = 'program-list';
     ul.innerHTML = _DEV_displayProgram(response);
 
   // displays the HTML for when no data is present
   } else if (typeOfData == 'exercises' && response === undefined) {
     appendTo = document.getElementById('exercises');
+    ul.id = 'exercise-list';
     ul.innerHTML = _DEV_displayNodataExercise();
 
   } else if (typeOfData == 'workouts' && response === undefined) {
     appendTo = document.getElementById('workouts');
+    ul.id = 'workout-list';
     ul.innerHTML = _DEV_displayNodataWorkout();
 
   } else if (typeOfData == 'programs' && response === undefined) {
     appendTo = document.getElementById('programs');
+    ul.id = 'program-list';
     ul.innerHTML = _DEV_displayNodataProgram();
 
   // Something bad happened

@@ -3,32 +3,37 @@ import { get } from './httpRequest.js';
 // makes an ajax request for a user's exercises, programs, or workouts
 // then displays it on the DOM in the appropriate location
 function getUserAssets(url, delimeter) {
-  let path;
+  return new Promise((resolve, reject) => {
 
-  if (delimeter !== null) {
-    path = url + '/' + delimeter;
-  } else {
-    path = url;
-  }
+    let path;
 
-  // define type of request
-  let tempArray = url.split('/');
-  let reqType = tempArray.pop();
+    if (delimeter !== null) {
+      path = url + '/' + delimeter;
+    } else {
+      path = url;
+    }
 
-  // flow of logic
-  get(path)
-  .then(response => {
-    let data = JSON.parse(response);
+    // define type of request
+    let tempArray = url.split('/');
+    let reqType = tempArray.pop();
 
-    handleSpecificResponseType(data, reqType)
-    .then(identifiedData => {
-      displayResponse(identifiedData.data, identifiedData.type);
+    // flow of logic
+    get(path)
+    .then(response => {
+      let data = JSON.parse(response);
 
+      handleSpecificResponseType(data, reqType)
+      .then(identifiedData => {
+
+        resolve(identifiedData);
+
+      }, err => {
+        console.log('Error in function "handleSpecficResponseType()"');
+      });
     }, err => {
-      console.log('Error in function "handleSpecficResponseType()"');
+      console.log('Error retrieving data in "getUserAssets()"');
     });
-  }, err => {
-    console.log('Error retrieving data in "getUserAssets()"');
+
   });
 }
 
@@ -80,32 +85,38 @@ function displayResponse(response, typeOfData) {
   // initialize HTML which is a part of every DOM addition
   let appendTo;
   let ul = document.createElement('ul');
-  ul.classList.add('list-group');
+  ul.classList.add('list-group', 'buffer-top');
 
   // create HTML for every json object, concatenate
   if (typeOfData == 'exercises' && response !== undefined) {
     appendTo = document.getElementById('exercises');
+    ul.id = 'exercise-list';
     ul.innerHTML = displayExercise(response);
 
   } else if (typeOfData == 'workouts' && response !== undefined) {
     appendTo = document.getElementById('workouts');
+    ul.id = 'workout-list';
     ul.innerHTML = displayWorkout(response);
 
   } else if (typeOfData == 'programs' && response !== undefined) {
     appendTo = document.getElementById('programs');
+    ul.id = 'program-list';
     ul.innerHTML = displayProgram(response);
 
   // displays the HTML for when no data is present
   } else if (typeOfData == 'exercises' && response === undefined) {
     appendTo = document.getElementById('exercises');
+    ul.id = 'exercise-list';
     ul.innerHTML = displayNodataExercise();
 
   } else if (typeOfData == 'workouts' && response === undefined) {
     appendTo = document.getElementById('workouts');
+    ul.id = 'workout-list';
     ul.innerHTML = displayNodataWorkout();
 
   } else if (typeOfData == 'programs' && response === undefined) {
     appendTo = document.getElementById('programs');
+    ul.id = 'program-list';
     ul.innerHTML = displayNodataProgram();
 
   // Something bad happened
@@ -178,4 +189,4 @@ function displayNodataProgram() {
           </li>`;
 }
 
-export { getUserAssets };
+export { getUserAssets, displayResponse };
