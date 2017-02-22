@@ -379,21 +379,15 @@ exports.setExerciseSortingListeners = undefined;
 var _getUserAssets = require('./getUserAssets.js');
 
 function setExerciseSortingListeners() {
-  var _this = this;
-
   var exerciseTypeButtons = document.getElementsByClassName('exercise-category');
   var exerciseUrlAPI = 'https://makegains.herokuapp.com/user/exercises';
   var exerciseListId = 'exercise-list';
 
   Array.prototype.filter.call(exerciseTypeButtons, function (exerciseTypeButton) {
     exerciseTypeButton.addEventListener('click', function () {
-      console.log('clicked ' + _this);
       var sortBy = exerciseTypeButton.innerHTML;
-      console.log('sort this filed by ' + sortBy);
       (0, _getUserAssets.getUserAssets)(exerciseUrlAPI, sortBy).then(function (data) {
-        console.log('got data: ' + data);
         clearField(exerciseListId, function () {
-          console.log('after field cleared, display response');
           (0, _getUserAssets.displayResponse)(data.data, data.type);
         });
       });
@@ -402,11 +396,8 @@ function setExerciseSortingListeners() {
 }
 
 function clearField(idOfField, cb) {
-  console.log('clearing field for new data');
-  console.log('field is ' + field);
   var field = document.getElementById(idOfField);
   field.remove();
-  console.log('sending cb');
   cb();
 }
 
