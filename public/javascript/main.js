@@ -386,11 +386,19 @@ function setSortingListeners(category) {
   Array.prototype.filter.call(sortingButtons, function (sortingButton) {
     sortingButton.addEventListener('click', function () {
       var sortBy = sortingButton.innerHTML;
-      (0, _getUserAssets.getUserAssets)(APIurl, sortBy).then(function (data) {
-        clearField(categoryFieldId, function () {
-          (0, _getUserAssets.displayResponse)(data.data, data.type);
+      if (sortBy === 'All') {
+        (0, _getUserAssets.getUserAssets)(APIurl, null).then(function (data) {
+          clearField(categoryFieldId, function () {
+            (0, _getUserAssets.displayResponse)(data.data, data.type);
+          });
         });
-      });
+      } else {
+        (0, _getUserAssets.getUserAssets)(APIurl, sortBy).then(function (data) {
+          clearField(categoryFieldId, function () {
+            (0, _getUserAssets.displayResponse)(data.data, data.type);
+          });
+        });
+      }
     });
   });
 }

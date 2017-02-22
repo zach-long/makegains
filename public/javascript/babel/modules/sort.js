@@ -8,12 +8,21 @@ function setSortingListeners(category) {
   Array.prototype.filter.call(sortingButtons, (sortingButton) => {
     sortingButton.addEventListener('click', () => {
       let sortBy = sortingButton.innerHTML;
-      getUserAssets(APIurl, sortBy)
-      .then((data) => {
-        clearField(categoryFieldId, () => {
-          displayResponse(data.data, data.type);
+      if (sortBy === 'All') {
+        getUserAssets(APIurl, null)
+        .then((data) => {
+          clearField(categoryFieldId, () => {
+            displayResponse(data.data, data.type);
+          });
         });
-      });
+      } else {
+        getUserAssets(APIurl, sortBy)
+        .then((data) => {
+          clearField(categoryFieldId, () => {
+            displayResponse(data.data, data.type);
+          });
+        });
+      }
     });
   });
 }
