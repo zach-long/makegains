@@ -7,12 +7,21 @@ var _exerciseData = require('./modules/exerciseData.js');
 
 var _sort = require('./modules/sort.js');
 
-// GET initial data from the server
-(0, _getUserAssets.getUserAssets)('https://makegains.herokuapp.com/user/exercises', null);
-(0, _getUserAssets.getUserAssets)('https://makegains.herokuapp.com/user/programs', null);
-(0, _getUserAssets.getUserAssets)('https://makegains.herokuapp.com/user/workouts', null);
+var _helperFunctions = require('./modules/helperFunctions.js');
 
-},{"./modules/exerciseData.js":2,"./modules/getUserAssets.js":3,"./modules/sort.js":5}],2:[function(require,module,exports){
+var thisPath = window.location.pathname;
+
+if ((0, _helperFunctions.isProfilePage)(thisPath)) {
+  (0, _getUserAssets.getUserAssets)('https://makegains.herokuapp.com/user/exercises', null);
+  (0, _getUserAssets.getUserAssets)('https://makegains.herokuapp.com/user/programs', null);
+  (0, _getUserAssets.getUserAssets)('https://makegains.herokuapp.com/user/workouts', null);
+}
+
+if ((0, _helperFunctions.isExerciseDetailPage)(thisPath)) {
+  (0, _exerciseData.displayExerciseHistory)();
+}
+
+},{"./modules/exerciseData.js":2,"./modules/getUserAssets.js":3,"./modules/helperFunctions.js":4,"./modules/sort.js":6}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21,10 +30,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.displayExerciseHistory = undefined;
 
 var _httpRequest = require('./httpRequest.js');
-
-var _httpRequest2 = _interopRequireDefault(_httpRequest);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function displayExerciseHistory() {
   // set placeholders
@@ -38,7 +43,7 @@ function displayExerciseHistory() {
   var apiUrl = tempArray.join('/');
 
   // GET the data for this particular exercise
-  (0, _httpRequest2.default)(apiUrl).then(function (response) {
+  (0, _httpRequest.get)(apiUrl).then(function (response) {
     data = JSON.parse(response);
     displayTrend(data);
   }, function (error) {
@@ -115,7 +120,7 @@ function createLineChart(theExercise, dateCompletedArray, strengthIndexArray) {
 
 exports.displayExerciseHistory = displayExerciseHistory;
 
-},{"./httpRequest.js":4}],3:[function(require,module,exports){
+},{"./httpRequest.js":5}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -128,7 +133,6 @@ var _httpRequest = require('./httpRequest.js');
 // makes an ajax request for a user's exercises, programs, or workouts
 // then displays it on the DOM in the appropriate location
 function getUserAssets(url, delimeter) {
-  console.log(_httpRequest.get);
   var path = void 0;
 
   if (delimeter !== null) {
@@ -270,7 +274,43 @@ function displayNodataProgram() {
 
 exports.getUserAssets = getUserAssets;
 
-},{"./httpRequest.js":4}],4:[function(require,module,exports){
+},{"./httpRequest.js":5}],4:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+// checks if the URL is the user's profile page
+// 'thisPath' = the requested url path following the protocol and hostname
+function isProfilePage(thisPath) {
+  var userProfileLocation = '/user';
+  var bool = undefined;
+
+  thisPath === userProfileLocation ? bool = true : bool = false;
+
+  return bool;
+}
+
+// checks if the URL is the the page to display an exercise's history
+// 'thisPath' = the requested url path following the protocol and hostname
+function isExerciseDetailPage(thisPath) {
+  var exerciseDetailLocation = '/exercise/detail';
+  var bool = undefined;
+
+  // remove the exerciseID from the path requested
+  var pathArray = thisPath.split('/');
+  pathArray.pop();
+  var path = pathArray.join('/');
+
+  path === exerciseDetailLocation ? bool = true : bool = false;
+
+  return bool;
+}
+
+exports.isProfilePage = isProfilePage;
+exports.isExerciseDetailPage = isExerciseDetailPage;
+
+},{}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -306,7 +346,7 @@ function get(url) {
 
 exports.get = get;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 
 },{}]},{},[1]);

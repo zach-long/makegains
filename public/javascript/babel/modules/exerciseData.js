@@ -1,4 +1,4 @@
-import get from './httpRequest.js';
+import { get } from './httpRequest.js';
 
 function displayExerciseHistory() {
   // set placeholders
@@ -16,7 +16,7 @@ function displayExerciseHistory() {
   response => {
     data = JSON.parse(response);
     displayTrend(data);
-    
+
   }, error => {
     data = 'An error has occured!';
   });

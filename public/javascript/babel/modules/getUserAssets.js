@@ -3,7 +3,6 @@ import { get } from './httpRequest.js';
 // makes an ajax request for a user's exercises, programs, or workouts
 // then displays it on the DOM in the appropriate location
 function getUserAssets(url, delimeter) {
-  console.log(get)
   let path;
 
   if (delimeter !== null) {
