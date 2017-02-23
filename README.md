@@ -7,7 +7,10 @@ I am still actively developing this but it is deployed at http://makegains.herok
 - [x] Correct or replace Mongoose hook issues so that object references are eliminated or created appropriately as objects are created or deleted
 - [x] Protect routes based on certain parameters. i.e. Only the owner of an exercise should be able to view data about it
 - [x] Correct issue with API call behaving differently based on protocol
-- [ ] Add UI scripting to sort Exercises/Programs/Workouts displayed
+- [x] Add UI scripting to sort Exercises displayed
+- [ ] Add UI scripting to sort Programs displayed
+- [ ] Add UI scripting to sort Workouts displayed
+- [ ] Implement a query such that, after a page reload, any sorting the User applied persists after reload
 - [ ] Add functionality for a Workout to be logged based on a Program template
 - [ ] Add a 'Data' page where a User can see metrics of all types
 

@@ -190,10 +190,10 @@ function _DEV_displayNodataProgram() {
 // simulate loading
 setTimeout(function() {
   _DEV_getUserAssets(jsonExercises, null, 'exercises');
-}, 439);
+}, 1);
 setTimeout(function() {
   _DEV_getUserAssets(jsonWorkouts, null, 'workouts');
-}, 768);
+}, 1);
 setTimeout(function() {
   _DEV_getUserAssets(jsonPrograms, null, 'programs');
-}, 587);
+}, 1);
