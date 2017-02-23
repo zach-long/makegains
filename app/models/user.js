@@ -40,11 +40,13 @@ var UserModel = mongoose.Schema({
 });
 
 // remove all User assets when a User is deleted
+/*
 UserModel.post('remove', (next) => {
   mongoose.model('Exercises').findOneAndRemove({ creator: this._id },
     { "multi": true });
   next;
 });
+*/
 
 // set User equal to a reference of the UserModel mongoose schema
 var User = module.exports = mongoose.model('User', UserModel);
@@ -97,6 +99,13 @@ module.exports.comparePassword = function(password, hash, cb) {
     if (err) throw err
     cb(null, match);
   });
+}
+
+// User method - gets exercises for this user
+module.exports.getUserAndExercises = function(userId, cb) {
+  User.find({
+    _id: userId
+  }).populate('exercises').exec(cb);
 }
 
 // User method - adds a program to the the user

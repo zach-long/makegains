@@ -40,22 +40,32 @@ var ExerciseModel = mongoose.Schema({
 });
 
 // removes references from the User and Programs when an exercise is removed
-ExerciseModel.post('remove', (next) => {
-  mongoose.model('User').update({},
-    { $pull: { exercises: this._id } },
-    { "multi": true });
-  mongoose.model('Program').update({},
-    { $pull: { exercises: this._id } },
-    { "multi": true });
-  next;
+ExerciseModel.pre('remove', function(next) {
+  let self = this;
+  self.model('User').findOneAndUpdate(
+    { _id: self.creator },
+    { $pull: { exercises: self } },
+    (err, user) => { if (err) throw err; }
+  );
+  self.model('Program').update(
+    { _id: self.creator },
+    { $pull: { exercises: self } },
+    { "multi": true },
+    (err, user) => { if (err) throw err; }
+  );
+  next();
 });
 
 // adds references to the User when an exercise is created
-ExerciseModel.post('save', (next) => {
-  mongoose.model('User').update({},
-  { $push: { exercises: this._id } });
-  next;
-})
+ExerciseModel.pre('save', function(next) {
+  let self = this;
+  self.model('User').findOneAndUpdate(
+    { _id: self.creator },
+    { $push: { exercises: self } },
+    (err, user) => { if (err) throw err; }
+  );
+  next();
+});
 
 var Exercise = module.exports = mongoose.model('Exercise', ExerciseModel);
 
@@ -129,6 +139,8 @@ module.exports.getOwnExercises = function(user, cb) {
 
 // Exercise method - returns a single exercise, by ID
 module.exports.getExerciseByExerciseId = function(exerciseId, cb) {
+  console.log(`searching by ID ${exerciseId}`)
+  console.log(typeof exerciseId)
   Exercise.findById(exerciseId, cb);
 }
 

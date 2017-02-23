@@ -59,22 +59,26 @@ router.post('/complete', (req, res) => {
 
     getPerformedSets(req.user)
     .then(performedSets => {
-
+      console.log(`phase 1: got performed sets`)
+      console.log(`${performedSets}`);
       updateTempModelSets(tempWorkout, performedSets)
       .then(updatedTempWorkout => {
-
+        console.log(`phase 2: updated the Temp workout model`)
+        console.log(`${updatedTempWorkout}`);
         getPerformedExercises(req.user)
         .then(performedExercises => {
-
+          console.log(`phase 3: got performed exercises`)
+          console.log(`${performedExercises}`);
           updateTempModelExercises(updatedTempWorkout, performedExercises)
           .then(newUpdatedTempWorkout => {
-
+            console.log(`phase 4: updated the workout model`)
+            console.log(`${newUpdatedTempWorkout}`);
             Exercise.archiveSets(performedExercises, (err, result) => {
               if (err) throw err;
-
+              console.log(`Archived sets`)
               Workout.createWorkout(newUpdatedTempWorkout, (err, result) => {
                 if (err) throw err;
-
+                console.log(`Created the workout`)
                 req.flash('success', 'Workout completed!');
                 res.redirect('/user')
               });
