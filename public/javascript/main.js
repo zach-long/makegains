@@ -432,11 +432,13 @@ function setExerciseSelectListeners() {
   var sortingButtons = document.getElementsByClassName('exercise-category');
   var exerciseSelections = document.getElementsByTagName('option');
   var selectionArray = [].concat(_toConsumableArray(exerciseSelections));
+  var currentDisplay = document.getElementById('exercise-category-type');
 
   Array.prototype.filter.call(sortingButtons, function (sortingButton) {
     sortingButton.addEventListener('click', function () {
       var sortBy = sortingButton.innerHTML;
 
+      currentDisplay.innerHTML = sortBy;
       selectionArray.forEach(function (selection) {
         if (sortBy === 'All') {
           selection.classList.remove('hidden');

@@ -37,11 +37,13 @@ function setExerciseSelectListeners() {
   let sortingButtons = document.getElementsByClassName('exercise-category');
   let exerciseSelections = document.getElementsByTagName('option');
   let selectionArray = [...exerciseSelections];
+  let currentDisplay = document.getElementById('exercise-category-type');
 
   Array.prototype.filter.call(sortingButtons, (sortingButton) => {
     sortingButton.addEventListener('click', () => {
       let sortBy = sortingButton.innerHTML;
 
+      currentDisplay.innerHTML = sortBy;
       selectionArray.forEach((selection) => {
         if (sortBy === 'All') {
           selection.classList.remove('hidden');

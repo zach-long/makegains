@@ -1,3 +1,21 @@
+.full-width {
+  width: 100%;
+  min-width: 100%;
+
+  .button-group {
+    .dropdown-toggle {
+      width: 100%;
+      min-width: 100%;
+    }
+  }
+
+  .input-group-addon {
+    width: 70%;
+    min-width: 70%;
+    background-color: #ffffff;
+  }
+}
+
 .list-group-item {
   overflow: hidden;
 
