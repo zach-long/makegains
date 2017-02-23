@@ -4,10 +4,12 @@ function setSortingListeners(category) {
   let sortingButtons = document.getElementsByClassName(`${category}-category`);
   let APIurl = `https://makegains.herokuapp.com/user/${category}s`;
   let categoryFieldId = `${category}-list`;
+  let currentDisplay = document.getElementById('exercise-category-type');
 
   Array.prototype.filter.call(sortingButtons, (sortingButton) => {
     sortingButton.addEventListener('click', () => {
       let sortBy = sortingButton.innerHTML;
+      currentDisplay.innerHTML = sortBy;
       if (sortBy === 'All') {
         getUserAssets(APIurl, null)
         .then((data) => {

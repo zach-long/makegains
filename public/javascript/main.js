@@ -401,10 +401,12 @@ function setSortingListeners(category) {
   var sortingButtons = document.getElementsByClassName(category + '-category');
   var APIurl = 'https://makegains.herokuapp.com/user/' + category + 's';
   var categoryFieldId = category + '-list';
+  var currentDisplay = document.getElementById('exercise-category-type');
 
   Array.prototype.filter.call(sortingButtons, function (sortingButton) {
     sortingButton.addEventListener('click', function () {
       var sortBy = sortingButton.innerHTML;
+      currentDisplay.innerHTML = sortBy;
       if (sortBy === 'All') {
         (0, _getUserAssets.getUserAssets)(APIurl, null).then(function (data) {
           clearField(categoryFieldId, function () {

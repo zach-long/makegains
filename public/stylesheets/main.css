@@ -5952,3 +5952,6 @@ footer {
     footer a:focus {
       color: #f2f2f2;
       text-decoration: underline; }
+
+.exercise-category {
+  cursor: pointer; }
