@@ -12,7 +12,7 @@ function isProfilePage(thisPath) {
 // checks if the URL is the the page to display an exercise's history
 // 'thisPath' = the requested url path following the protocol and hostname
 function isExerciseDetailPage(thisPath) {
-  const exerciseDetailLocation = '/exercise/detail';
+  let exerciseDetailLocation = '/exercise/detail';
   let bool = undefined;
 
   // remove the exerciseID from the path requested
@@ -25,4 +25,15 @@ function isExerciseDetailPage(thisPath) {
   return bool;
 }
 
-export { isProfilePage, isExerciseDetailPage };
+// checks if the URL is the the page to log a workout
+// 'thisPath' = the requested url path following the protocol and hostname
+function isWorkoutLogPage(thisPath) {
+  let workoutLogLocation = '/workout/log';
+  let bool = undefined;
+
+  thisPath === workoutLogLocation ? bool = true : bool = false;
+
+  return bool;
+}
+
+export { isProfilePage, isExerciseDetailPage, isWorkoutLogPage };

@@ -1,7 +1,7 @@
 import { getUserAssets, displayResponse } from './modules/getUserAssets.js';
 import { displayExerciseHistory } from './modules/exerciseData.js';
-import { setSortingListeners } from './modules/sort.js';
-import { isProfilePage, isExerciseDetailPage } from './modules/helperFunctions.js';
+import { setSortingListeners, setExerciseSelectListeners } from './modules/sort.js';
+import { isProfilePage, isExerciseDetailPage, isWorkoutLogPage } from './modules/helperFunctions.js';
 
 let thisPath = window.location.pathname;
 
@@ -27,4 +27,10 @@ if (isProfilePage(thisPath)) {
 if (isExerciseDetailPage(thisPath)) {
   // display a chart with exercise data over time
   displayExerciseHistory();
+}
+
+
+if (isWorkoutLogPage(thisPath)) {
+  // set event listeners for sorting
+  setExerciseSelectListeners();
 }

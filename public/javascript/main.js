@@ -32,6 +32,11 @@ if ((0, _helperFunctions.isExerciseDetailPage)(thisPath)) {
   (0, _exerciseData.displayExerciseHistory)();
 }
 
+if ((0, _helperFunctions.isWorkoutLogPage)(thisPath)) {
+  // set event listeners for sorting
+  (0, _sort.setExerciseSelectListeners)();
+}
+
 },{"./modules/exerciseData.js":2,"./modules/getUserAssets.js":3,"./modules/helperFunctions.js":4,"./modules/sort.js":6}],2:[function(require,module,exports){
 'use strict';
 
@@ -329,8 +334,20 @@ function isExerciseDetailPage(thisPath) {
   return bool;
 }
 
+// checks if the URL is the the page to log a workout
+// 'thisPath' = the requested url path following the protocol and hostname
+function isWorkoutLogPage(thisPath) {
+  var workoutLogLocation = '/workout/log';
+  var bool = undefined;
+
+  thisPath === workoutLogLocation ? bool = true : bool = false;
+
+  return bool;
+}
+
 exports.isProfilePage = isProfilePage;
 exports.isExerciseDetailPage = isExerciseDetailPage;
+exports.isWorkoutLogPage = isWorkoutLogPage;
 
 },{}],5:[function(require,module,exports){
 "use strict";
@@ -374,9 +391,11 @@ exports.get = get;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.setSortingListeners = undefined;
+exports.setExerciseSelectListeners = exports.setSortingListeners = undefined;
 
 var _getUserAssets = require('./getUserAssets.js');
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function setSortingListeners(category) {
   var sortingButtons = document.getElementsByClassName(category + '-category');
@@ -409,6 +428,29 @@ function clearField(idOfField, cb) {
   cb();
 }
 
+function setExerciseSelectListeners() {
+  var sortingButtons = document.getElementsByClassName('exercise-category');
+  var exerciseSelections = document.getElementsByTagName('option');
+  var selectionArray = [].concat(_toConsumableArray(exerciseSelections));
+
+  Array.prototype.filter.call(sortingButtons, function (sortingButton) {
+    sortingButton.addEventListener('click', function () {
+      var sortBy = sortingButton.innerHTML;
+
+      selectionArray.forEach(function (selection) {
+        if (sortBy === 'All') {
+          selection.classList.remove('hidden');
+        } else if (selection.dataset.category === sortBy) {
+          selection.classList.remove('hidden');
+        } else {
+          selection.classList.add('hidden');
+        }
+      });
+    });
+  });
+}
+
 exports.setSortingListeners = setSortingListeners;
+exports.setExerciseSelectListeners = setExerciseSelectListeners;
 
 },{"./getUserAssets.js":3}]},{},[1]);
