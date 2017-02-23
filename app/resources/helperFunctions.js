@@ -16,6 +16,23 @@ module.exports.forceHTTPS = function forceHTTPS(req, res, next) {
   }
 }
 
+// checks if the user has workouts
+module.exports.userHasWorkouts = function userHasWorkouts(userId) {
+  console.log(userId)
+  return new Promise((resolve, reject) => {
+    let bool = false;
+
+    User.getUserAndExercises(userId, (err, theUser) => {
+      theUser[0].exercises.forEach((exercise) => {
+        if (exercise.sets.length > 0) {
+          bool = true;
+        }
+      });
+      resolve(bool);
+    });
+  });
+}
+
 module.exports.userHasResource = function userHasResource(user, resource) {
   return new Promise((resolve, reject) => {
     if (user === undefined) {

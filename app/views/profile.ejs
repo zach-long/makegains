@@ -42,7 +42,13 @@
   </div>
   <div class="row">
     <div id="workouts" class="col-md-8 col-md-offset-2">
-      <h3 class="text-center">Your workout history | <a href="/workout/log">New</a></h3>
+      <h3 class="text-center">Your workout history |
+        <% if (typeof workoutInProgress !== 'undefined' && workoutInProgress === true) { %>
+          <a href="/workout/log">Continue Logging</a>
+        <% } else { %>
+          <a href="/workout/log">New</a>
+        <% } %>
+      </h3>
       <div class="loading">
         <p class="text-center"><span class="glyphicon glyphicon-repeat spin" aria-hidden="true"></span></p>
       </div>

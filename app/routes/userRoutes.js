@@ -15,6 +15,9 @@ const Program = require('../models/program.js');
 const Exercise = require('../models/exercise.js');
 const Workout = require('../models/workout.js');
 
+// import helper function
+const userHasWorkouts = require('../resources/helperFunctions.js').userHasWorkouts;
+
 // API request to return the User's object
 router.get('/self', (req, res) => {
   User.getUserById(req.user._id, (err, user) => {
@@ -66,7 +69,10 @@ router.get('/exercises', (req, res) => {
 // get request for user profile page
 router.get('/', (req, res) => {
   if (req.user) {
-    res.render('profile');
+    userHasWorkouts(req.user).then((bool) => {
+      let workoutInProgress = bool;
+      res.render('profile', {workoutInProgress: workoutInProgress});
+    });
 
   } else {
     // user is not authenticated
