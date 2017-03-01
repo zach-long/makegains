@@ -15,6 +15,5 @@ I am still actively developing this but it is deployed at http://makegains.herok
 - [ ] Add a 'Data' page where a User can see metrics of all types
 
 ### Long term goals:
-- [ ] Setup an efficient build system
 - [ ] Open API routes for mobile app addition
 - [ ] Add react native mobile app interface
